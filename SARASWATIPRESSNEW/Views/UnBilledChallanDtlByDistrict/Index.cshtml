@@ -1,0 +1,127 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Challan List";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Challan View</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/UnBilledChallanDtl.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDistrictDetails();
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+        });
+
+      
+
+    </script>
+</head>
+<body>
+    @*<div class="page-container">*@
+        
+
+        
+       
+            @*<div class="page-content">*@
+                @*<div style="width: auto; text-align: left; background-color: white;">
+                    <img src="/resources/img/reports/header.jpg" />
+                </div>*@
+                <!--End Notification -->
+                <br />
+                @*<div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">*@
+                                    <div class="panel-heading">
+                                        <table id="tablePost" style="width: 100%" border="0">
+                                            <tr>
+                                                <td style="text-align: left;">
+                                                    <h3 class="panel-title"><strong>Challan List</strong></h3>
+                                                </td>
+                                                <td style="text-align: right;">@Session["sp_name"] [@Session["sp_user_name"]]</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"></div>
+
+                                    @*<div class="container">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">*@
+
+                                                @*<div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("District")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "DistrictID", "District_name"), "Select", new { @id = "ddlDistrict", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("From Date")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("To Date")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                                <div class="panel-body">
+                                                    <table id="tblBtn" cellpadding="0" cellspacing="0" border="0" style="width: 500px;">
+                                                        @*<tr>
+                                                            <td><input type="button" id="btnExcel" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+                                                        </tr>*@
+                                                        <td style="width: 15%;">
+                                                            <input type="button" id="btnExcel" value=gdbnb onclick="GDBNB();" style="width: 120px" class="btn btn-info btn-block" />
+                                                        </td>
+                                                    </table>
+                                                </div>
+                                            @*</div>
+                                        </div>
+                                    </div>*@
+                                @*</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+            @*</div>*@
+        
+    @*</div>*@
+</body>
+<script>
+
+    function GDBNB()
+    {
+        var fromDate = $("#txtStartDate").val();
+        var toDate = $("#txtEndDate").val();
+
+        try
+        {
+            window.open("@(Url.Action("GDBNBExportToExcel", "UnBilledChallanDtlByDistrict", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+            }
+            catch (ex)
+            {
+            alert(ex.message);
+            }
+        }
+</script>
+

@@ -1,0 +1,105 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@try
+{
+    @Html.Hidden("hd_ChallanId", Model.ChallanId)
+    @Html.Hidden("hd_DistrictId", Model.DistrictId)
+    @Html.Hidden("hd_CircleId", Model.CircleId)
+    @Html.Hidden("hd_CategoryId", Model.CategoryId)
+    @Html.Hidden("hd_LanguageId", Model.LanguageId)
+    @Html.Hidden("hd_TransporterID", Model.TransporterID)
+  
+    
+}
+catch
+{
+    @Html.Hidden("hd_ChallanId", 0)
+    @Html.Hidden("hd_DistrictId", -1)
+    @Html.Hidden("hd_CircleId", -1)
+    @Html.Hidden("hd_CategoryId", -1)
+    @Html.Hidden("hd_LanguageId", -1)
+    @Html.Hidden("hd_TransporterID", -1)
+    
+}
+
+<div class="panel-body">
+    <div class="form-group">
+        @*<div class="col-md-6 col-xs-6">
+            <button id="btnOpenUndoDialog" class="btn btn-default">Undo scanned item(s)</button>
+        </div>*@
+        <div class="col-md-6 col-xs-12">
+            @*<button id="btnSaveDraft" class="btn btn-primary">Save As Draft</button>*@
+            <button id="btnSaveConfirm" class="btn btn-primary">Save &amp; Confirm</button>
+        </div>        
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-6 control-label">Transporter Name</label>
+        <div class="col-md-3 col-xs-6">
+            <strong>
+                <label id="lblTrnsporterName" data-transid="@Model.TransporterID">@Model.Transporter</label>
+            </strong>
+        </div>
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-3 control-label">Vehicle No.</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblVehicleNo">@Model.VEHICLE_NO</label>
+            </strong>
+        </div>
+        <label class="col-md-2 col-xs-3 control-label">Consignee No.</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblConsigneeNo">@Model.CONSIGNEE_NO</label>
+            </strong>
+        </div>
+      
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-6 control-label">Binder Allotment Code</label>
+        <div class="col-md-3 col-xs-7">
+            <input type="text" class="form-control" id="txtBinderAllotMentCode" />
+        </div>
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group" style="max-height: 350px; overflow-y: auto;">
+        <table id="tblInvCumChalNew" style="width: 100%;" class="table table-bordered table-hover table-condensed table-striped table-responsive">
+            <thead>
+                <tr>
+                    @*@if ((Model.InvoiceCumChallanCollection != null && Model.InvoiceCumChallanCollection.Count() > default(int)) && (Model.lstBinderDetailsByScan == null || Model.lstBinderDetailsByScan.Count() <= default(int)))
+                    {*@
+                        <th>Book Code</th>
+                        <th>Book Name</th>
+                        <th>Net Requisition Qty.</th>
+                        <th>Already Shipped Qty.</th>
+                        <th>Remaining</th>
+                        <th class="qts">Qty. for Shipping</th>
+                        <th style="display: none;">No. of Box bundle/cartoon/pack</th>
+                    @*}
+                    else
+                    {
+                        <th>Binder Name</th>
+                        <th>Book Code</th>
+                        <th>Book Name</th>
+                        <th>Lot</th>
+                        <th>Total Qty.</th>
+                        <th>Scanned Qty.</th>
+                        <th>Remaining Qty.</th>  
+                    }*@
+                </tr>
+            </thead>
+            <tbody id="tbdyInvCumChalNew">
+                <tr>
+                    <td colspan="7" style="text-align: center; color: #f00; height: 100px;">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

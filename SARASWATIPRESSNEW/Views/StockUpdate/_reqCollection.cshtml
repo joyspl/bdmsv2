@@ -1,0 +1,123 @@
+﻿@model SARASWATIPRESSNEW.Models.StockUpdate
+
+@{
+    var objVar = (SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"];
+    var CircleId = ((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleID;
+    
+}
+
+<div class="panel-body">
+    <div class="table-responsive">
+        <table class="table basic table-bordered table-condensed table-hover">
+            <tr>
+                <th>Book Name</th>
+                <th >No. of Books Required</th>
+                <th >Previous Year Stock</th>
+                <th >@(ViewBag.StockLock == "1" || ViewBag.IsAlreadyConfirmed == 1 ? Html.Raw("Damaged Stock After Book Received") : Html.Raw("Previous Year Damaged Stock"))</th>
+                <th >Net Requisition</th>
+                <th >Last Updated On</th>
+                @*<th width="5%">No. of Books Received</th>
+            <th width="5%">Stock After Receipt</th>
+            <th width="5%">Stock After Distribution</th>*@
+                <th style="visibility: hidden">Book Id</th>
+            </tr>
+            @try
+            {
+                for (int i = 0; i < Model.reqStockCollection.Count; i++)
+                {
+                <tr data-isconfirmed="@Model.reqStockCollection[i].ISCONFIRMED" data-autoid="@(Model.reqStockCollection[i].AutoID)" data-bookcode="@Model.reqStockCollection[i].BOOK_CODE" data-bookid="@(Model.reqStockCollection[i].BookID)">
+                    <td style="text-align: left">@Model.reqStockCollection[i].BookName (@Model.reqStockCollection[i].BOOK_CODE)</td>
+                    <td style="text-align: center">@Html.TextBoxFor(a => a.reqStockCollection[i].tot, new { @class = "form-control", @id = "tot_" + i, disabled = "disabled" })</td>
+                    <td style="text-align: center" class="qty @((ViewBag.StockLock == "1" || ViewBag.IsAlreadyConfirmed == 1) ? "field-lock" : "")  ">@Html.TextBoxFor(a => a.reqStockCollection[i].StockUpdateQuantity, new { @class = "form-control", @id = "su_" + i, @onchange = "cal_bal(" + i + ")" })</td>
+                    @if (ViewBag.StockLock == "1" || ViewBag.IsAlreadyConfirmed == 1)
+                    {
+                        <td style="text-align: center" class="dqty">@Html.TextBoxFor(a => a.reqStockCollection[i].STOCK_DAMAGE_QTY_AFTERCONF, new { @class = "form-control",  disabled = "disabled" })</td>
+                        @*<td style="text-align: center" class="dqty">@Html.TextBoxFor(a => a.reqStockCollection[i].STOCK_DAMAGE_QTY_AFTERCONF, new { @class = "form-control", @id = "sd_" + i, @onchange = "cal_bal(" + i + ")" })</td>*@
+                    }
+                    else
+                    {
+                        <td style="text-align: center" class="dqty">@Html.TextBoxFor(a => a.reqStockCollection[i].StockDamageQuantity, new { @class = "form-control", @id = "sd_" + i, disabled = "disabled" })</td>
+                        @*<td style="text-align: center" class="dqty">@Html.TextBoxFor(a => a.reqStockCollection[i].StockDamageQuantity, new { @class = "form-control", @id = "sd_" + i, @onchange = "cal_bal(" + i + ")" })</td>*@
+                    }
+                    <td style="text-align: center">@Html.TextBoxFor(a => a.reqStockCollection[i].Balance, new { @class = "form-control", @id = "bal_" + i, disabled = "disabled" })</td>
+                    <td style="text-align: center;">@Html.TextBoxFor(a => a.reqStockCollection[i].TimeStamp, new { @class = "form-control", disabled = "disabled" })</td>
+                    @*<td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>*@
+                    <td style="text-align: center; visibility: hidden">@Html.TextBoxFor(a => a.reqStockCollection[i].BookID)</td>
+                </tr>
+            }
+        }
+            catch (Exception ex)
+            {
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    @*<td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>*@
+                    <td style="text-align: center; visibility: hidden"></td>
+                </tr>
+        }
+            <tr>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.cat_id, new { @id = "mycatid" })
+                </td>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.lan_id, new { @id = "mylanid" })
+                </td>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.stat, new { @id = "mystat" })
+                </td>
+            </tr>
+            <tr>
+                @if (ViewBag.StockLock == "1" || ViewBag.IsAlreadyConfirmed == 1)
+                {
+                    <td colspan="10">
+                        <table>
+                            <tr>
+                                <td>
+                                    <h3 class="panel-title" style="color: red;">
+                                        <strong>You can only able to view the Stock but stock update Not allowed. Please contact system administrator to Unlock the update
+                                        </strong>
+                                    </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" id="btnDmgSave" name="Command" value="Save" class="btn btn-mini btn-success">Update Damaged Stock Only</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            }
+                else
+                {
+                    <td colspan="10">
+                        @*<button type="submit" id="btnSave" name="Command" value="Save" class="btn btn-mini btn-danger" onclick="Submit();">Update Stock</button>*@
+                        <table>
+                            <tr>
+                                <td>
+                                    <button type="button" id="btnSave" name="Command" value="Save" class="btn btn-mini btn-danger">Update Stock</button>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <button type="button" id="btnConfirm" name="Command" value="Save" class="btn btn-mini btn-danger">@*Update &amp;*@ Confirm Stock</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            }
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.field-lock input').attr("disabled", "disabled");
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("Index", "DirectorMisReport", FormMethod.Post))
+{
+    @*<div style="width: auto; text-align: left; background-color: white;">
+        <img src="/resources/img/reports/header.jpg" />
+    </div>*@
+    <div class="panel panel-default" style="margin-top: 30px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">District Wise MIS Report</h3>
+        </div>
+        <div class="panel-body">
+            <table width="100%" class="table basic">
+                <tr>
+                    <td>
+                        <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Export to Excel</button>
+                        @*<a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}

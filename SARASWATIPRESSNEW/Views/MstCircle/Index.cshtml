@@ -1,0 +1,100 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.MstCircle>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script>
+    function ExportToExcel() {
+        var url = "/MstCircle/ExportCircleData";
+        window.location.href = url;
+    }
+
+
+
+    function isCircleExistInRefrenceTable(DataUniqueId) {       
+        var dataUniqueIdtoCheck = DataUniqueId;       
+        $.ajax({           
+            url: '@Url.Action("isCircleReferenceRecordExist", "MstCircle")',
+            data: { DataUniqueId: dataUniqueIdtoCheck },
+           type: "GET",
+           success: function (result) {              
+               if (result.DataCount > 0) {                   
+                   alert("Reference record exist .. delete can not be continue.");
+                   return false;
+               }
+               else {
+                   if (confirm("Are you sure do you want to delete circle information!") == true) {
+                       var url = "/MstCircle/DeleteCircle?DataUniqueId=" + DataUniqueId;
+                       window.location.href = url;
+
+                   }
+                   else {
+                       return true;
+                   }
+               }
+           }
+       });       
+        
+    }
+
+
+</script>
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Circle Master</strong></h3>
+</div>
+<div class="panel-body">
+<table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style=" width:100%;">
+    <tr>
+        <td><a href="/MstCircle/CircleUpdate" style="width: 120px;" class="btn btn-info btn-block">Add New</a></td>
+        <td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+    </tr>
+</table>
+<table width="50%" border="0" align="center" class="table">
+    <tr>
+        <th style="text-align: center; width: 20%;">Edit | Delete</th>
+        <th style="text-align: left; width: 30%;">District Name</th>
+        <th style="text-align: left; width: 20%;">Circle Code</th>
+        <th style="text-align: left; width: 30%;">Circle Name</th>
+    </tr>
+    @try
+    {
+        foreach (var objModel in Model)
+        {
+            <tr>
+                <td style="text-align:center">
+                    <a  href="/MstCircle/EditCircle?DataUniqueId=@objModel.CircleId">Edit</a>
+                    <span>&nbsp;|&nbsp;</span>
+                    <a  onclick="return isCircleExistInRefrenceTable(@objModel.CircleId);">Delete</a>                    
+                </td>
+                <td style="text-align: left">
+                    <input id="hdId" value="@objModel.CircleId" type="hidden" />
+                    @objModel.DistrictName
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.CircleCode
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.CircleName
+                </td>
+            </tr>
+        }
+    }
+    catch (Exception ex)
+    {
+        <tr>
+            <td style="text-align: center" colspan="3"></td>
+        </tr>
+    }
+</table>
+</div>
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["Message"] as string)");
+        };
+    </script>
+}
+
+

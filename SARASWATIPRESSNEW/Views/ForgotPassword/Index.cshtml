@@ -1,0 +1,144 @@
+﻿@model SARASWATIPRESSNEW.Models.ForgotPassword
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Forget Password</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+
+
+<!-- End Css Link -->
+@*<div class="page-container">*@
+   
+
+    @using (Html.BeginForm("Index", "ForgotPassword", FormMethod.Post))
+    {
+        @*<div class="page-content">*@
+            @*<div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header.jpg" />
+            </div>*@
+
+
+
+            <!--End Notification -->
+            <br />
+           @* <div class="page-content-wrap">*@
+
+                @*<div class="row">
+                    <div class="col-md-12">*@
+                        @*<form class="form-horizontal">*@
+                            @*<div class="panel panel-default">
+                                <div class="panel-heading">*@
+
+                                    <div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="panel-title"><strong>Change Password</strong></h3>
+                                    <!-- <ul class="panel-controls">
+                                         <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                                     </ul> -->
+                               @* </div>*@
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("New Password", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+                                            @Html.PasswordFor(a => a.new_password, new { @id = "new_pwd", @class = "form-control" })
+
+                                            @Html.ValidationMessageFor(a => a.new_password, null, new { style = "color:red" })
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("Confirm Password", new { @class = "col-md-1 col-xs-6 control-label" })
+
+                                        <div class="col-md-3 col-xs-12">
+                                            @Html.PasswordFor(a => a.confirm_password, new { @id = "cnf_pwd", @class = "form-control", @onchange = "chk_pwd()" })
+
+                                            @Html.ValidationMessageFor(a => a.confirm_password, null, new { style = "color:red" })
+
+                                            <br /> <input type="submit" id="btnsubmit" class="btn btn-mini btn-danger" value="Change Password" />
+                                        </div>
+                                    </div>
+                                @*</div>
+                            </div>*@
+                   @* </div>
+                </div>*@
+            </div>
+            @*<table width="100%">
+                <tr>
+                    <td>
+                        @Html.Label("New Password")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.PasswordFor(a=>a.new_password,new {  @id = "new_pwd"})
+                    </td>
+                    <td>@Html.ValidationMessageFor(a => a.new_password, null, new {style="color:red" })</td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Confirm Passwoed")
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.PasswordFor(a=>a.confirm_password , new {  @id = "cnf_pwd" , @onchange="chk_pwd()" })
+                    </td>
+                    <td>@Html.ValidationMessageFor(a => a.confirm_password, null, new {style="color:red" })</td>
+                </tr>
+                <tr>
+
+                    <tr>
+                    <td>
+                        <input type="submit" id="btnsubmit" value="Submit" />
+                    </td>
+                </tr>
+
+                    </table>*@
+        @*</div>*@
+    }
+@*</div>*@
+
+<script>
+
+    function chk_pwd() {
+
+        var lan_id = document.getElementById('new_pwd').value;
+        var cat_id = document.getElementById('cnf_pwd').value;
+
+
+        if (lan_id != cat_id) {
+            document.getElementById('cnf_pwd').value = "";
+            alert("Password Not Matched");
+        }
+
+    }
+
+</script>

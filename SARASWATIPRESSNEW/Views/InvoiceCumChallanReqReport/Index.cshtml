@@ -1,0 +1,412 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@{
+    ViewBag.Title = "Challan Report";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Challan Report</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+
+
+<body>
+    <div class="page-container">
+        <!--Start Menu Section -->
+        <div class='page-sidebar'>
+            <ul class='x-navigation'>
+                <li class='xn-logo'>
+                    <a href='index.html'>WB Text Book</a>
+                    <a href='#' class='x-navigation-control'></a>
+                </li>
+                <li class='xn-profile'>
+                    <div class='profile'>
+                        <div class='profile-data'>
+                            <div class='profile-data-name'>SP Admin</div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href='/InvoiceCumChallanReqList/Index'><span class='fa fa-image'></span>Challan View</a></li>
+                <li><a href='/InvoiceCumChallan/Index'><span class='fa fa-image'></span>Challan</a></li>
+                <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+                <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+                <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+                </ul>
+        </div>
+        <!-- End Menu Section -->
+
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("Index", "InvoiceCumChallanReqReport", FormMethod.Post, new { @id = "frmInvoiceCumChallanReqReport" }))
+        {
+            <div class="page-content">
+                <div style="width: auto; text-align:left; background-color: white;">
+                     <img src="/resources/img/reports/header.jpg" />
+                </div>
+                <!--End Notification -->
+                <br />
+                <div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <table id="tablePost" style="width:100%" border="0">
+                                            <tr>
+                                                <td style="text-align:left;"><h3 class="panel-title"><strong>Challan Report</strong></h3></td>
+
+                                                <td style="text-align:right;">@Session["sp_name"] [@Session["sp_user_name"]]</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+
+
+                                    <table id='InvoiceCumChallanReport' cellpadding='0' cellspacing='0' border='1' width='100%'>
+                                        <tr>
+                                            <td>
+                                                <table cellpadding='0' cellspacing='0' border='0' width='100%'>
+                                                    <tr>
+                                                        <td style="text-align:left;font-weight:bold;font-size:large;">WB TEXT BOOK CORPORATION LTD</td>
+                                                        <td style="text-align:right;font-weight:bold;">GSTIN :19AAECS6328J1ZZ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;">11 B T ROAD, KOLKATA - 700056</td>
+                                                        <td style="text-align:right;">Original/Duplicate/Triplicate</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;font-weight:bold;font-size:small;"><u>INVOICE</u></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table cellpadding='0' cellspacing='0' border='1' width='100%'>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Reverse Charge</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>: Yes</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Transportation Mode</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Invoice No.</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Vehicle No.</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Invoice Date</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Date of Supply</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">State</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:11%;">State Code</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Place of Supply</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:44%;font-weight:bold;" colspan='4'>Details of Receiver / Billed to</td>
+                                                        <td style="text-align:center;font-size:small;width:44%;font-weight:bold;" colspan='4'>Details of Consignee / Shipped to</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Name</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Name</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Address</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">Address</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:99%;" colspan='8'>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">GSTIN</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">GSTIN</td>
+                                                        <td style="text-align:left;font-size:small;width:33%;" colspan='3'>:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:11%;">State</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:11%;">State Code</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">State</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:11%;">State Code</td>
+                                                        <td style="text-align:left;font-size:small;width:11%;">:</td>
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table cellpadding='0' cellspacing='0' border='1' width='100%'>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;" colspan='9'>&nbsp;</td>
+                                                        <td style="text-align:center;font-size:small;width:1%;" colspan='2'>CGST</td>
+                                                        <td style="text-align:center;font-size:small;width:1%;" colspan='2'>SGST</td>
+                                                        <td style="text-align:center;font-size:small;width:1%;" colspan='2'>IGST</td>
+                                                        <td style="text-align:center;font-size:small;width:1%;">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">Sl. No.</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Product / Service Name</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">HSN ACS</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">UOM</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Qty</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Rate</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Amount</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Discount</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Taxable Value</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Rate</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Amount</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Rate</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Amount</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Rate</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Amount</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">Total</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">1</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">2</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">3</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">4</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:1%;">5</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:19%;" colspan='4'>Total</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                        <td style="text-align:center;font-size:small;width:6%;">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>Total Invoice amount in words:</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Total Amount Before Tax</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>&nbsp;</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Add:CGST</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>&nbsp;</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Add:SGST</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>|<u>Bank Details</u>|</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Add:IGST</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:49%;" colspan='3'>Bank Account No.</td>
+                                                        <td style="text-align:left;font-size:small;width:49%;" colspan='6'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Tax Amount: GST</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:small;width:49%;" colspan='3'>Bank Branch IFSC</td>
+                                                        <td style="text-align:left;font-size:small;width:49%;" colspan='6'>:</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>Tax Amount After Tax</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>|<u>Term and Conditions</u>|</td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='4'><b>GST Payable under RCM</b></td>
+                                                        <td style="text-align:right;font-size:small;width:6%;">:</td>
+                                                        <td style="text-align:right;font-size:small;width:6%;" colspan='2'>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-size:small;width:49%;" colspan='9'>
+                                                            Declaration/Terms & Conditions: Bill ,if not
+                                                            paid on presentation would bear interest 1.5% per calender month. No complaints on the bill will be entertained
+                                                            after 15 days from the date of receipt. Please pay by A/C PAYEE cheque on any Kolkata Bank. Cheques on Out-station
+                                                            banks should include bank charges. Official receipt will follow within seven days from remmittance. In case of
+                                                            non-receipt kindly inform us. Jurisdiction: High Court, Kolkata
+                                                        </td>
+                                                        <td style="text-align:left;font-size:small;width:24%;" colspan='7'>
+                                                            <table cellpadding='0' cellspacing='0' border='1' width='100%'>
+                                                                <tr>
+                                                                    <td style="text-align:center;font-size:x-small;width:100%;">
+                                                                        Certified that the particulars given above are true and correct
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center;font-size:small;width:100%;">
+                                                                        <b><u>For WB TEXT BOOK CORPORATION LTD</u></b>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center;font-size:small;width:100%;">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center;font-size:small;width:100%;">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center;font-size:small;width:100%;">
+                                                                        Authorised Signatory
+                                                                    </td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </td>
+
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+
+                                    <table id="tblInvCumChal" cellpadding="0" cellspacing="0" width="100%" border="1" class="table basic">
+                                        <tr>
+                                            <td>
+                                                @*@Html.Raw(ViewBag.div);*@
+                                                @Html.Raw(TempData["Msg"] != null ? TempData["Msg"].ToString() : "")
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</body>
+
+

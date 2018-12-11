@@ -1,0 +1,111 @@
+﻿@model SARASWATIPRESSNEW.Models.BookWiseStockreportCircle
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+@*<head>
+    <!-- META SECTION -->
+    <title>Admin</title>
+    
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <!-- EOF CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+
+</head>*@
+
+<script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+@*<div class="page-container">*@
+    
+    
+    @using (Html.BeginForm("Index", "BookWiseStockReportCircle", FormMethod.Post))
+    {
+        @*<div class="page-content">*@
+
+            @*<div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header2.jpg" />
+            </div>*@
+
+            @*<div class="panel panel-default" style="margin-top:30px;">*@
+               
+              
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Bookwise Requisition Report</strong>
+                    <br />
+                    <small style="font-size:14px;color:red;"> Confirmed requisition can be viewed only. Kindly confirm the requisition before viewing. </small>
+                    </h3>
+                </div>
+                <div class="panel-heading">
+                    <a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+                </div>
+
+                <div class="panel-body">
+                   @* <table id="tableID" class="table datatable" style="margin-left:0px;" width="100%">*@
+                    <table id="tableID" class="table table-condensed table-bordered" style="margin-left:0px;" >
+
+
+
+                        <tr>
+                            <td style="text-align:center">Language</td>
+                          @*  <td style="text-align:center">Book Category</td>*@
+                            <td style="text-align:center">Book Code</td>
+                            <td style="text-align:center">Book Name</td>
+                            <td style="text-align:center">No. of Books Required</td>
+                            @*<td style="text-align:center">Previous year Stock</td>
+                            <td style="text-align:center">Previous year Damaged Stock</td>*@
+                            <td style="text-align:center">Net Requirement</td>
+                            <td style="text-align: center">Qty. Received at Circle</td>
+                            <td style="text-align: center">Qty. Delivered to School</td>
+                        </tr>
+                        @try
+                        {
+                            for (int i = 0; i < Model.bookwise_collection.Count; i++)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].language</td>
+                                   @*<td style="text-align:center">@Model.bookwise_collection[i].Category</td>*@
+                                    <td style="text-align:center">@Model.bookwise_collection[i].BookCode</td>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].BookName</td>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].req_quantity</td>
+                                    @*<td style="text-align:center">@Model.bookwise_collection[i].stock_quantity</td>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].stock_damage_quantity</td>*@
+                                    @*<td style="text-align:center">@(Convert.ToString(Convert.ToInt64(Model.bookwise_collection[i].remaining_quantity) + Convert.ToInt64(Model.bookwise_collection[i].stock_damage_quantity)))</td>*@
+                                    <td style="text-align:center">@(Convert.ToString((Convert.ToInt64(Model.bookwise_collection[i].req_quantity) - (((Convert.ToInt64(Model.bookwise_collection[i].stock_quantity) - Convert.ToInt64(Model.bookwise_collection[i].stock_damage_quantity)) > 0) ? (Convert.ToInt64(Model.bookwise_collection[i].stock_quantity) - Convert.ToInt64(Model.bookwise_collection[i].stock_damage_quantity)) : 0)) > 0 ? ((Convert.ToInt64(Model.bookwise_collection[i].req_quantity) - (((Convert.ToInt64(Model.bookwise_collection[i].stock_quantity) - Convert.ToInt64(Model.bookwise_collection[i].stock_damage_quantity)) > 0) ? (Convert.ToInt64(Model.bookwise_collection[i].stock_quantity) - Convert.ToInt64(Model.bookwise_collection[i].stock_damage_quantity)) : 0))) : 0))</td>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].QtyRcvdAtCircle</td>
+                                    <td style="text-align:center">@Model.bookwise_collection[i].QtyDlvToSchool</td>
+                                </tr>
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+                            <tr>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                @*<td style="text-align:center"></td>
+                                <td style="text-align:center"></td>
+                                <td style="text-align:center"></td>*@
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+            @*</div>*@
+        @*</div>*@
+    }
+
+    @*</div>*@
+

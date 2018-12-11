@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Circle Lock</strong></h3>
+</div>
+
+<div class="panel-body">
+    @using (Html.BeginForm("AddCircleLock", "AdminCircleLock", FormMethod.Post))
+    {
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td>District :</td>
+                <td>
+                    <select id="ddlDistrict" name="ddlDistrict" class="form-control" style="width: 380px"></select></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Name</td>
+                @*<td style="width: 20%;">@Html.DropDownListFor(a => a.CircleID, new SelectList(Enumerable.Empty<SelectListItem>(), "CircleID", "circleName"), "<<--Select Circle-->>", new { @id = "ddlCircle", @style = "width:380px", @class = "form-control" })</td>*@
+                <td style="width: 20%;">
+                    <select id="ddlCircle" name="ddlCircle" class="form-control" style="width: 380px"></select></td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td>Req Year :</td>
+                <td>
+                    <select id="ddlReqYear" name="ddlReqYear" class="form-control" style="width: 380px"></select></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Req Lock Date</td>
+                <td width="26%" height="35" align="left" valign="top">
+                    <input type="text" id="txtLockDate" name="txtLockDate" class="form-control" style="width: 380px" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Req Lock</td>
+                <td width="26%" height="35" align="left" valign="top">
+                    <input type="checkbox" id="chkblock" name="chkblock" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+             <tr>
+                <td style="width: 20%;">Stock Lock</td>
+                <td width="26%" height="35" align="left" valign="top">
+                    <input type="checkbox" id="chkbStocklock" name="chkbStocklock" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button type="submit" id="btnSubmit" name="Command" style="width: 120px;" onclick="return isValidEntry();" value="Draft" class="btn btn-mini btn-danger">Save</button>
+                    &nbsp;&nbsp;
+                    <a href="/MstCircleUser/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    }
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtLockDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+
+        LoadDistrictDetails();
+        var HtmlItems = "<option value='-1'>All Circle</option>";
+        $('#ddlCircle').html(HtmlItems);
+        LoadYearDetails();
+    });
+
+
+    function LoadYearDetails() {
+        $.ajax({
+            url: "/AdminCircleLock/GetRequestYear",
+            type: 'GET',
+            data: {},
+            cache: false,
+            success: function (data) {
+               // alert(JSON.stringify(data));
+                var HtmlItems = "<option value='-1'>Select Year</option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Year Available</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'>Select Year</option>";
+                }
+                $.each(data, function (i, item) {
+                    //alert(JSON.stringify(item.ReqYear));
+                    HtmlItems += "<option value='" + item.ReqYear + "'>" + item.ReqYear + "</option>";
+                });
+                $('#ddlReqYear').html(HtmlItems);
+                //var DistrictId = $("#hd_DistrictId").val()
+                //if (DistrictId > 0) {
+                //    $("#ddlDistrict").val($("#hd_DistrictId").val());
+                //    $('#ddlDistrict').change();
+                //}
+
+            },
+            error: function (data) {
+                alert("Error     "+JSON.stringify(data));
+            }
+        });
+
+    }
+
+    function LoadDistrictDetails() {
+        $.ajax({
+            url: "/MstCircleUser/GetDistrictDetails",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'>All District</option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No District Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'>All District</option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlDistrict').html(HtmlItems);
+                var DistrictId = $("#hd_DistrictId").val()
+                if (DistrictId > 0) {
+                    $("#ddlDistrict").val($("#hd_DistrictId").val());
+                    $('#ddlDistrict').change();
+                }
+
+            },
+            error: function (data) {
+            }
+        });
+
+    }
+
+    $(function () {
+        $("#ddlDistrict").change(function () {
+            var DisID = $("#ddlDistrict").val();
+            $.ajax({
+                url: "/MstCircleUser/GetCircleDetailsOfaDistrict",
+                type: 'POST',
+                data: { DistrictID: DisID },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "<option value='-1'>All Circle</option>";
+                    var itemCount = 0;
+                    if (data.length == 0) {
+                        HtmlItems = "<option>No Circle Exist</option>";
+                    }
+                    else {
+                        HtmlItems = "<option value='-1'>All Circle</option>";
+                    }
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                    });
+                    $('#ddlCircle').html(HtmlItems);
+
+                },
+                error: function (data) {
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $("#chkIsShowOnMenu").change(function () {
+            CheckedIsActive();
+        });
+        $("#chkIsShowOnLogin").change(function () {
+            CheckedIsActive();
+        });
+    });
+
+    function CheckedIsActive() {
+        $("#IsActive").attr("checked", true);
+    }
+
+    function isValidEntry() {
+
+        //if (document.getElementById("ddlCircle").selectedIndex == 0) {
+        //    alert("Please Select Circle..");
+        //    $('#ddlCircle').focus();
+        //    return false;
+        //}
+
+        //if ($("#txtCircleCode").val() == "") {
+        //    alert("Enter Circle Code..");
+        //    $('#txtCircleCode').focus();
+        //    return false;
+        //}
+        //if ($("#txtCircleName").val() == "") {
+        //    alert("Enter Circle Name..");
+        //    $('#txtCircleName').focus();
+        //    return false;
+        //}
+        if ($("#ddlReqYear").val() == "-1") {
+            alert("Select Req year");
+            $('#txtCircleName').focus();
+            return false;
+        }
+        if ($("#txtLockDate").val() == "") {
+            alert("Enter Lock date");
+            $('#txtCircleName').focus();
+            return false;
+        }
+        if (confirm("Are you sure do you want to save circle user information!") == false) {
+            return false;
+        }
+
+        return true;
+
+    }
+</script>

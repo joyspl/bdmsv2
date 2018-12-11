@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsBarcode" targetNamespace="http://tempuri.org/dsBarcode.xsd" xmlns:mstns="http://tempuri.org/dsBarcode.xsd" xmlns="http://tempuri.org/dsBarcode.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsBarcode" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsBarcode" msprop:Generator_UserDSName="dsBarcode">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtBarcode" msprop:Generator_TableClassName="dtBarcodeDataTable" msprop:Generator_TableVarName="tabledtBarcode" msprop:Generator_TablePropName="dtBarcode" msprop:Generator_RowDeletingName="dtBarcodeRowDeleting" msprop:Generator_RowChangingName="dtBarcodeRowChanging" msprop:Generator_RowEvHandlerName="dtBarcodeRowChangeEventHandler" msprop:Generator_RowDeletedName="dtBarcodeRowDeleted" msprop:Generator_UserTableName="dtBarcode" msprop:Generator_RowChangedName="dtBarcodeRowChanged" msprop:Generator_RowEvArgName="dtBarcodeRowChangeEvent" msprop:Generator_RowClassName="dtBarcodeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DTLID" msprop:Generator_ColumnVarNameInTable="columnDTLID" msprop:Generator_ColumnPropNameInRow="DTLID" msprop:Generator_ColumnPropNameInTable="DTLIDColumn" msprop:Generator_UserColumnName="DTLID" type="xs:string" minOccurs="0" />
+              <xs:element name="STICKER_CODE" msprop:Generator_ColumnVarNameInTable="columnSTICKER_CODE" msprop:Generator_ColumnPropNameInRow="STICKER_CODE" msprop:Generator_ColumnPropNameInTable="STICKER_CODEColumn" msprop:Generator_UserColumnName="STICKER_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="BINDER_ALLOT_CODE" msprop:Generator_ColumnVarNameInTable="columnBINDER_ALLOT_CODE" msprop:Generator_ColumnPropNameInRow="BINDER_ALLOT_CODE" msprop:Generator_ColumnPropNameInTable="BINDER_ALLOT_CODEColumn" msprop:Generator_UserColumnName="BINDER_ALLOT_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="BINDER_SHORT_CODE" msprop:Generator_ColumnVarNameInTable="columnBINDER_SHORT_CODE" msprop:Generator_ColumnPropNameInRow="BINDER_SHORT_CODE" msprop:Generator_ColumnPropNameInTable="BINDER_SHORT_CODEColumn" msprop:Generator_UserColumnName="BINDER_SHORT_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="BOOK_CODE" msprop:Generator_ColumnVarNameInTable="columnBOOK_CODE" msprop:Generator_ColumnPropNameInRow="BOOK_CODE" msprop:Generator_ColumnPropNameInTable="BOOK_CODEColumn" msprop:Generator_UserColumnName="BOOK_CODE" type="xs:string" minOccurs="0" />
+              <xs:element name="SCANNED_STATUS" msprop:Generator_ColumnVarNameInTable="columnSCANNED_STATUS" msprop:Generator_ColumnPropNameInRow="SCANNED_STATUS" msprop:Generator_ColumnPropNameInTable="SCANNED_STATUSColumn" msprop:Generator_UserColumnName="SCANNED_STATUS" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

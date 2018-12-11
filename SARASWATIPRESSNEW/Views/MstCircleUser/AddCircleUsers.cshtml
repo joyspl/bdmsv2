@@ -1,0 +1,196 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleUser
+@{
+    ViewBag.Title = "AddCircleUsers";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+ <script type="text/javascript">
+     $(document).ready(function () {
+         LoadDistrictDetails();
+     });
+     
+     function LoadDistrictDetails() {
+         $.ajax({
+             url: "/MstCircleUser/GetDistrictDetails",
+             type: 'POST',
+             data: {},
+             cache: false,
+             success: function (data) {
+                 var HtmlItems = "<option value='-1'><<----Select District----->></option>";
+                 var itemCount = 0;
+                 if (data.length == 0) {
+                     HtmlItems = '<option>No District Aailable</option>';
+                 }
+                 else {
+                     HtmlItems = "<option value='-1'><<----Select District----->></option>";
+                 }
+                 $.each(data, function (i, item) {
+                     HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                 });
+                 $('#ddlDistrict').html(HtmlItems);
+                 var DistrictId = $("#hd_DistrictId").val()
+                 if (DistrictId > 0) {
+                     $("#ddlDistrict").val($("#hd_DistrictId").val());
+                     $('#ddlDistrict').change();
+                 }
+
+             },
+             error: function (data) {
+             }
+         });
+
+     }
+
+     $(function () {
+         $("#ddlDistrict").change(function () {
+             var DisID = $("#ddlDistrict").val();
+             $.ajax({
+                 url: "/MstCircleUser/GetCircleDetailsOfaDistrict",
+                 type: 'POST',
+                 data: { DistrictID: DisID },
+                 cache: false,
+                 success: function (data) {
+                     var HtmlItems = "<option value='-1'><<----Select Circle----->></option>";
+                     var itemCount = 0;
+                     if (data.length == 0) {
+                         HtmlItems = "<option>No Circle Exist</option>";
+                     }
+                     else {
+                         HtmlItems = "<option value='-1'><<----Select Circle----->></option>";
+                     }
+                     $.each(data, function (i, item) {
+                         HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                     });
+                     $('#ddlCircle').html(HtmlItems);
+                     
+                 },
+                 error: function (data) {
+                 }
+             });
+         });
+     });
+
+     $(function () {
+         $("#chkIsShowOnMenu").change(function () {
+             CheckedIsActive();
+         });
+         $("#chkIsShowOnLogin").change(function () {
+             CheckedIsActive();
+         });
+     });
+
+     function CheckedIsActive() {
+         $("#IsActive").attr("checked", true);
+     }
+
+     function isValidEntry() {
+
+         if (document.getElementById("ddlCircle").selectedIndex == 0) {
+             alert("Please Select Circle..");
+             $('#ddlCircle').focus();
+             return false;
+         }
+
+         if ($("#txtCircleCode").val() == "") {
+             alert("Enter Circle Code..");
+             $('#txtCircleCode').focus();
+             return false;
+         }
+         if ($("#txtCircleName").val() == "") {
+             alert("Enter Circle Name..");
+             $('#txtCircleName').focus();
+             return false;
+         }
+         if (confirm("Are you sure do you want to save circle user information!") == false) {
+             return false;
+         }
+
+         return true;
+
+     }
+</script>
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Circle User Master</strong></h3>
+</div>
+
+<div class="panel-body">
+    @using (Html.BeginForm("AddCircleUsers", "MstCircleUser", FormMethod.Post))
+    {
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td>District :</td>
+                 <td> @Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "DistrictID", "District_name"), "Select", new { @id = "ddlDistrict", @class = "form-control", @style = "width:380px" })</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Name</td>
+                <td style="width: 20%;">@Html.DropDownListFor(a => a.CircleID, new SelectList(Enumerable.Empty<SelectListItem>(), "CircleID", "circleName"), "<<--Select Circle-->>", new { @id = "ddlCircle", @style = "width:380px", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Officer Name</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.CircleOfficerName, new { @id = "txtCircleOfficerName", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Mobile No.</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.MobileNo, new { @id = "txtMobileNo", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Email Id</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.EmailId, new { @id = "txtEmailId", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Address</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.Address, new { @id = "txtAddress", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">User Id</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.Userid, new { @id = "txtUserid", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Password</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.Password, new { @id = "txtPassword", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            
+
+            <tr>
+             <td style="width: 20%;">Active</td>
+                <td width="26%" height="35" align="left" valign="top">
+                    @Html.CheckBoxFor(a => a.active, new { @checked = "checked", value = " true" })
+                    </td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+             <td style="width: 20%;">Flag</td>
+                <td width="26%" height="35" align="left" valign="top">
+            @Html.CheckBoxFor(a => a.flag, new { @checked = "checked", value = " true" })
+            @Html.ValidationMessageFor(a => a.flag) </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Pin Code</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.CirclePinCode, new { @id = "txtCirclePinCode", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button type="submit" id="btnSubmit" name="Command" style="width: 120px;" onclick="return isValidEntry();" value="Draft" class="btn btn-mini btn-danger">Save</button>
+                    &nbsp;&nbsp;
+                    <a href="/MstCircleUser/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    }
+</div>
+
+

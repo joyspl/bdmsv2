@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Inter Circle Transfer";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+    
+    
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Inter Circle Transfer</strong></h3>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">District</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlDistrict" class="form-control select2"></select>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Circle</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlCircle" class="form-control select2"></select>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Language</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlLanguage" class="form-control"></select>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Category</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlCategory" class="form-control"></select>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="panel panel-default" id="dvCollection"></div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            LoadDistrict();
+            LoadLanguageDetails();
+            LoadCategoryDetails();
+        });
+
+        $(document).off("change", "#ddlDistrict").on("change", "#ddlDistrict", function (e) {
+            LoadCircleByDistrict($("#ddlDistrict").val());
+        });
+
+        $(document).off("change", "#ddlCategory").on("change", "#ddlCategory", function (e) {
+            GetData();
+        });
+
+        function LoadDistrict() {
+            $.ajax({
+                url: '@(Url.Action("GetDistrictDetails", "InvoiceCumChallan", new { area = "" }))',
+                type: 'POST'
+            }).done(function (data) {
+                var list = document.getElementById("ddlDistrict");
+                list.innerHTML = "";
+                list.add(new Option("Select District", "0"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].Text, data[i].Value));
+                    }
+                }
+            }).always(function (data) {
+                if ($("#ddlDistrict").val() == "0") {
+                    var list = document.getElementById("ddlCircle");
+                    list.innerHTML = "";
+                    list.add(new Option("Select Circle", "0"));
+                    //LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+                }
+            });
+        }
+
+        function LoadCircleByDistrict(distId) {
+            if (distId == "0") {
+                var list = document.getElementById("ddlCircle");
+                list.innerHTML = "";
+                list.add(new Option("Select Circle", "0"));
+                //LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+            } else {
+                $.ajax({
+                    url: '@(Url.Action("GetCircleDetailsOfaDistrict", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { DistrictID: distId }
+                }).done(function (data) {
+                    var list = document.getElementById("ddlCircle");
+                    list.innerHTML = "";
+                    list.add(new Option("Select Circle", "0"));
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            list.add(new Option(data[i].Text, data[i].Value));
+                        }
+                    }
+                    //LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+                });
+            }
+        }
+
+        function LoadLanguageDetails() {
+            $.ajax({
+                url: '@(Url.Action("GetLanguageMasterDtl", "InterCircleTrnf", new { area = "" }))',
+                type: 'GET'
+            }).done(function (data) {
+                var list = document.getElementById("ddlLanguage");
+                list.innerHTML = "";
+                list.add(new Option("Select Language", "0"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].LanguageName, data[i].LanguageID));
+                    }
+                }
+            });
+            }
+
+            function LoadCategoryDetails() {
+                $.ajax({
+                    url: '@(Url.Action("GetCategoryMasterDtl", "InterCircleTrnf", new { area = "" }))',
+                    type: 'GET'
+                }).done(function (data) {
+                    var list = document.getElementById("ddlCategory");
+                    list.innerHTML = "";
+                    list.add(new Option("Select Category", "0"));
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            list.add(new Option(data[i].Category, data[i].CategoryID));
+                        }
+                    }
+                });
+            }
+
+            function GetData() {
+                if ($("#ddlCategory").val() != "0" && $("#ddlLanguage").val() != "0" && $("#ddlDistrict").val() != "0" && $("#ddlCircle").val() != "0") {
+                    $.ajax({
+                        url: '@Url.Action("GetReqListTrnf", "InterCircleTrnf", new { area = "" })' + '?distid=' + ($("#ddlDistrict").val() * 1) + '&destcrclid=' + ($("#ddlCircle").val() * 1) + '&catid=' + ($("#ddlCategory").val() * 1) + '&langid=' + ($("#ddlLanguage").val() * 1),
+                        type: "GET"
+                    }).done(function (data) {
+                        try {
+                            $("#dvCollection").empty().html(data);
+                        } catch (exc) { }
+                    });
+                } else {
+                    alert("Please select language and category to get requisition list");
+                }
+            }
+
+            $(document).off("click", "#btnSave").on("click", "#btnSave", function (e) {
+                var pData = new Array();
+
+                $('table#tblStockTrnf tr.dtll td.dtrf').each(function () {
+                    var obj = new Object();
+                    obj.CIRCLE_STOCK_UPDATE_AUTO_ID = ($(this).closest("tr.dtll").attr("data-autoid") * 1);
+                    obj.TOTAL_TRNF_BOOKS = (($(this).find("input[type=text]").val()) * 1);
+                    obj.TMP_DESTN_CIRCLE = ($("#ddlCircle").val() * 1);
+                    pData.push(obj);
+                });
+
+                $.ajax({
+                    url: "@Url.Action("SaveTrnf", "InterCircleTrnf", new { area = "" })",
+                    type: "POST",
+                    data: { jData: escape(JSON.stringify(pData)) }
+                    //contentType: "application/json; charset=utf-8"
+                });
+        });
+
+                function validateTrnf(value) {
+                    return true;
+                }
+    </script>
+}

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.Language>
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+
+<h1>Language List</h1>
+    <table width="100%">
+        <tr>
+            <th>Language</th>            
+        </tr>
+        @foreach(var req in Model)
+        {
+        <tr>
+            <td style="text-align:center">@req.language_name</td>           
+        </tr>
+        }
+    </table>

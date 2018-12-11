@@ -1,0 +1,299 @@
+﻿@model SARASWATIPRESSNEW.Models.BinderAllotQuantity
+@{
+    ViewBag.Title = "Requisition";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadLanguageMasterDetails();
+        LoadCategoryMasterDetails();
+        LoadBinderMasterDetails();
+    });
+    function LoadLanguageMasterDetails() {
+        $.ajax({
+            url: "/TrxSchRequisition/GetLanguageMasterDtl",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Language Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                });
+                $('#ddlLanguageName').html(HtmlItems);
+                var LanguageID = $("#hdLanguageID").val()
+                if (LanguageID > 0) {
+                    $("#ddlLanguageName").val($("#hdLanguageID").val());
+                    document.getElementById("ddlLanguageName").disabled = true;
+                    $('#ddlLanguageName').change();
+                }
+               
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    function LoadCategoryMasterDetails() {
+        $.ajax({
+            url: "/TrxBinderAllotmentQuantity/GetChallanCategoryDetails",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<----Select Category----->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Category Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<----Select Category----->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlCategory').html(HtmlItems);
+                var CategoryId = $("#hdCategoryID").val()
+                if (CategoryId > 0) {
+                    $("#ddlCategory").val($("#hdCategoryID").val());
+                    document.getElementById("ddlCategory").disabled = true;
+                    $('#ddlCategory').change();
+                }               
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    function LoadBinderMasterDetails() {
+        $.ajax({
+            url: "/TrxBinderAllotmentQuantity/GetBinderDetails",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<----Select Binder----->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Binder Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<----Select Binder----->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlBinder').html(HtmlItems);
+                var BinderId = $("#hdBinderId").val()
+                if (BinderId > 0) {
+                    $("#ddlBinder").val($("#hdBinderId").val());
+                    document.getElementById("ddlBinder").disabled = true;                   
+                }
+                
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+   
+    $(function () {
+        $("#ddlLanguageName").change(function () {           
+            if (document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
+                LoadBookDtlForBinderRequition();
+            }        
+        });
+    });
+    $(function () {
+        $("#ddlCategory").change(function () {
+            if (document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
+                LoadBookDtlForBinderRequition();
+            }
+        });
+    });
+   
+    function LoadBookDtlForBinderRequition() {
+        var categoryId = $("#ddlCategory").val();
+        var LanguageId = $("#ddlLanguageName").val();
+        $.ajax({
+            url: "/TrxBinderAllotmentQuantity/GetBookDtlByChallanCatIdAndLanguageId",
+            type: 'POST',
+            data: { InLanguageId: LanguageId, InChallanCatId: categoryId },
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<----Select Book----->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Book Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<----Select Book----->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlBookName').html(HtmlItems);
+
+                var BookCode = $("#hdBookCode").val()
+                if (BookCode.length > 0) {
+                    $("#ddlBookName").val($("#hdBookCode").val());
+                    document.getElementById("ddlBookName").disabled = true;                    
+                }
+
+
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    
+    function isValidEntry() {
+       
+        if (document.getElementById("ddlLanguageName").selectedIndex == 0) {
+            alert("Please Select Language..");
+            $('#ddlLanguageName').focus();
+            return false;
+        }
+        if (document.getElementById("ddlCategory").selectedIndex == 0) {
+            alert("Please Select Category..");
+            $('#ddlCategory').focus();
+            return false;
+        }
+        if (document.getElementById("ddlBinder").selectedIndex == 0) {
+            alert("Please Select Binder..");
+            $('#ddlBinder').focus();
+            return false;
+        }
+        if (document.getElementById("ddlBookName").selectedIndex == 0) {
+            alert("Please Select Book..");
+            $('#ddlBookName').focus();
+            return false;
+        }
+        if (confirm("Are you sure do you want to Save the records?") == false) {
+            return false;
+        }
+        return true;
+    }
+    
+    function calculateLot() {
+        var Qty = $("#txtTotQty").val();
+        var Lot = $("#txtLot").val();
+        if (Qty == "")
+        {
+            Qty = 0;
+        }
+        if (Lot == "") {
+            Lot = 0;
+        }
+
+        var TotQty = 0;
+        if ((parseInt(Qty) >= parseInt(Lot)) && parseInt(Qty) > 0 && parseInt(Lot) > 0)
+        {
+            TotQty = parseInt(parseInt(Qty) / parseInt(Lot)) > 0 ? parseInt(parseInt(Qty) / parseInt(Lot)) : 1;
+        }
+
+        $("#txtReqQty").val(TotQty);
+    }
+</script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+ </style>
+@try
+{       
+    @Html.Hidden("hdRequisitionID", Model.ID)
+    @Html.Hidden("hdCategoryID",  Model.ChallanCategoryId)  
+    @Html.Hidden("hdLanguageID",  Model.LanguageId)  
+    @Html.Hidden("hdBinderId",  Model.BinderId)  
+    @Html.Hidden("hdBookCode",  Model.BookCode)  
+    
+    
+}
+catch
+{            
+    @Html.Hidden("hdRequisitionID", -1)  
+    @Html.Hidden("hdCategoryID",-1)
+    @Html.Hidden("hdLanguageID", -1)
+    @Html.Hidden("hdBinderId",  -1) 
+    @Html.Hidden("hdBookCode",  "")     
+    
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Binder Allotment Quantity</strong></h3>
+</div>
+
+@using (Html.BeginForm("TrxBinderAllotmentQuantityUpdate", "TrxBinderAllotmentQuantity", FormMethod.Post))
+{
+    <div class="panel-body" >
+        @Html.TextBoxFor(a => a.ID, new { @id = "txtID", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.AllotmentCode, new { @id = "txtTempAllotmentCode", @class = "form-control", style = "display:none;" })
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">Allotment Date</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.AllotmentDate, new { @id = "txtAllotmentDate", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+                <td style="width: 20%;">Requisition Code</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.AllotmentCode, new { @id = "txtAllotmentCode", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Binder Name</td>
+                <td colspan="3">@Html.DropDownListFor(a => a.BinderId, new SelectList(Enumerable.Empty<SelectListItem>(), "BinderId", "BinderName"), "<<--Select Binder-->>", new { @id = "ddlBinder", @style = "width:60%", @class = "form-control select2" })</td>                
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>@Html.DropDownListFor(a => a.ChallanCategoryId, new SelectList(Enumerable.Empty<SelectListItem>(), "CategoryID", "Category"), "<<--Select School Category-->>", new { @id = "ddlCategory", @style = "width:60%", @class = "form-control select2" })</td>                
+                <td>Language<font color="red">*</font></td>
+                <td>@Html.DropDownListFor(a => a.LanguageId, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Language-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control select2" })</td>
+            </tr>          
+            <tr>
+                <td>Book Name</td>
+                <td colspan="3">@Html.DropDownListFor(a => a.BookCode, new SelectList(Enumerable.Empty<SelectListItem>(), "BookCode", "BookName"), "<<--Select Book Name-->>", new { @id = "ddlBookName", @style = "width:60%", @class = "form-control select2" })</td>                
+            </tr>
+            <tr>
+                <td>Total Quantity</td>
+                <td>@Html.TextBoxFor(a => a.TotQty, new { @id = "txtTotQty",@onchange="calculateLot();",  @style = "width:60%", @class = "form-control" })</td>
+                <td>No of Lot<font color="red">*</font></td>
+                <td>@Html.TextBoxFor(a => a.Lot, new { @id = "txtLot",@onchange="calculateLot();", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>No of Sticker</td>
+                <td>@Html.TextBoxFor(a => a.ReqQty, new { @id = "txtReqQty", disabled = "disabled",  @style = "width:60%", @class = "form-control" })</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+
+        
+        <table width="100%" border="0">
+            <tr>                
+                <td style="width: 30%;">
+                    @if (Model.SaveStatus == 0)
+                    {
+                        <button type="submit" id="btnSubmit" name="Command" style="width: 120px; " onclick="return isValidEntry();" value="Submit" class="btn btn-mini btn-danger">Save</button>                       
+                    }
+                     &nbsp;&nbsp;
+                    <a href="/TrxBinderAllotmentQuantityView/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td style="width: 70%;">&nbsp;</td>                
+            </tr>
+        </table>
+    </div>    
+}
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

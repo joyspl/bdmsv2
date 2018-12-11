@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.BinderAllotQuantity>
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr style="border-bottom: 1px solid #ccc;">
+            <td style="width: 10%;">
+                @if (item.SaveStatus == default(int))
+                {
+                    <a href="@(string.Format("{0}?AllotmentId={1}&Command=Edit", Url.Action("BinderAllotmentOperation", "TrxBinderAllotmentQuantityView", new { area = "" }), item.ID.ToString()))">Edit</a>@Html.Raw("&nbsp;|&nbsp;")
+                    <a href="javascript:void(0);" onclick="return DeleteAllotment(@(item.ID));">Delete</a>
+                }
+                else
+                {
+                    <a href="@(string.Format("{0}?AllotmentId={1}&Command=Confirmed", Url.Action("BinderAllotmentOperation", "TrxBinderAllotmentQuantityView", new { area = "" }), item.ID.ToString()))">View</a>@Html.Raw("&nbsp;|&nbsp;")
+                    <a href="@(string.Format("{0}?AllotmentId={1}&Command=Print", Url.Action("BinderAllotmentOperation", "TrxBinderAllotmentQuantityView", new { area = "" }), item.ID.ToString()))" target="_blank">Print</a>@Html.Raw("&nbsp;|&nbsp;")<br />
+                    <input type="text" placeholder="From" class="frmbarcode" name="frombar" style="width: 75px;" /><br />
+                    <input type="text" placeholder="To" class="tobarcode" name="tobar" style="width: 75px;" /><br />
+                    <input type="hidden" name="allotid" value="@(item.ID)" />
+                    <a href="javascript:;" class="printbarcode">Print Barcode</a>
+                }
+            </td>
+            @if(item.SaveStatus == default(int))
+            {
+                <td style="width: 10%; text-align: center; color: red;"><input type="checkbox"  id="chk" name="check" value="@(item.ID)" />&nbsp;&nbsp;&nbsp;@(item.AllotmentCode)</td>
+            }
+            else
+            {
+                <td style="width: 10%; text-align: center;">@(item.AllotmentCode)</td>
+            }
+            <td style="width: 10%; text-align: center;">@(item.BookCode)</td>
+            <td style="width: 10%;">@(item.BinderName)</td>
+            <td style="width: 8%;">@(item.LanguageName)</td>
+            <td style="width: 10%;">@(item.BookName)</td>
+            <td style="width: 8%; text-align: center;">@(item.AllotmentDate)</td>
+            <td style="width: 8%; text-align: center;">@(item.TotQty)</td>
+            <td style="width: 6%; text-align: center;">@(item.Lot)</td>
+            <td style="width: 10%; text-align: center;">@(item.ReqQty)</td>
+            @*<td style="width: 10%; text-align: center;">@(item.ReqQty - item.QtyIssued)</td>*@
+            <td style="width: 10%; text-align: center;">@(item.ReqQty - (item.QtyIssued > default(int) && item.Lot > default(int) ? (item.QtyIssued / item.Lot) : default(int)))</td>
+        </tr>
+    }
+}
+@*else
+{
+    <tr>
+        <td colspan="11" style="width: 100%; text-align: center; font-weight: bolder;">No data found</td>
+    </tr>
+}*@

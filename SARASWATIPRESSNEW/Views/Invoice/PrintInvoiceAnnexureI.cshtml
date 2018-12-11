@@ -1,0 +1,749 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceAnnexureI
+
+@{
+    ViewBag.Title = "Invoice Annexure I";
+}
+<head>
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        #InvoiceCumChallanReport1 table, th, td {
+            border: 1px solid black;
+            padding: 1px 1px;
+        }
+    </style>
+    <script>
+        function printDiv(divName) {
+            var NottoPrintDiv = document.getElementById('dvNotToPrint');
+            NottoPrintDiv.setAttribute('class', 'hidden');
+            window.print();
+            NottoPrintDiv.setAttribute('class', 'visible');
+        }
+
+
+        function ExportToExcel() {
+            var InvoiceId = document.getElementById('txtInvoiceId').value;
+
+            var url = "/Invoice/ExportChallanData?InvoiceId=" + InvoiceId;
+            window.location.href = url;
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+    @using (Html.BeginForm("PrintInvoiceAnnexureI", "Invoice", FormMethod.Post, new { @id = "frmPrintInvoiceAnnexureI" }))
+    {
+
+        <div style="margin: 0 auto; text-align: left; width: 100%; font-family:Calibri,Arial; border-bottom:solid 2px ;" id="dvNotToPrint">
+            <input type="button" width="150px" onclick="printDiv('printableArea')" value="Print" class="button" /> &nbsp;&nbsp;
+            @Html.TextBoxFor(a => a.InvoiceId, new { @id = "txtInvoiceId", @readonly = "readonly", @style = "width:50px;visibility:hidden;", })
+            <input type="button" width="320px" onclick="ExportToExcel()" value="ANNEXURE-II CHALLAN STATEMENT" class="button" />
+        </div>
+        <div style="margin: 0 auto; text-align: center; width: 800px; font-family:Calibri,Arial;" id="printableArea">
+            @for (int pgCnt = 1; pgCnt <= Model.PgCount; pgCnt++)
+            {
+                int StratPos = 0;
+                int EndPos = 0;
+                if (pgCnt > 1 && pgCnt <= Model.PgCount)
+                {
+                    <div style=" page-break-before: always;"></div>
+                }
+
+                <table id='InvoiceCumChallanReport1' cellpadding='0' cellspacing='0' border="0" width='100%'>
+                    <tr>
+                        <td>Page : @pgCnt</td>
+                        <td colspan="6" style="font-size: 16px; font-weight: bold;text-align:center;">Tax Invoice </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="vertical-align: top;">
+                                <b>Invoice No</b>: <b>@Html.DisplayFor(a => a.DisplayInvoiceNo)</b><br />
+                                <b>Invoice Date</b>:<b>@Html.DisplayFor(a => a.InvoiceDate)</b><br />
+                                <b>State</b>: West Bengal<br />
+                                <b>State Code</b>:19<br />
+                                <b>P.A.N No</b>:AAACW6999F <b>GSTIN.</b>:19AAACW6999F1ZN
+                            </div>
+                        </td>
+                        <td style="font-weight: bold; vertical-align:middle;text-align:center;"><h3>ORIGINAL</h3></td>
+                        <td colspan="4">
+                            <div style="font-size: 16px;  vertical-align: top;">
+                                <b>
+                                    WEST BENGAL TEXT BOOK CORP.LTD.
+                                </b> <br />
+                                11 B T Road KOLKATA 700056, <br />
+                                Phone No. : 25647142, Fax : 033 25648886 <br />
+                                Sales Person Code : BG<br />
+                                E-mail - wbtbcl@yahoo.com<br />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Buyer/Billed To</td>
+                        <td colspan="4" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Consignee/ Shipped to </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                                <b>RE</b>: PRINTING & DELIVERY OF "<b>@Html.DisplayFor(a => a.InvoiceCategory)</b>",<b>REF</b>: @Html.DisplayFor(a => a.CustomerOrderNo)<br />
+                            </p>
+                        </td>
+                        <td colspan="4" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:10%;text-align:center;">Sr. No.</td>
+                        <td style="width: 50%; text-align: center;">Description of Goods/ Services</td>
+                        <td style="width: 7%; text-align: center;">HSN/SAC</td>
+                        <td style="width: 8%; text-align: center;">Qty.</td>
+                        <td style="width: 5%; text-align: center;">UQC</td>
+                        <td style="width: 5%; text-align: center;">Rate (Rs.)</td>
+                        <td style="width: 15%; text-align: center;">Taxable Amount (Rs.)</td>
+                    </tr>
+
+                    @try
+                    {
+                        StratPos = ((pgCnt * 5) - 5);
+                        if (Model.InvoiceAnnexureIDtlCollection.Count < (5 * pgCnt))
+                        {
+                            EndPos = Model.InvoiceAnnexureIDtlCollection.Count;
+                        }
+                        else
+                        {
+                            EndPos = (5 * pgCnt);
+                        }
+
+                        for (int i = StratPos; i < EndPos; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].SlNo)
+                                </td>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookName) - @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Language)<br />
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookNameDesc)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].HsnSac)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Qty)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].UQC)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Rate)
+                                </td>
+                                <td style="text-align:right;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].TaxableAmnt)
+                                </td>
+                            </tr>
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td colspan="7">&nbsp;</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7">&nbsp;</td>
+                    </tr>
+                    @if (pgCnt == Model.PgCount)
+                    {
+
+                        <tr>
+                            <td colspan="3" rowspan="6" style="text-align:right; font-weight:bold;font-size:14px;">
+                                Total Invoice Amount : @Html.DisplayFor(a => a.AmountinWord)
+                            </td>
+                            <td colspan="3" style="text-align:right;">Taxable Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TaxableTotAmnt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">CGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.CGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">SGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total GST Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TotalTaxAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Rounding Off (+/-)</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.RoundingOff)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total Invoice Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SumTotAmt)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align:left;vertical-align:top;">
+                            <b> Declaration/Terms & Conditions:</b><br />
+                            •  No complaints on the bill will be entertained after 15 days from the date of receipt.<br />
+                            •  Jursidiction: High Court, Kolkata.<br />
+                            •  Unless otherwise stated tax on this invoice is not payable under Reverse Charge<br />
+                        </td>
+                        <td colspan="3" style="vertical-align: top; text-align: center;">
+                            <div>
+                                <h5>
+                                    E & O.E<br />
+                                    For WEST BENGAL TEXT BOOK CORP.LTD.
+                                </h5>
+                                <h5>Authorised Signatory</h5>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            <div style=" page-break-before: always;"></div>
+            @for (int pgCnt = 1; pgCnt <= Model.PgCount; pgCnt++)
+            {
+                int StratPos = 0;
+                int EndPos = 0;
+                if (pgCnt > 1 && pgCnt <= Model.PgCount)
+                {
+                    <div style=" page-break-before: always;"></div>
+                }
+
+                <table id='InvoiceCumChallanReport1' cellpadding='0' cellspacing='0' border="0" width='100%'>
+                    <tr>
+                        <td>Page : @pgCnt</td>
+                        <td colspan="6" style="font-size: 16px; font-weight: bold;text-align:center;">Tax Invoice </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="vertical-align: top;">
+                                <b>Invoice No</b>: <b>@Html.DisplayFor(a => a.DisplayInvoiceNo)</b><br />
+                                <b>Invoice Date</b>:<b>@Html.DisplayFor(a => a.InvoiceDate)</b><br />
+                                <b>State</b>: West Bengal<br />
+                                <b>State Code</b>:19<br />
+                                <b>P.A.N No</b>:AAACW6999F <b>GSTIN.</b>:19AAACW6999F1ZN
+                            </div>
+                        </td>
+                        <td style="font-weight: bold; vertical-align:middle;text-align:center;"><h3>DUPLICATE</h3></td>
+                        <td colspan="4">
+                            <div style="font-size: 16px;  vertical-align: top;">
+                                <b>
+                                    WEST BENGAL TEXT BOOK CORP.LTD.
+                                </b> <br />
+                                11 B T Road KOLKATA 700056, <br />
+                                Phone No. : 25647142, Fax : 033 25648886 <br />
+                                Sales Person Code : BG<br />
+                                E-mail - wbtbcl@yahoo.com<br />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Buyer/Billed To</td>
+                        <td colspan="4" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Consignee/ Shipped to </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                                <b>RE</b>: PRINTING & DELIVERY OF "<b>@Html.DisplayFor(a => a.InvoiceCategory)</b>",<b>REF</b>: @Html.DisplayFor(a => a.CustomerOrderNo)<br />
+                            </p>
+                        </td>
+                        <td colspan="4" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:10%;text-align:center;">Sr. No.</td>
+                        <td style="width: 50%; text-align: center;">Description of Goods/ Services</td>
+                        <td style="width: 7%; text-align: center;">HSN/SAC</td>
+                        <td style="width: 8%; text-align: center;">Qty.</td>
+                        <td style="width: 5%; text-align: center;">UQC</td>
+                        <td style="width: 5%; text-align: center;">Rate (Rs.)</td>
+                        <td style="width: 15%; text-align: center;">Taxable Amount (Rs.)</td>
+                    </tr>
+
+                    @try
+                    {
+                        StratPos = ((pgCnt * 5) - 5);
+                        if (Model.InvoiceAnnexureIDtlCollection.Count < (5 * pgCnt))
+                        {
+                            EndPos = Model.InvoiceAnnexureIDtlCollection.Count;
+                        }
+                        else
+                        {
+                            EndPos = (5 * pgCnt);
+                        }
+
+                        for (int i = StratPos; i < EndPos; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].SlNo)
+                                </td>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookName) - @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Language)<br />
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookNameDesc)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].HsnSac)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Qty)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].UQC)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Rate)
+                                </td>
+                                <td style="text-align:right;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].TaxableAmnt)
+                                </td>
+                            </tr>
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td colspan="7">&nbsp;</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7">&nbsp;</td>
+                    </tr>
+                    @if (pgCnt == Model.PgCount)
+                    {
+                        <tr>
+                            <td colspan="3" rowspan="6" style="text-align:right; font-weight:bold;font-size:14px;">
+                                Total Invoice Amount : @Html.DisplayFor(a => a.AmountinWord)
+                            </td>
+                            <td colspan="3" style="text-align:right;">Taxable Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TaxableTotAmnt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">CGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.CGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">SGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total GST Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TotalTaxAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Rounding Off (+/-)</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.RoundingOff)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total Invoice Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SumTotAmt)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align:left;vertical-align:top;">
+                            <b> Declaration/Terms & Conditions:</b><br />
+                            •  No complaints on the bill will be entertained after 15 days from the date of receipt.<br />
+                            •  Jursidiction: High Court, Kolkata.<br />
+                            •  Unless otherwise stated tax on this invoice is not payable under Reverse Charge<br />
+                        </td>
+                        <td colspan="3" style="vertical-align: top; text-align: center;">
+                            <div>
+                                <h5>
+                                    E & O.E<br />
+                                    For WEST BENGAL TEXT BOOK CORP.LTD.
+                                </h5>
+                                <h5>Authorised Signatory</h5>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            <div style=" page-break-before: always;"></div>
+            @for (int pgCnt = 1; pgCnt <= Model.PgCount; pgCnt++)
+            {
+                int StratPos = 0;
+                int EndPos = 0;
+                if (pgCnt > 1 && pgCnt <= Model.PgCount)
+                {
+                    <div style=" page-break-before: always;"></div>
+                }
+
+                <table id='InvoiceCumChallanReport1' cellpadding='0' cellspacing='0' border="0" width='100%'>
+                    <tr>
+                        <td>Page : @pgCnt</td>
+                        <td colspan="6" style="font-size: 16px; font-weight: bold;text-align:center;">Tax Invoice </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="vertical-align: top;">
+                                <b>Invoice No</b>: <b>@Html.DisplayFor(a => a.DisplayInvoiceNo)</b><br />
+                                <b>Invoice Date</b>:<b>@Html.DisplayFor(a => a.InvoiceDate)</b><br />
+                                <b>State</b>: West Bengal<br />
+                                <b>State Code</b>:19<br />
+                                <b>P.A.N No</b>:AAACW6999F <b>GSTIN.</b>:19AAACW6999F1ZN
+                            </div>
+                        </td>
+                        <td style="font-weight: bold; vertical-align:middle;text-align:center;"><h3>TRIPLICATE</h3></td>
+                        <td colspan="4">
+                            <div style="font-size: 16px;  vertical-align: top;">
+                                <b>
+                                    WEST BENGAL TEXT BOOK CORP.LTD.
+                                </b> <br />
+                                11 B T Road KOLKATA 700056, <br />
+                                Phone No. : 25647142, Fax : 033 25648886 <br />
+                                Sales Person Code : BG<br />
+                                E-mail - wbtbcl@yahoo.com<br />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Buyer/Billed To</td>
+                        <td colspan="4" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Consignee/ Shipped to </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                                <b>RE</b>: PRINTING & DELIVERY OF "<b>@Html.DisplayFor(a => a.InvoiceCategory)</b>",<b>REF</b>: @Html.DisplayFor(a => a.CustomerOrderNo)<br />
+                            </p>
+                        </td>
+                        <td colspan="4" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:10%;text-align:center;">Sr. No.</td>
+                        <td style="width: 50%; text-align: center;">Description of Goods/ Services</td>
+                        <td style="width: 7%; text-align: center;">HSN/SAC</td>
+                        <td style="width: 8%; text-align: center;">Qty.</td>
+                        <td style="width: 5%; text-align: center;">UQC</td>
+                        <td style="width: 5%; text-align: center;">Rate (Rs.)</td>
+                        <td style="width: 15%; text-align: center;">Taxable Amount (Rs.)</td>
+                    </tr>
+
+                    @try
+                    {
+                        StratPos = ((pgCnt * 5) - 5);
+                        if (Model.InvoiceAnnexureIDtlCollection.Count < (5 * pgCnt))
+                        {
+                            EndPos = Model.InvoiceAnnexureIDtlCollection.Count;
+                        }
+                        else
+                        {
+                            EndPos = (5 * pgCnt);
+                        }
+
+                        for (int i = StratPos; i < EndPos; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].SlNo)
+                                </td>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookName) - @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Language)<br />
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookNameDesc)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].HsnSac)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Qty)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].UQC)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Rate)
+                                </td>
+                                <td style="text-align:right;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].TaxableAmnt)
+                                </td>
+                            </tr>
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td colspan="7">&nbsp;</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7">&nbsp;</td>
+                    </tr>
+                    @if (pgCnt == Model.PgCount)
+                    {
+                        <tr>
+                            <td colspan="3" rowspan="6" style="text-align:right; font-weight:bold;font-size:14px;">
+                                Total Invoice Amount : @Html.DisplayFor(a => a.AmountinWord)
+                            </td>
+                            <td colspan="3" style="text-align:right;">Taxable Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TaxableTotAmnt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">CGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.CGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">SGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total GST Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TotalTaxAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Rounding Off (+/-)</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.RoundingOff)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total Invoice Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SumTotAmt)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align:left;vertical-align:top;">
+                            <b> Declaration/Terms & Conditions:</b><br />
+                            •  No complaints on the bill will be entertained after 15 days from the date of receipt.<br />
+                            •  Jursidiction: High Court, Kolkata.<br />
+                            •  Unless otherwise stated tax on this invoice is not payable under Reverse Charge<br />
+                        </td>
+                        <td colspan="3" style="vertical-align: top; text-align: center;">
+                            <div>
+                                <h5>
+                                    E & O.E<br />
+                                    For WEST BENGAL TEXT BOOK CORP.LTD.
+                                </h5>
+                                <h5>Authorised Signatory</h5>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            <div style=" page-break-before: always;"></div>
+            @for (int pgCnt = 1; pgCnt <= Model.PgCount; pgCnt++)
+            {
+                int StratPos = 0;
+                int EndPos = 0;
+                if (pgCnt > 1 && pgCnt <= Model.PgCount)
+                {
+                    <div style=" page-break-before: always;"></div>
+                }
+
+                <table id='InvoiceCumChallanReport1' cellpadding='0' cellspacing='0' border="0" width='100%'>
+                    <tr>
+                        <td>Page : @pgCnt</td>
+                        <td colspan="6" style="font-size: 16px; font-weight: bold;text-align:center;">Tax Invoice </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="vertical-align: top;">
+                                <b>Invoice No</b>: <b>@Html.DisplayFor(a => a.DisplayInvoiceNo)</b><br />
+                                <b>Invoice Date</b>:<b>@Html.DisplayFor(a => a.InvoiceDate)</b><br />
+                                <b>State</b>: West Bengal<br />
+                                <b>State Code</b>:19<br />
+                                <b>P.A.N No</b>:AAACW6999F <b>GSTIN.</b>:19AAACW6999F1ZN
+                            </div>
+                        </td>
+                        <td style="font-weight: bold; vertical-align:middle;text-align:center;"><h3>OFFICE COPY</h3></td>
+                        <td colspan="4">
+                            <div style="font-size: 16px;  vertical-align: top;">
+                                <b>
+                                    WEST BENGAL TEXT BOOK CORP.LTD.
+                                </b> <br />
+                                11 B T Road KOLKATA 700056, <br />
+                                Phone No. : 25647142, Fax : 033 25648886 <br />
+                                Sales Person Code : BG<br />
+                                E-mail - wbtbcl@yahoo.com<br />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Buyer/Billed To</td>
+                        <td colspan="4" style="font-size: 14px; font-weight: bold;text-align:center;">Details of Consignee/ Shipped to </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                                <b>RE</b>: PRINTING & DELIVERY OF "<b>@Html.DisplayFor(a => a.InvoiceCategory)</b>",<b>REF</b>: @Html.DisplayFor(a => a.CustomerOrderNo)<br />
+                            </p>
+                        </td>
+                        <td colspan="4" style="vertical-align: top;">
+                            <p>
+                                <b>Name</b>: SCHOOL EDUCATION DEPTT, E E BR<br />
+                                <b> Address </b>: ELEMENTARY EDUCATION BRANCH,BIKASH BHAWAN, 5TH FLOOR, SALTLAKE KOLKATA-700091
+                                <b>State</b>: West Bengal <b>State Code</b>: WB<br />
+                                <b>G.S.T. No. </b>:&nbsp;&nbsp;&nbsp;<b>PAN No. -</b><br />
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:10%;text-align:center;">Sr. No.</td>
+                        <td style="width: 50%; text-align: center;">Description of Goods/ Services</td>
+                        <td style="width: 7%; text-align: center;">HSN/SAC</td>
+                        <td style="width: 8%; text-align: center;">Qty.</td>
+                        <td style="width: 5%; text-align: center;">UQC</td>
+                        <td style="width: 5%; text-align: center;">Rate (Rs.)</td>
+                        <td style="width: 15%; text-align: center;">Taxable Amount (Rs.)</td>
+                    </tr>
+
+                    @try
+                    {
+                        StratPos = ((pgCnt * 5) - 5);
+                        if (Model.InvoiceAnnexureIDtlCollection.Count < (5 * pgCnt))
+                        {
+                            EndPos = Model.InvoiceAnnexureIDtlCollection.Count;
+                        }
+                        else
+                        {
+                            EndPos = (5 * pgCnt);
+                        }
+
+                        for (int i = StratPos; i < EndPos; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].SlNo)
+                                </td>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookName) - @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Language)<br />
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].BookNameDesc)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].HsnSac)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Qty)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].UQC)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].Rate)
+                                </td>
+                                <td style="text-align:right;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.InvoiceAnnexureIDtlCollection[i].TaxableAmnt)
+                                </td>
+                            </tr>
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td colspan="7">&nbsp;</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7">&nbsp;</td>
+                    </tr>
+                    @if (pgCnt == Model.PgCount)
+                    {
+                        <tr>
+                            <td colspan="3" rowspan="6" style="text-align:right; font-weight:bold;font-size:14px;">
+                                Total Invoice Amount : @Html.DisplayFor(a => a.AmountinWord)
+                            </td>
+                            <td colspan="3" style="text-align:right;">Taxable Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TaxableTotAmnt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">CGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.CGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">SGST 6% Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SGSTTotAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total GST Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.TotalTaxAmt)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Rounding Off (+/-)</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.RoundingOff)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:right;">Total Invoice Amount</td>
+                            <td style="text-align:right;">@Html.DisplayFor(a => a.SumTotAmt)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align:left;vertical-align:top;">
+                            <b> Declaration/Terms & Conditions:</b><br />
+                            •  No complaints on the bill will be entertained after 15 days from the date of receipt.<br />
+                            •  Jursidiction: High Court, Kolkata.<br />
+                            •  Unless otherwise stated tax on this invoice is not payable under Reverse Charge<br />
+                        </td>
+                        <td colspan="3" style="vertical-align: top; text-align: center;">
+                            <div>
+                                <h5>
+                                    E & O.E<br />
+                                    For WEST BENGAL TEXT BOOK CORP.LTD.
+                                </h5>
+                                <h5>Authorised Signatory</h5>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    }
+</body>

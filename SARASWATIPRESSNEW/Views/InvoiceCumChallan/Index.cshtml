@@ -1,0 +1,195 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+<link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/AppJs/MainAppJs.js"></script>
+<script src="~/Scripts/AppJs/ChallanEntry.js"></script>
+@try
+{
+    @Html.Hidden("hd_ChallanId", Model.ChallanId)
+    @Html.Hidden("hd_DistrictId", Model.DistrictId)
+    @Html.Hidden("hd_CircleId", Model.CircleId)
+    @Html.Hidden("hd_CategoryId", Model.CategoryId)
+    @Html.Hidden("hd_LanguageId", Model.LanguageId)
+    @Html.Hidden("hd_TransporterID", Model.TransporterID)
+    
+}
+catch
+{
+    @Html.Hidden("hd_ChallanId", 0)
+    @Html.Hidden("hd_DistrictId", -1)
+    @Html.Hidden("hd_CircleId", -1)
+    @Html.Hidden("hd_CategoryId", -1)
+    @Html.Hidden("hd_LanguageId", -1)
+    @Html.Hidden("hd_TransporterID", -1)
+}
+
+<script>
+    $(document).ready(function () {
+        LoadMasterDetails();
+        GetReqBookDtl();
+        $('#txtBinderAllotMentCode').focus();
+
+    });
+    $(function () {
+        $('#btnAdd').click(function () {
+            CalculateAmt1();
+            clearError();
+            debugger;
+            var BinderAllotMentCode = $("#txtBinderAllotMentCode").val();
+            alert(BinderAllotMentCode);
+            var ChallanId = $("#txtChallanId").val();
+            $.ajax({
+                url: "/InvoiceCumChallan/GetBinderAllotMentCodeDtl",
+                type: 'POST',
+                data: { BinderAllotMentCode: BinderAllotMentCode, ChallanId: ChallanId },
+                cache: false,
+                success: function (data) {
+                    if (data.UpdateCode == "ERROR") {
+                        appendMsg(data.UpdateMessage, "ERROR");
+                    }
+                    else {
+                        appendMsg(data.UpdateMessage, "INFO");
+                    }
+                    UpScroll();
+                   
+                    //$('#tblBookDtl').html("Loading....");
+                    //var HtmlItems = "";
+                    //for (var i = 0; i < data.BookRequisitionCalculatedDtlCollection.length; i++) {
+                    //    HtmlItems += "<tr id='tr_" + i + "' style='background-color:#6accbb'>";
+                    //    HtmlItems += "    <td style='text-align:left;width: 15%;'>" + data.BookRequisitionCalculatedDtlCollection[i].Class + "</td>";
+                    //    HtmlItems += "    <td style='text-align:left;width: 15%;'>" + data.BookRequisitionCalculatedDtlCollection[i].BookCode + "</td>";
+                    //    HtmlItems += "    <td style='text-align:left;width: 26%;'>" + data.BookRequisitionCalculatedDtlCollection[i].BookName + "</td>";
+                    //    HtmlItems += "    <td style='text-align:center;width: 15%;'><input class='form-control' id='txtChallanQty_" + i + "'  style='width:90px;text-align: center;' type='text'  value='" + data.BookRequisitionCalculatedDtlCollection[i].ChallanQty + "' /></td>";
+                    //    HtmlItems += "    <td style='text-align:center;width: 15%;'><input class='form-control' id='txtQty_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='" + data.BookRequisitionCalculatedDtlCollection[i].Qty + "' /></td>";
+                    //    HtmlItems += "    <td style='text-align:center;width: 14%;'><input class='form-control' id='txtWeight_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='" + data.BookRequisitionCalculatedDtlCollection[i].TotWeight + "'  /></td>";
+                    //    HtmlItems += "</tr>";
+                    //}
+                    //$('#tblBookDtl').html(HtmlItems);
+                    //document.getElementById('txtRequiredQty').value = data.RequiredQty;
+                    //document.getElementById('txtIssuedQty').value = data.IssuedQty;
+                    //document.getElementById('txtRemainigQty').value = data.RemainigQty;
+
+                    //document.getElementById('txtRequiredWeight').value = data.RequiredWeight;
+                    //document.getElementById('txtIssuedWeight').value = data.IssuedWeight;
+                    //document.getElementById('txtRemainigWeight').value = data.RemainigWeight;
+                    if (data.UpdateCode == "ERROR") {
+                        alert(data.UpdateMessage);
+                    }
+                    $("#txtBinderAllotMentCode").val("");
+                },
+                error: function (data) {
+                    alert("Some Error Occured");
+                }
+            });
+        });
+
+        $("#txtBinderAllotMentCode").keypress(function (e) {
+            clearError();
+            if (e.which == 13) {
+                $('#btnAdd').click();
+            }
+        });
+    });
+    function CalculateAmt1() {
+        var gv = document.getElementById("tblInvCumChal");
+        var tb = gv.getElementsByTagName("input");
+        
+        for (var i = 0; i < tb.length; i++) {
+            if (tb[i].type == "text") {
+                alert(document.getElementById("Book_Code_" + i + "").value);
+            }
+        }
+    }
+</script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Challan Entry Form</strong></h3>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("Index", "InvoiceCumChallan", FormMethod.Post))
+    {           
+        <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"></div>
+        <div class="panel-body">
+            <table cellpadding="10" cellspacing="10" width="100%" border="0" align="center" class="table">
+                <tr>
+                    <td style="width: 25%">Challan Number :</td>
+                    <td style="width: 25%">
+                        @Html.TextBoxFor(a => a.InvoiceCumChallanNo, new { @id = "txtInvoiceCumChallanNo", @readonly = "readonly", @style = "width:180px", @class = "form-control", @maxlength = "15" })
+                    </td>
+                    <td style="width: 25%">Challan Date :</td>
+                    <td style="width: 25%">@Html.TextBoxFor(a => a.InvoiceCumChallanDate, new { @id = "InvoiceCumChallanDate", @style = "width:180px", @class = "form-control", @maxlength = "15" })</td>
+                </tr>
+                <tr>
+                    <td>Transporter Name :</td>
+                    <td colspan="2">@Html.DropDownListFor(a => a.TransporterID, new SelectList(Enumerable.Empty<SelectListItem>(), "TransporterID", "Transporter_name"), "Select", new { @id = "ddlTransporterID", @class = "form-control", @style = "width:100%" }) </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Vehicle No :</td>
+                    <td>@Html.TextBoxFor(a => a.VEHICLE_NO, new { @id = "txtVehicleNo", @class = "form-control", @maxlength = 35, @style = "width:180px" })</td>
+                    <td>Consignee No :</td>
+                    <td>@Html.TextBoxFor(a => a.CONSIGNEE_NO, new { @id = "txtConsigneeNo", @class = "form-control", @maxlength = 20, @style = "width:180px" }) </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Binder Allotment Code</td>
+                    <td>
+                        @Html.TextBoxFor(a => a.BinderAllotMentCode, new { @id = "txtBinderAllotMentCode", @style = "width:180px", @class = "form-control" })
+                    </td>
+                    <td colspan="2">
+                        <input type="button" id="btnAdd" value="Add" style="width: 100px" class="btn btn-info btn-block" /></td>
+                </tr>
+            </table>
+            <div style="width: 100%; height: 55vh;">
+                <table id="header" style="width: 100%;" class="divDataEntry" border="0">
+                    <tr>
+                        <td style="text-align: center; width: 10%;">Class</td>
+                        <td style="text-align: center; width: 10%;">Book Code</td>
+                        <td style="text-align: left; width: 20%;">Book Name</td>
+                        <td style="text-align: center; width: 11%;">Net Requisition<br />
+                            Quantity</td>
+                        <td style="text-align: center; width: 12%;">Already Shipped<br />
+                            Quantity</td>
+                        <td style="text-align: left; width: 12%;">Remaining</td>
+                        <td style="text-align: center; width: 10%;">Quantity
+                            <br />
+                            for Shipping</td>
+                        <td style="text-align: left; width: 15%;">No. of Box bundle/<br />
+                            cartoon/ pack</td>
+                    </tr>
+                </table>
+                <div style="width: 100%; height: 42vh; overflow: scroll; margin-top: 0px; border: 2px solid #808080;">
+                    <table id="tblInvCumChal" width="100%" border="0" class="table basic">
+                        <tr>
+                            <td>Loading....</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top: 10px;"></div>
+                <table width="100%" border="0">
+                    <tr>
+                        <td style="width: 15%;">
+                            @Html.TextBoxFor(a => a.ChallanId, new { @id = "txtChallanId", @readonly = "readonly", @style = "width:180px;visibility:hidden;", @maxlength = "15" })
+                            <button type="button" id="btnSaveAsDraft" style="width: 100px;" onclick="return fun_validation();" name="Command" value="Draft" class="btn btn-info btn-block">Save Challan</button>
+                        </td>
+                        <td style="width: 85%;">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+</div>

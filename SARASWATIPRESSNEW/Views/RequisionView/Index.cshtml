@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.RequisitionView>
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Admin</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <script type="text/javascript">
+        function loadDoc(x) {           
+            window.location.href = "?topLimit=" + document.getElementById('ddl').value;
+            location.reload(a,document.getElementById('ddl').value);
+        }
+    </script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>    
+</head>
+<div class="page-container">
+    <div class='page-sidebar'>
+        <ul class='x-navigation'>
+            <li class='xn-logo'>
+                <a href='index.html'>WB Text Book</a>
+                <a href='#' class='x-navigation-control'></a>
+            </li>
+            <li class='xn-profile'>
+                <div class='profile'>
+                    <div class='profile-data'>
+                        <div class='profile-data-name'>Circle User</div>
+                    </div>
+                </div>
+            </li>
+            <li><a href='/CircleSchoolUpdate/Index'><span class='fa fa-image'></span>School Update</a></li>
+            <li><a href='/Home/Requisition'><span class='fa fa-image'></span>New Requisition</a></li>
+            <li class="active"><a href='/RequisionView/Index'><span class='fa fa-image'></span>Requisition List</a></li>
+            <li><a href='/StockUpdate/index'><span class='fa fa-image'></span>Stock Details</a></li>
+            <li><a href='/ChallanReceivedAtCircle/index'><span class='fa fa-image'></span>Receive Challan</a></li>
+            <li><a href='/SchoolChallanView/index'><span class='fa fa-image'></span>School Challan View</a></li>
+            <li><a href='/SchoolChallan/index'><span class='fa fa-image'></span>School Challan</a></li>
+            <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+            <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+            <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>
+            <li><a href='/MisReport/Index'><span class='fa fa-image'></span>MIS Report</a></li>
+            <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li>    
+            <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+        </ul>
+    </div>
+    <!-- End Menu Section -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                <div class="mb-content">
+                    <p>Are you sure you want to log out?</p>
+                    <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content">
+        <div style="width: auto; text-align:left; background-color: white;">
+             <img src="/resources/img/reports/header.jpg" />
+        </div>
+        <div class="panel panel-default" style="margin-top:30px;">
+            <div>
+                <div class="form-group">
+                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                    <div class="col-md-3 col-xs-12">
+                        @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                    </div>
+                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                        @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                    </div>
+                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                        @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                    </div>
+                </div>
+            </div>
+            <div>&nbsp;&nbsp;</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <h3 class="panel-title"><strong>Requisition List with Status</strong> </h3>
+                    <div class="col-md-3 col-xs-12">
+                        @Html.DropDownList("ddl", new List<SelectListItem>
+                                 { new SelectListItem { Text = "Top 10", Value = "10", Selected=true},
+                                   new SelectListItem { Text = "Top 100", Value = "100"},
+                                   new SelectListItem { Text = "Top 500", Value = "500"},
+                                   new SelectListItem { Text = "All", Value = "999999"}
+                                  }, new { @id = "ddl", @class = "form-control", @onchange = "loadDoc(this.value)" })
+                    </div>
+                    <h3 class="panel-title" style="color:red;"><strong>For viewing all requisition, please select "All" from Dropdown list</strong> </h3>
+                </div>
+            </div>
+            <div class="panel-heading">
+                <a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+            </div>
+            <div class="panel-heading">
+                <h3 class="panel-title" style="color:red;"><strong>All Requisition within this list already confirmed. If user wants to modifiy Requisition details, then please select "EDIT" option.</strong> </h3>
+            </div>
+            <div class="panel-body">
+                <table id="tableID"  class="table basic" style="margin-left:0px;" width="100%">
+                    <tr>
+                        <td style="text-align:center">Requisition Status</td>
+                        <td style="text-align:center">Requisition Date</td>
+                        <td style="text-align:center">Requisition Code</td>
+                        <td style="text-align:center">School Code</td>
+                        <td style="text-align:center">School Name</td>
+                        <td style="text-align:center">Language</td>
+                        <td style="text-align:center">Category</td>
+                        <td style="text-align:center;visibility:hidden">Requisition ID</td>
+                        <td style="text-align:center;visibility:hidden">Req Id</td>
+                        <td style="text-align:center;visibility:hidden">Req Code</td>
+                    </tr>
+                    @foreach (var req in Model)
+                    {
+                        <tr>
+                            <td style="text-align:center">
+                                <a href=@req.url>@req.requisition_stat</a>
+                                <a onclick="return confirm('Are you sure you wish to delete this Requisition @req.req_code ?');" href=@req.DeleteUrl>@req.DeleteStatus</a>
+                            </td>
+                            <td style="text-align:center">@req.req_date</td>
+                            <td style="text-align:center">@req.req_code</td>
+                            <td style="text-align:center">@req.school_code</td>
+                            <td style="text-align:center">@req.school_name</td>
+                            <td style="text-align:center">@req.language_name</td>
+                            <td style="text-align:center">@req.category_name</td>
+                            <td style="text-align:center;visibility:hidden">@req.requisitionid</td>
+                            <td style="text-align:center;visibility:hidden">@req.requisition_id</td>
+                            <td style="text-align:center;visibility:hidden">@req.req_code</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('ddl').value = @ViewBag.topLimit;
+    </script>
+    @if (TempData["Message"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@(TempData["Message"] as string)");
+            };
+        </script>
+    }
+

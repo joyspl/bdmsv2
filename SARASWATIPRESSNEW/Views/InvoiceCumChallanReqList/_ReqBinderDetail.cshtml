@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.BinderAllotQuantityDtl>
+
+@if (Model != null && Model.Count() > default(int))
+{
+    <div style="max-height: 350px; overflow-y: auto;">
+        <table id="tblBarcode">
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            @foreach (var obj in Model)
+            {
+                <tr class="trChkBarCode">
+                    <td style=""><input type="checkbox" class="chkIndvidual"  data-dtlid="@obj.DTLID" /></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <span style='font-family: IDAutomationHC39M Free Version; text-align: center;'>*@obj.BINDER_ALLOT_CODE*</span>
+                    </td>
+                    @* <td>
+                        @obj.BOOK_CODE.ToUpper()
+                    </td>*@
+                </tr>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="pull-right" style="padding-top: 2%;">
+        <button class="btn btn-default" id="btnDeSelectAll" style="">Deselect All</button>
+        <button class="btn btn-default" id="btnSelectAll" style="">Select All</button>
+        <button class="btn btn-danger" id="btnRevertSelected">Revert</button>
+    </div>
+}
+else
+{
+    <p>No item has been scanned yet.</p>   
+}

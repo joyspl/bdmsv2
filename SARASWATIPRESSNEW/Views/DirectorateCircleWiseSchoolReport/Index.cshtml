@@ -1,0 +1,167 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleWiseSchool
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+@*<head>
+    <!-- META SECTION -->
+    <title>Circle Wise Book Status Report</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+</head>*@
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+@*<div class="page-container">
+    <!--Start Menu Section -->
+
+    <div class='page-sidebar'>
+        <ul class='x-navigation'>
+            <li class='xn-logo'>
+                <a>WB Text Book</a>
+                <a href='#' class='x-navigation-control'></a>
+            </li>
+            <li class='xn-profile'>
+                <div class='profile'>
+                    <div class='profile-data'>
+                        <div class='profile-data-name'>Directorate User</div>
+                    </div>
+                </div>
+            </li>
+            <li><a href='/CircleWiseRequisitionStock/Index'><span class='fa fa-image'></span>Circle Wise School Enrolled Report</a></li>
+            <li><a href='/DirectorateCircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise Book Status Report</a></li>
+            <li><a href='/DirectorMisReport/Index'><span class='fa fa-image'></span>District Wise MIS Report</a></li>
+            <li><a href='/DistrictCircleWiseMisReport/Index'><span class='fa fa-image'></span>District Wise Circle Wise MIS Report</a></li>
+            <li><a href='/DirectorateLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+        </ul>
+    </div>*@
+
+    <!-- End Menu Section -->
+    @*<div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                <div class="mb-content">
+                    <p>Are you sure you want to log out?</p>
+                    <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    @using (Html.BeginForm("Index", "DirectorateCircleWiseSchoolReport", FormMethod.Post))
+    {
+         @*<div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header.jpg" />
+            </div>*@
+
+            <div class="panel panel-default" style="margin-top:30px;">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Circle Wise Book Status Report</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("District")</label>
+                        <div class="col-md-3 col-xs-12">
+                            @Html.DropDownListFor(a => a.DistrictID, new SelectList(Model.lst_district, "DistrictID", "District_name"), "Select", new { @id = "districtid", @onchange = "loadDoc(this.value)", @class = "form-control" })
+                            @Html.ValidationMessageFor(a => a.DistrictID, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle")</label>
+                        <div class="col-md-3 col-xs-12">
+                            @Html.DropDownListFor(a => a.CircleID, new SelectList(Model.lst_circle, "CircleID", "Circle_name"), "Select", new { @id = "circle_id", @class = "form-control" })
+                            @Html.ValidationMessageFor(a => a.CircleID, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table width="100%" class="table basic">
+                        <tr>
+                            <td>
+                                <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Show</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table id="tableID" class="table datatable" style="margin-left:0px;" width="100%">
+                    <tr>
+                        <td>Book Code</td>
+                        <td>Class</td>
+                        <td>Book Name</td>
+                        <td>Language</td>
+                        <td>No. of Books Required</td>
+                        <td>Previous Year Stock</td>
+                        <td>Net Requisition</td>                        
+                        <td>No. of Books Received</td>
+                        <td>Stock After Receipt</td>
+                        <td>No of Book Distributed</td>
+                        <td>Stock After Distribution</td>                       
+                        @*<td style="visibility:hidden">Book Id</td>*@
+                    </tr>
+                    @try
+                    {
+
+                        for (int i = 0; i < Model.CollectionCircleWiseSchoolReport.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align:left">@Model.CollectionCircleWiseSchoolReport[i].Book_Code</td>
+                                <td style="text-align: left">@Model.CollectionCircleWiseSchoolReport[i].Class</td>
+                                <td style="text-align: left">@Model.CollectionCircleWiseSchoolReport[i].BookName</td>
+                                <td style="text-align: left">@Model.CollectionCircleWiseSchoolReport[i].Language</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].ReqQty</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].StockQty</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].NetReq</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].ReceivedQty</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].RemainAfterReceived</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].DistributedInSchool</td>
+                                <td style="text-align:center">@Model.CollectionCircleWiseSchoolReport[i].RemainAfterDistribution</td>
+
+                                @*<td style="text-align:center;visibility:hidden">@Html.TextBoxFor(a => a.req_wise_collection[i].BookID)</td>*@
+                            </tr>
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td style="text-align:center" colspan="11"></td>                           
+                        </tr>
+                    }
+
+                </table>
+            </div>
+    }
+</div>
+<script>
+    function loadDoc(x) {
+        //alert(x + document.getElementById('languageid').value);
+        //window.location.href += "";
+        window.location.href = "?a=" + x;
+        location.reload(a);
+    }
+
+</script>
+
+
+

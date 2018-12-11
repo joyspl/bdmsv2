@@ -1,0 +1,225 @@
+﻿@model SARASWATIPRESSNEW.Models.SchoolChallan
+
+@{
+    ViewBag.Title = "Challan Report";
+}
+<head>
+    <link href="~/resources/css/BarCode/BarCode.css" rel="stylesheet" />
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function printDiv(divName) {
+            var NottoPrintDiv = document.getElementById('dvNotToPrint');
+            NottoPrintDiv.setAttribute('class', 'hidden');
+            window.print();
+            NottoPrintDiv.setAttribute('class', 'visible');
+        }
+    </script>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "SchoolChallanReportPrint", FormMethod.Post, new { @id = "frmSchoolChallanReportPrint" }))
+    {
+        <div style="margin: 0 auto; text-align: left; width: 800px; font-family:Calibri,Arial; border-bottom:solid 2px ;" id="dvNotToPrint"><input type="button" width="150px" onclick="printDiv('printableArea')" value="Print" class="button" /></div>
+        <div style="margin: 0 auto; text-align: left; width: 800px; font-family:Calibri,Arial;" id="printableArea">
+            @for (int pgCnt = 1; pgCnt <= Model.BookRwCnt; pgCnt++)
+            {
+                int StratPos = 0;
+                int EndPos = 0;
+                if (pgCnt > 1 && pgCnt <= Model.BookRwCnt)
+                {
+                    <div style=" page-break-before: always;"></div>
+                }
+                <table id='InvoiceCumChallanReport1' cellpadding='0' cellspacing='0' border="0" width='100%'>
+                    <tr><td colspan="7" style="text-align:center;">Page : @pgCnt</td></tr>
+                    <tr>
+                        <td colspan="3" style="text-align:left;font-size:16px;">Non-Chargeble Challan No.: <b>@Html.DisplayFor(a => a.SchoolChallanCode)</b></td>
+                        <td colspan="4" style="text-align:right;"><b>Date : @Html.DisplayFor(a => a.SchoolChallanDate)</b></td>
+                    </tr>
+                    @*<tr>
+                        <td colspan="7" style="text-align: right; font-size: 20px;font-style:italic;font-weight:bold;">WEST BENGAL TEXT BOOK CORP. LTD.</td>
+                    </tr>*@
+                    <tr>
+                        @*<td style="text-align:left;font-size:14px;" colspan="7">SPECIAL SECRETARY, GOVT OF WB</td>*@
+                        <td style="text-align:left;font-size:14px;" colspan="7">NAME: @Html.DisplayFor(a => a.CIRCLE_OFFICER_NAME)</td>
+                    </tr>
+                    <tr>
+                        @*<td style="text-align:left;font-size:14px;" colspan="3">SCHOOL EDUCATION DEPTT, E E BR</td>*@
+                        <td style="text-align:left;font-size:14px;" colspan="7">Circle Name : @Html.DisplayFor(a => a.CIRCLE_NAME)</td>
+                        @*<td style="text-align:right;font-size:14px;font-weight:bold;" colspan="4">(Government of West Bengal Enterprise)</td>*@
+                    </tr>
+                    <tr>
+                        @*<td style="text-align:left;font-size:14px;" colspan="7">ELEMENTARY EDUCATION BRANCH</td>*@
+                        <td style="text-align:left;font-size:14px;" colspan="3">Circle Address : @Html.DisplayFor(a => a.CIRCLE_ADDRESS), PinCode : @Html.DisplayFor(a => a.CIRCLE_PINCODE) </td>
+                    </tr>
+                    <tr>
+                        @*<td style="text-align: left; font-size: 14px;" colspan="3">KOLKATA</td>*@
+                        <td style="text-align:left;font-size:14px;" colspan="7">District : @Html.DisplayFor(a => a.DISTRICT)</td>
+                        @*<td style="text-align: right; font-size: 14px;" colspan="4">Ph: 25641734, Fax :033 25648886</td>*@
+                    </tr>
+                    <tr rowspan="6">
+                        <td colspan="3">
+                            <div style="border:2px solid;">
+                                <table border="0" style="width:100%;">
+                                    <tr><td style="text-align: left; font-size: 16px;"><b>Delivered To:</b></td></tr>
+                                    <tr>
+                                        <td style="text-align: left; font-size: 14px;">
+                                            <b>Name        :</b>  @Html.DisplayFor(a => a.SchoolName) <br />
+                                            <b>Address     :</b>  @Html.DisplayFor(a => a.SchoolAddress)<br />
+                                            <b>Phone No.   :</b>  @Html.DisplayFor(a => a.SchoolContactNo)<br />
+                                            @*<b>Email Id    :</b>  @Html.DisplayFor(a => a.InspectorEmailId)<br />
+                                            <b>Circle Name :</b><b>@Html.DisplayFor(a => a.CircleName)</b><br />
+                                            <b>District    :</b><b> @Html.DisplayFor(a => a.DistrictName)</b><br />
+                                            <b>Pin Code    :</b>  @Html.DisplayFor(a => a.CirclePinCode)*@
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td colspan="4">
+                            <table border="0" style="width:100%;">
+                                @*<tr><td style="text-align: right; font-size: 14px;">City office : 32 & 32/1 APC Road, Kolkata -700 009</td></tr>
+                                <tr><td style="text-align: right; font-size: 14px;">wbtbcl@yahoo.com</td></tr>
+                                <tr><td style="text-align: right; font-size: 14px;">Sales Person : Biplab Ghosh</td></tr>*@
+                                <tr><td style="text-align: right; font-size: 14px;">&nbsp;</td></tr>
+                                <tr><td colspan="2" style="font-family: IDAutomationHC39M Free Version; text-align: center;">*@Html.DisplayFor(a => a.SchoolChallanCode)*</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td colspan="7">&nbsp;</td></tr>
+                    @*<tr>
+                        <td style="text-align: left; font-size: 14px; font-weight: bold;">Transporter Name:</td>
+                        <td style="text-align: left; font-size: 14px;" colspan="2">@Html.DisplayFor(a => a.Transporter)</td>
+                        <td style="text-align: left; font-size: 14px; font-weight: bold;">Consignment No.:</td>
+                        <td style="text-align: left; font-size: 14px;">@Html.DisplayFor(a => a.CONSIGNEE_NO)</td>
+                        <td style="text-align: left; font-size: 14px; font-weight: bold;">Truck No.:</td>
+                        <td style="text-align: left; font-size: 14px;">@Html.DisplayFor(a => a.VEHICLE_NO)</td>
+                    </tr>*@
+                    <tr><td colspan="7">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="7" style="text-align:left;font-size:small;">
+                            <b>SUBJECT:  DISTRIBUTION OF 'NTB FOR THE ACADEMIC YEAR @Html.DisplayFor(a => a.ChallanYear)  IN @Html.DisplayFor(a => a.Language) MEDIUM TO SCHOOL</b>
+                        </td>
+                    </tr>
+                    <tr><td colspan="7"><div style="border: 1px solid;"></div></td></tr>
+                    <tr>
+                        <td style="vertical-align: bottom; text-align: left; font-size: 14px; width: 10%; vertical-align: top;"><b>Class</b></td>
+                        <td style="vertical-align: bottom; text-align: center; font-size: 14px; width: 15%; vertical-align: top;"><b>Book Code</b></td>
+                        <td style="vertical-align: bottom; text-align: left; font-size: 14px; width: 25%; vertical-align: top;"><b>Name of the<br/>Books/Forms</b></td>
+                        <td style="vertical-align: bottom; text-align: center; font-size: 14px; width: 10%; vertical-align: top;"><b>Quantity<br/>Delivered</b></td>
+                        <td style="vertical-align: bottom; text-align: center; font-size: 14px; width: 10%; vertical-align: top;"><b>Unit</b></td>                       
+                    </tr>
+                    <tr><td colspan="7"><div style="border:2px solid"></div></td></tr>
+                    @try
+                    {
+
+                        StratPos = ((pgCnt * 12) - 12);
+                        if (Model.trxSchoolChallanBookReqDtl.Count < (12 * pgCnt))
+                        {
+                            EndPos = Model.trxSchoolChallanBookReqDtl.Count;
+                        }
+                        else
+                        {
+                            EndPos = (12 * pgCnt);
+                        }
+
+                        for (int i = StratPos; i < EndPos; i++)
+                        {
+                            <tr>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.trxSchoolChallanBookReqDtl[i].Class)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.trxSchoolChallanBookReqDtl[i].BookCode)
+                                </td>
+                                <td style="text-align:left;vertical-align:top;">
+                                    @Html.DisplayFor(a => a.trxSchoolChallanBookReqDtl[i].BookName)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    @Html.DisplayFor(a => a.trxSchoolChallanBookReqDtl[i].QuantityForShipping)
+                                </td>
+                                <td style="text-align: center; vertical-align: top;">
+                                    Copies
+                                </td>
+                                
+                            </tr>
+
+                        }
+
+                        for (int i = EndPos; i < (12 * pgCnt); i++)
+                        {
+                            <tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        <tr>
+                            <td colspan="7">&nbsp;</td>
+                        </tr>
+                    }
+                    <tr><td colspan="7"><div style="border: 1px solid; "></div></td></tr>
+                    <tr><td colspan="7" style="text-align:left;">&nbsp;</td></tr>
+                    <tr><td colspan="7" style="vertical-align: bottom; text-align: left; font-size: 14px;">Received the above quantity of Books/Khata in good condition for immediate onword distribution to students.</td></tr>
+                    <tr><td colspan="7" style="text-align:left;">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="0" style="width:100%;">
+                                <tr>
+                                    <td>
+                                        <table border="0" style="width:100%;">
+                                            <tr><td style="text-align: center; ">&nbsp;</td></tr>
+                                            <tr><td style="vertical-align: bottom; text-align: left; font-size: 16px; font-weight:bold;">Signature of Circle Authority</td></tr>
+                                            <tr><td style="vertical-align:bottom;text-align:left;">Date........................................</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="2">
+                            <div style="border:2px solid;">
+                                <table border="0" style="width:100%;">
+                                    <tr><td style="vertical-align:bottom;text-align:center;"><h2>ORIGINAL</h2></td></tr>
+                                    <tr><td style="vertical-align:bottom;text-align:center;"><h3>Please sign and return</h3></td></tr>
+                                    <tr><td>&nbsp;</td></tr>
+                                    <tr><td>&nbsp;</td></tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                            <table>
+                                <tr><td>Receiver's Signature........................</td></tr>
+                                <tr><td>Date..................................................</td></tr>
+                                <tr><td>Name................................................</td></tr>
+                                <tr><td>Seal...................................................</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    @*<tr><td colspan="7" style="text-align:left;">User : @Html.DisplayFor(a => a.UserId)</td></tr>*@
+                </table>
+
+            }
+            
+        </div>
+    }
+
+</body>

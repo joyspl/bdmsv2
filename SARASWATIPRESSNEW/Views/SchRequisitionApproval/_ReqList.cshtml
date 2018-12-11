@@ -1,0 +1,115 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.SchRequisitionView>
+@{
+    SARASWATIPRESSNEW.UserSec objUser;
+    try
+    {
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+    }
+    catch (Exception)
+    {
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+
+@if (Model != null && Model.Count() > default(int))
+{
+    foreach (var item in Model)
+    {
+        <tr>
+
+            @*<td style="text-align: center; width: 10%;">
+            @if (item.ISAPPROVED == 0)
+            {
+                <input type="checkbox" class="chkApprove" value="@(item.RequisitionID)" @(item.ISAPPROVED > default(int) ? Html.Raw("checked") : Html.Raw("")) />
+            }
+            else
+            {
+                <label class="badge badge-success">Approved</label>
+            }
+        </td>*@
+
+            <!-- 4.12.18 Admin approval -->
+
+            @if (objUser.UserType == "3")
+            {
+                <td style="text-align: center; width: 12%;">
+                    @if (item.ISAPPROVED_ADMIN == 0)
+                    {
+                        <input type="checkbox" class="chkApprove" value="@(item.RequisitionID)" />
+                    }
+
+                    else
+                    {
+                        <label class="badge badge-success">Approved</label>
+                    }
+                </td>
+
+               
+            }
+
+@if (objUser.UserType == "2")
+{
+    <td style="text-align: center; width: 10%;">
+        @if (item.ISAPPROVED_DIST == 0)
+        {
+            <input type="checkbox" class="chkApprove" value="@(item.RequisitionID)" @(item.ISAPPROVED_DIST > default(int) ? Html.Raw("checked") : Html.Raw("")) />
+        }
+        else
+        {
+            <label class="badge badge-success">Approved</label>
+        }
+    </td>
+
+    <td style="text-align: center; width: 8%;">
+        @if (item.ISAPPROVED == 0)
+        {
+            
+        }
+
+        else
+        {
+            <label class="badge badge-success">Approved</label>
+        }
+    </td>
+}
+
+@if (objUser.UserType == "5")
+{
+
+    <td style="text-align: center; width: 8%;">
+        @if (item.ISAPPROVED == 0)
+        {
+            <input type="checkbox" class="chkApprove" value="@(item.RequisitionID)" />
+        }
+        
+        else
+        {
+            <label class="badge badge-success">Approved</label>
+        }
+    </td>
+
+    <td style="text-align: center; width: 10%;">
+        @if (item.ISAPPROVED_DIST == 0)
+        {
+
+        }
+        else
+        {
+            <label class="badge badge-success">Approved</label>
+        }
+    </td>
+}
+
+            <td style="text-align: center; width: 5%;">
+                <a href="javascript:void(0);" class="aPrint">Print</a>
+            </td>
+            <td style="width: 15%; padding-left: 2%;">@(item.RequisitionCode)</td>
+            <td style="width: 10%; padding-left: 2%;">@(item.RequisitionDate)</td>
+            @*<td style="width: 10%;">&nbsp;&nbsp;&nbsp;&nbsp;@(item.SchoolCode)</td>*@
+            <td style="width: 25%; padding-left: 2%;">@(item.SchoolName + " (" + item.SchoolCode + ")")</td>
+            <td style="width: 10%; padding-left: 2%;">@(item.LanguageName)</td>
+            <td style="width: 15%; padding-left: 2%;">@(item.Category)</td>
+            <td style="width: 10%; padding-left: 2%;">@(item.APPROVED_TS.HasValue ? item.APPROVED_TS.Value.ToString("dd/MM/yyyy hh:mm tt") : "--")</td>
+        </tr>
+    }
+}

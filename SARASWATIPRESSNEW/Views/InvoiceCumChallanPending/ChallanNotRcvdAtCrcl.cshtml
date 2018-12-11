@@ -1,0 +1,309 @@
+﻿@using System.Configuration
+@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Challan Not Received at Circle";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+    int NoOfDaysToConsiderForPendingChallan = default(int);
+    if (ConfigurationManager.AppSettings["NoOfDaysToConsiderForPendingChallan"] != null)
+    {
+        int.TryParse(ConfigurationManager.AppSettings["NoOfDaysToConsiderForPendingChallan"], out NoOfDaysToConsiderForPendingChallan);
+    }
+    else
+    {
+        NoOfDaysToConsiderForPendingChallan = 10;
+    }
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <strong>@ViewBag.Title</strong>
+        <br />
+        <small style="font-size: 14px; color: red;"> Challan cancellation will be made only when consignment or challan(s) are needed to cancel in some unavoidable circumstance. In that case cancelled challan number can not be recovered. User must keep a copy of that particular challan before cancellation. Date difference will be - @System.Configuration.ConfigurationManager.AppSettings["NoOfDaysToConsiderForPendingChallan"]</small>
+    </h3>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Select Days</label>
+        <div class="col-md-3 col-xs-4">
+            <select id="ddlDays" class="form-control"></select>
+        </div>
+    </div>
+</div>
+@*<div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-2 control-label">From Date</label>
+            <div class="col-md-3 col-xs-4">
+                @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @maxlength = "15", @class = "form-control" })
+            </div>
+            <label class="col-md-1 col-xs-2 control-label">To Date</label>
+            <div class="col-md-3 col-xs-4">
+                @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @maxlength = "15", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-1 col-xs-2 control-label">District</label>
+                <div class="col-md-3 col-xs-6">
+                    <select id="ddlDistrict" class="form-control select2"></select>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-1 col-xs-2 control-label">Circle</label>
+                <div class="col-md-3 col-xs-6">
+                    <select id="ddlCircle" class="form-control select2"></select>
+                </div>
+            </div>
+        </div>*@
+
+<div class="panel-body" id="dvChallanDetail"></div>
+
+<div id="dialog" title="Edit Challan"></div>
+
+@section scripts {
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <link href="~/resources/css/noty.css" rel="stylesheet" />
+    <script src="~/Scripts/noty.min.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.compatibility.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.js"></script>
+    <link href="~/resources/css/BarCode/BarCode.css" rel="stylesheet" />
+    <script src="~/resources/js/plugins/tableexport/tableExport.js"></script>
+    <script src="~/resources/js/plugins/tableexport/jquery.base64.js"></script>
+    <script src="~/resources/js/plugins/tableexport/html2canvas.js"></script>
+    <script>
+        $(function () {
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+
+            @*$("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    if ($("#ddlCircle").val() != "0" && $("#ddlDistrict").val() != "0") {
+                        LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+                    }
+                }
+            }).datepicker('setDate', firstDay);
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    if ($("#ddlCircle").val() != "0" && $("#ddlDistrict").val() != "0") {
+                        LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+                    }
+                }
+            }).datepicker('setDate', date);*@
+
+            LoadDDL("0", "0");
+        });
+
+        function LoadPendingChallanDetails(CirID, DisID, noOfDays) {
+            $.ajax({
+                url: '@(Url.Action("GetPendingChallanViewData", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { CircleID: CirID, DistrictID: DisID, noOfDays: noOfDays }
+            }).done(function (data) {
+                if (data != null && data != "") {
+                    $("#dvChallanDetail").empty().append(data);
+                }
+            });
+        }
+
+        function LoadDDL(CirID, DisID) {
+            $.ajax({
+                url: '@(Url.Action("GetPendingChallanViewDataDDL", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { CircleID: CirID, DistrictID: DisID }
+            }).done(function (data) {
+                if (data != null && data != "") {
+                    var jdata = data.Data;
+                    var list = document.getElementById("ddlDays");
+                    list.innerHTML = "";
+                    for (var i = 0; i < jdata.length; i++) {
+                        list.add(new Option(jdata[i], jdata[i]));
+                    }
+                    $("#ddlDays").val($("#ddlDays option:last-child").val());
+                    LoadPendingChallanDetails("0", "0", ($("#ddlDays").val() * 1));
+                }
+            });
+        }
+
+        $(document).off("change", "#ddlDays").on("change", "#ddlDays", function (e) {
+            LoadPendingChallanDetails("0", "0", ($("#ddlDays").val() * 1));
+        });
+
+        $(document).off("click", ".chkchild").on("click", ".chkchild", function (e) {
+            var chkLength = $('.chkchild:checked').length;
+            var allLength = $('.chkchild').length;
+            if (allLength == chkLength) {
+                $('.chkparent').prop('checked', true);
+            } else {
+                $('.chkparent').prop('checked', false);
+            }
+        });
+
+        $(document).off("click", ".chkparent").on("click", ".chkparent", function (e) {
+            $('.chkchild').prop('checked', $(this).is(':checked'));
+        });
+
+        $(document).off("click", ".aEdit").on("click", ".aEdit", function (e) {
+            debugger;
+            var challanId = $(this).attr('data-challanid');
+            $.ajax({
+                url: '@(Url.Action("GetChallanDetailsByChallanIdSimplified", "InvoiceCumChallanReqList", new { area = "" }))' + '?ChallanId=' + challanId,
+                type: 'GET'
+            }).done(function (data) {
+                $("#dialog").empty().append(data);
+                debugger;
+                $.ajax({
+                    url: '@(Url.Action("GetTransporterDetails", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST'
+                }).done(function (result) {
+                    var list = document.getElementById("ddlTransporter");
+                    list.innerHTML = "";
+                    list.add(new Option("Select Transporter", "0"));
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            list.add(new Option(result[i].Text, result[i].Value));
+                        }
+                    }
+
+                    $("#ddlTransporter").val($("#hdnTransportedId").val()).change();
+
+                    $("#dialog").dialog({
+                        modal: true,
+                        resizable: false,
+                        width: 750
+                    });
+                });
+            });
+        });
+
+        $(document).off("click", ".challancancel").on("click", ".challancancel", function (e) {
+            if (confirm('Do you want to cancel this challan parmanently?')) {
+                var challanId = $(this).attr('data-challanid');
+                $.ajax({
+                    url: '@(Url.Action("CancelChallan", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { challanId: challanId }
+                }).done(function (result) {
+                    $(this).closest("tr").remove()
+                    alert(result.Message);
+                });
+            }
+        });
+
+        $(document).off("click", "#btnSaveChallanHeader").on("click", "#btnSaveChallanHeader", function (e) {
+            var pData = new Object();
+            pData.ChallanId = $("#hdnChallanId").val();
+            pData.VEHICLE_NO = $("#txtVEHICLENO").val();
+            pData.CONSIGNEE_NO = $("#txtCONSIGNEENO").val();
+            pData.TransporterID = $("#ddlTransporter").val();
+            pData.ManualChallanNo = $("#ManualChallanNo").val();
+            //alert(pData.ManualChallanNo);
+            $.ajax({
+                url: '@(Url.Action("UpdateFinalChallanHeader", "InvoiceCumChallan", new { area = "" }))',
+                type: 'POST',
+                data: pData
+            }).done(function (data) {
+                if (data != null && data != "") {
+                    alert(data.Message);
+                    if (data.Success > 0) {
+                        $("#dialog").dialog("close");
+                        //$("#dialog").dialog("destroy");
+                        LoadChallanDetails($("#txtStartDate").val(), $("#txtEndDate").val(), $("#ddlCircle").val(), $("#ddlDistrict").val());
+                    }
+                }
+            });
+        });
+
+        $(document).off("click", "#btnSendSmsToAll").on("click", "#btnSendSmsToAll", function (e) {
+            var selected = [];
+            //$('tbody#tbdyInvCumChalNewList tr.cb').each(function () {
+            //    var obj = new Object();
+            //    obj.ChallanId = $(this).attr('data-challanid');
+            //    obj.ContactPerson = $(this).attr('data-crclinsp-name');
+            //    obj.MobileNo = $(this).attr('data-crclinsp-phone');
+            //    obj.EmailId = $(this).attr('data-crclinsp-email');
+
+            //    selected.push(obj);
+            //});
+            //$('input:checkbox.class').each(function () {
+            //    var sThisVal = (this.checked ? $(this).val() : "");
+            //});
+
+            // var values = (function () {
+
+            $(".chkchild:checked").each(function () {
+                //var obj = new Object();
+                //  obj.ChallanId = $(this).attr('data-challanid');
+                //obj.ContactPerson = $(this).attr('data-crclinsp-name');
+                // obj.MobileNo = $(this).attr('data-crclinsp-phone');
+                // obj.EmailId = $(this).attr('data-crclinsp-email');
+                selected.push($(this).attr('data-challanid'));
+            });
+
+            //   })()
+
+            if (selected.length === 0) {
+                alert("Select Challan");
+                return;
+            }
+
+            $.ajax({
+                url: '@(Url.Action("PendingListSMSSend", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { griddata: selected.join(",") }
+            }).done(function (result) {
+                alert("SMS Sent");
+            });
+        });
+
+
+        $(document).off("click", "#btnSendEmailToAll").on("click", "#btnSendEmailToAll", function (e) {
+            // alert();
+            var selected = [];
+            //$('tbody#tbdyInvCumChalNewList tr.cb').each(function () {
+            //    var obj = new Object();
+            //    obj.ChallanId = $(this).attr('data-challanid');
+            //    obj.ContactPerson = $(this).attr('data-crclinsp-name');
+            //    obj.MobileNo = $(this).attr('data-crclinsp-phone');
+            //    obj.EmailId = $(this).attr('data-crclinsp-email');
+
+            //    selected.push(obj);
+            //});
+            //$('input:checkbox.class').each(function () {
+            //    var sThisVal = (this.checked ? $(this).val() : "");
+            //});
+
+            // var values = (function () {
+
+            $(".chkchild:checked").each(function () {
+                //var obj = new Object();
+                //  obj.ChallanId = $(this).attr('data-challanid');
+                //obj.ContactPerson = $(this).attr('data-crclinsp-name');
+                // obj.MobileNo = $(this).attr('data-crclinsp-phone');
+                // obj.EmailId = $(this).attr('data-crclinsp-email');
+                selected.push($(this).attr('data-challanid'));
+            });
+
+            //   })()
+
+            if (selected.length === 0) {
+                alert("Select Challan");
+                return;
+            }
+
+            $.ajax({
+                url: '@(Url.Action("PendingListSendEmail", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { griddata: selected.join(",") }
+            }).done(function (result) {
+                alert("Mail Sent");
+            });
+        });
+
+    </script>
+}

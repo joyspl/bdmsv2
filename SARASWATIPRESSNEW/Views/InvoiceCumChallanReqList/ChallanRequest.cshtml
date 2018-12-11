@@ -1,0 +1,702 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Challan Scan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<audio id="alarm">
+    <source src="~/alarmSound/alarm.mp3" type="audio/mpeg" />
+    <source src="~/alarmSound/alarm.ogg" type="audio/ogg" />
+</audio>
+<audio id="beep">
+    <source src="~/alarmSound/beep.mp3" type="audio/mpeg" />
+    <source src="~/alarmSound/beep.ogg" type="audio/ogg" />
+</audio>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Challan Scan</strong></h3>
+</div>
+<div class="panel-body padding-b-0">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">From Date</label>
+        <div class="col-md-3 col-xs-4">
+            @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @maxlength = "15", @class = "form-control" })
+        </div>
+        <label class="col-md-1 col-xs-2 control-label">To Date</label>
+        <div class="col-md-3 col-xs-4">
+            @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @maxlength = "15", @class = "form-control" })
+        </div>
+    </div>
+</div>
+@*<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">District</label>
+        <div class="col-md-3 col-xs-4">
+            <select id="ddlDistrict" class="form-control"></select>
+        </div>
+        <label class="col-md-1 col-xs-2 control-label">Circle</label>
+        <div class="col-md-3 col-xs-4">
+            <select id="ddlCircle" class="form-control"></select>
+        </div>
+    </div>
+</div>*@
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Challan No.</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlChallanEntry" class="form-control select2"></select>
+            @*@Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "DistrictID", "District_name"), "Select", new { @id = "ddlDistrict", @style = "width:180px", @class = "form-control" })*@
+        </div>
+    </div>
+</div>
+
+<div class="panel-body" id="dvChallanDetailEntry">
+</div>
+
+<div id="dialog" title="Message"></div>
+@section scripts {
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <link href="~/resources/css/noty.css" rel="stylesheet" />
+    <script src="~/Scripts/noty.min.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.compatibility.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.js"></script>
+    <link href="~/resources/css/BarCode/BarCode.css" rel="stylesheet" />
+    @*<link href="~/resources/css/bootstrap-dialog.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-dialog.js"></script>*@
+    <script>
+        var hideColumn = @(ViewBag.ProvChallanView != null ? ViewBag.ProvChallanView : 0);
+        var typed_into = false;
+
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'If you leave before saving, your changes will be lost.';
+
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        });
+
+        $(function () {
+            var date = new Date();
+            var dateNew = new Date();
+            dateNew.setDate(dateNew.getDate() - 2);
+            var firstDay = dateNew; //new Date(date.getFullYear(), date.getMonth(), 1);
+
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    LoadChallanDropDown(dateText, $("#txtEndDate").val(), -1, -1);
+                }
+            }).datepicker('setDate', firstDay);
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    LoadChallanDropDown($("#txtStartDate").val(), dateText, -1, -1);
+                }
+            }).datepicker('setDate', date);
+
+            LoadChallanDropDown($("#txtStartDate").val(), $("#txtEndDate").val(), -1, -1);
+        });
+
+        var scannedBarcodeList =[];
+        var duplicatescannedBarcodeList =[];
+
+        @* $(document).off("click", "#btnOpenUndoDialog").on("click", "#btnOpenUndoDialog", function (e) {
+            $.ajax({
+                url: '@(Url.Action("GetGetBinderLotDetails", "TrxBinderAllotmentQuantityView", new { area = "" }))' + '?challanId=' + $("#ddlChallanEntry").val(),
+                type: 'GET'
+            }).done(function (result) {
+                debugger;
+                $("#dialog").empty().append(result);
+                $("#dialog").dialog({
+                    modal: true,
+                    resizable: false
+                });
+            });
+        });*@
+
+        var LoadBarcode = function(){
+            $.ajax({
+                url: '@(Url.Action("GetScanBarcodes", "InvoiceCumChallan", new { area = "" }))' + '?challanId=' + $("#ddlChallanEntry").val(),
+                type: 'GET'
+            }).done(function (result) {
+                //debugger;
+                scannedBarcodeList = result;
+            });
+        }
+        
+        $(document).off("change", "#ddlChallanEntry").on("change", "#ddlChallanEntry", function (e) {
+            if ($(this).val() != "0") {
+                $.ajax({
+                    url: '@(Url.Action("GetChallanDetailsOnDemand", "InvoiceCumChallanReqList", new { area = "" }))' + '?challanId=' + $(this).val(),
+                    type: 'GET'
+                }).done(function (data) {
+                    $("#dvChallanDetailEntry").empty().html(data);
+                    GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#ddlChallanEntry").val());
+                    //$("#btnOpenUndoDialog").trigger("click");
+                    LoadBarcode();
+                    //GetLiveBinderBookStatusOnScan("", $("#hd_CategoryId").val());
+                }).always(function (data) {
+                    try {
+                        $("#txtBinderAllotMentCode").val("");
+                        $("#txtBinderAllotMentCode").focus();
+                    } catch (exc) { }
+                });
+            } else {
+                $("#dvChallanDetailEntry").empty();
+            }
+        });
+
+        function GetLiveBinderBookStatusOnScan(binderAllotCode, catId) {
+            // alert();
+            $.ajax({
+                url: '@(Url.Action("GetLiveBinderBookStatusOnScan", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { binderAllotCode: binderAllotCode, categoryId: catId, isPartialViewRequest: true }
+                }).done(function (data) {
+                    $("tbody#tbdyInvCumChalNew").empty().append(data);
+                });
+            }
+
+            function GetReqBookDtlNew(disId, cirId, catId, langId, challanId) {
+                //$("#tblInvCumChalNew").block({
+                //    message: loadingMessage
+                //});
+                $.ajax({
+                    url: '@(Url.Action("GetBooksReqDetails", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { District: disId, CircleId: cirId, categoryId: catId, languageId: langId, ChallanId: challanId, isPartialViewRequest: true },
+                    //global: false
+                }).done(function (data) {
+                    $("tbody#tbdyInvCumChalNew").empty().append(data);
+                }).always(function (data) {
+                    //$("#tblInvCumChalNew").unblock();
+                    try {
+                        if (hideColumn == 1) {
+                            $("#tblInvCumChalNew th.qts").removeAttr("style").attr("style", "display: none;");
+                            $("#tbdyInvCumChalNew td.qtysh").removeAttr("style").attr("style", "display: none;");
+                        } else {
+                            $("#tblInvCumChalNew th.qts").removeAttr("style");
+                            $("#tbdyInvCumChalNew td.qtysh").removeAttr("style");
+                        }
+                    } catch (ex) { }
+                });
+                }
+
+                $(document).scannerDetection({
+                    onKeyDetect: function (event) {
+                        if (event.which == 13) {
+                            //debugger;
+                            if ($("#txtBinderAllotMentCode").length > 0) {
+                                if ($("#txtBinderAllotMentCode").val() != "") {
+                                    var BinderAllotMentCode = $("#txtBinderAllotMentCode").val();
+                                    var ChallanId = $("#ddlChallanEntry").val();
+                                    var CirID = $("#hd_CircleId").val();
+                                    var DisID = $("#hd_DistrictId").val();
+                                    var CatId = $("#hd_CategoryId").val();
+                                    var langId = $("#hd_LanguageId").val();
+                                    var recordFound = false;
+
+                                    $.ajax({
+                                        url: '@(Url.Action("GetBinderAlotDtlByAllotCode", "InvoiceCumChallan", new { area = "" }))',
+                                    type: 'POST',
+                                    data: { binderAllotCode: BinderAllotMentCode,date:(new Date().getTime())}
+                                }).done(function (childResult) {
+                                    //debugger;
+                                    if (childResult != null && childResult != "" && childResult.Success != 2) {
+                                        if (childResult.Success == 5) {
+                                            $("#txtBinderAllotMentCode").val('');
+                                            var x = document.getElementById("alarm");
+                                            x.play();
+                                            //BootstrapDialog.alert(childResult.Message, function(result){
+                                            //    if(result) {
+                                            //        $("#txtBinderAllotMentCode").val("");
+                                            //        $("#txtBinderAllotMentCode").focus();
+                                            //    } else {
+                                                    
+                                            //    }
+                                            //});
+                                            $("#dialog").empty().append(childResult.Message);
+                                            $("#dialog").dialog({
+                                                modal: true,
+                                                resizable: false,
+                                                open: function( event, ui ) {
+                                                    $("#txtBinderAllotMentCode").val("");
+                                                    $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                    $(':focus').blur();
+                                                },
+                                                close: function( event, ui ) {
+                                                    $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                    $("#txtBinderAllotMentCode").val("");
+                                                    $("#txtBinderAllotMentCode").focus();
+                                                }
+                                            });
+                                            //alert(childResult.Message);
+                                            return;
+                                        }
+                                        if (childResult.Success == 1) {
+                                            var res = childResult.Message.split("^");
+                                            var book_code = res[0];
+                                            var lot = (res[1] * 1);
+                                            var barcodeId = (res.length==3) ? res[2] : 0;
+                                            //debugger;
+                                            $('table#tblInvCumChalNew tr.dta td').each(function () {
+                                                if ($(this).attr("data-bookcode") == book_code) {
+                                                    recordFound = true;
+                                                    try {
+                                                        $(this).closest("tr.dta").removeAttr("data-cartoon").attr("data-cartoon", lot);
+                                                    } catch (exc) { }
+                                                    var totalQty = ($(this).closest("tr.dta").find("td.qtytot").html()) * 1;
+                                                    var remainingQty = ($(this).closest("tr.dta").find("td.qtyrmn").html()) * 1;
+                                                    var shippedQty = ($(this).closest("tr.dta").find("td.qtysh").html()) * 1;
+                                                    var alreadyShippedQty = ($(this).closest("tr.dta").find("td.qtyash").html()) * 1;
+
+                                                    // var validityCheck = totalQty - alreadyShippedQty;
+                                                    var validityCheck = remainingQty-lot;
+                                                    if (validityCheck >= 0) {
+                                                        
+                                                        //$(this).closest("tr.dta").find("td.qtysh").html(shippedQty);
+                                                        //$(this).closest("tr.dta").find("td.qtyrmn").html(remainingQty);
+                                                        var vqtysh = $(this).closest("tr.dta").find("td.qtysh");
+                                                        var vqtysh1=$(this).closest("tr.dta").find("td.qtysh1");
+                                                        var vqtyrmn = $(this).closest("tr.dta").find("td.qtyrmn");
+
+                                                        if (remainingQty >= 0) {
+                                                         
+                                                            $.ajax({
+                                                                url: '@(Url.Action("UpdateBinderDtlOnScan", "InvoiceCumChallan", new { area = "" }))',
+                                                                type: 'POST',
+                                                                data: { challanId: (ChallanId * 1), binderAllotCode: BinderAllotMentCode },
+                                                                //async: false,
+                                                                global: false
+                                                            }).done(function (result) {
+                                                                //debugger;
+                                                                if (result != null && result != "") {
+                                                                    if (result.Success == 1) {
+
+                                                                        //Check Barcode exist in the list
+                                                                        //IF NOT then Push barcode in the list
+                                                                        //Else promt user to delete the existing barcode
+                                                                        //IF user choose yes then remove barcode from the list
+                                                                        //else do nothing
+                                                                        if (scannedBarcodeList.indexOf(BinderAllotMentCode) < 0) {
+                                                                            shippedQty = shippedQty + lot;
+                                                                            remainingQty = remainingQty - lot;
+                                                                            $(vqtysh).html(shippedQty);
+                                                                            $(vqtyrmn).html(remainingQty);
+                                                                            scannedBarcodeList.push(BinderAllotMentCode);
+                                                                        } else if (!confirm("Duplicate Barcode. Press 'Cancel' to Revert the barcode")) {
+                                                                            if(shippedQty - lot >= 0) {
+                                                                                shippedQty = shippedQty - lot;
+                                                                                remainingQty = remainingQty + lot;
+                                                                                $(vqtysh).html(shippedQty);
+                                                                                $(vqtyrmn).html(remainingQty);
+                                                                            }
+                                                                            scannedBarcodeList = scannedBarcodeList.filter(function(barcode) {
+                                                                                return barcode!=BinderAllotMentCode;
+                                                                            });
+
+                                                                            duplicatescannedBarcodeList.push(BinderAllotMentCode);
+
+                                                                            //revertSingleBarcode(barcodeId, function () {
+                                                                            //    //var existingShippedQty = $(vqtysh).html() *1;
+                                                                            //    //var existingRemainingQty = $(vqtyrmn).html() *1;
+                                                                            //    if(shippedQty-lot >= 0){
+                                                                            //        shippedQty = shippedQty - lot;
+                                                                            //        remainingQty = remainingQty + lot;
+                                                                            //        $(vqtysh).html(shippedQty);
+                                                                            //        $(vqtyrmn).html(remainingQty);
+                                                                            //    }
+                                                                            //});
+                                                                        }           
+                                                                        var x = document.getElementById("beep");
+                                                                        x.play();
+                                                                    }
+                                                                        //else if(result.Success == 0 && result.Message && result.Message.indexOf('Duplicate')>=0) {
+                                                                        //    revertSingleBarcode(barcodeId,function(){
+                                                                        //        //var existingShippedQty = $(vqtysh).html() *1;
+                                                                        //        //var existingRemainingQty = $(vqtyrmn).html() *1;
+                                                                        //        if(shippedQty-lot>=0){
+                                                                        //            shippedQty = shippedQty - lot;
+                                                                        //            remainingQty = remainingQty + lot;
+                                                                        //            $(vqtysh).html(shippedQty);
+                                                                        //            $(vqtyrmn).html(remainingQty);
+                                                                        //        }
+                                                                        //    });
+                                                                        //}
+                                                                    else {
+                                                                        var x = document.getElementById("alarm");
+                                                                        x.play();
+                                                                        //BootstrapDialog.alert(result.Message, function(result){
+                                                                        //    if(result) {
+                                                                        //        $("#txtBinderAllotMentCode").val("");
+                                                                        //        $("#txtBinderAllotMentCode").focus();
+                                                                        //    } else {
+                                                    
+                                                                        //    }
+                                                                        //});
+                                                                        $("#dialog").empty().append(result.Message);
+                                                                        $("#dialog").dialog({
+                                                                            modal: true,
+                                                                            resizable: false,
+                                                                            open: function( event, ui ) {
+                                                                                $("#txtBinderAllotMentCode").val("");
+                                                                                $(':focus').blur();
+                                                                                $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                                            },
+                                                                            close: function( event, ui ) {
+                                                                                $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                                                $("#txtBinderAllotMentCode").val("");
+                                                                                $("#txtBinderAllotMentCode").focus();
+                                                                            }
+                                                                        });
+                                                                        //alert(result.Message);
+                                                                    }
+                                                                }
+                                                            }).always(function (data) {
+                                                                $("#txtBinderAllotMentCode").val("");
+                                                                $("#txtBinderAllotMentCode").focus();
+                                                            });
+                                                        } else {
+                                                            var x = document.getElementById("alarm");
+                                                            x.play();
+                                                            //BootstrapDialog.alert("No more scan allowed. Reached desired remaining quantity for Book Code: " + childResult.Message.split("^")[0], function(result){
+                                                            //    if(result) {
+                                                            //        $("#txtBinderAllotMentCode").val("");
+                                                            //        $("#txtBinderAllotMentCode").focus();
+                                                            //    } else {
+                                                    
+                                                            //    }
+                                                            //});
+                                                            $("#dialog").empty().append("No more scan allowed. Reached desired remaining quantity for Book Code: " + childResult.Message.split("^")[0]);
+                                                            $("#dialog").dialog({
+                                                                modal: true,
+                                                                resizable: false,
+                                                                open: function( event, ui ) {
+                                                                    $("#txtBinderAllotMentCode").val("");
+                                                                    $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                                    $(':focus').blur();
+                                                                },
+                                                                close: function( event, ui ) {
+                                                                    $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                                    $("#txtBinderAllotMentCode").val("");
+                                                                    $("#txtBinderAllotMentCode").focus();
+                                                                }
+                                                            });
+                                                            //alert("No more scan allowed. Reached desired remaining quantity for Book Code: " + childResult.Message.split("^")[0]);
+                                                            //$("#txtBinderAllotMentCode").val("");
+                                                            //$("#txtBinderAllotMentCode").focus();
+                                                        }
+                                                    } else {
+                                                        var x = document.getElementById("alarm");
+                                                        x.play();
+                                                        //BootstrapDialog.alert("Unable to ship due to unavailability of Book Code: " + childResult.Message.split("^")[0], function(result){
+                                                        //    if(result) {
+                                                        //        $("#txtBinderAllotMentCode").val("");
+                                                        //        $("#txtBinderAllotMentCode").focus();
+                                                        //    } else {
+                                                    
+                                                        //    }
+                                                        //});
+                                                        $("#dialog").empty().append("Unable to ship due to unavailability of Book Code: " + childResult.Message.split("^")[0]);
+                                                        $("#dialog").dialog({
+                                                            modal: true,
+                                                            resizable: false,
+                                                            open: function( event, ui ) {
+                                                                $("#txtBinderAllotMentCode").val("");
+                                                                $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                                $(':focus').blur();
+                                                            },
+                                                            close: function( event, ui ) {
+                                                                $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                                $("#txtBinderAllotMentCode").val("");
+                                                                $("#txtBinderAllotMentCode").focus();
+                                                            }
+                                                        });
+                                                        //alert("Unable to ship due to unavailability of Book Code: " + childResult.Message.split("^")[0]);
+                                                        //$("#txtBinderAllotMentCode").val("");
+                                                        //$("#txtBinderAllotMentCode").focus();
+                                                    }
+                                                }
+                                            });
+
+                                            if (recordFound == false) {
+                                                var x = document.getElementById("alarm");
+                                                x.play();
+                                                //BootstrapDialog.alert("Wrong Book Code: " + childResult.Message.split("^")[0], function(result){
+                                                //    if(result) {
+                                                //        $("#txtBinderAllotMentCode").val("");
+                                                //        $("#txtBinderAllotMentCode").focus();
+                                                //    } else {
+                                                    
+                                                //    }
+                                                //});
+                                                $("#dialog").empty().append("Wrong Book Code: " + childResult.Message.split("^")[0]);
+                                                $("#dialog").dialog({
+                                                    modal: true,
+                                                    resizable: false,
+                                                    open: function( event, ui ) {
+                                                        $("#txtBinderAllotMentCode").val("");
+                                                        $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                        $(':focus').blur();
+                                                    },
+                                                    close: function( event, ui ) {
+                                                        $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                        $("#txtBinderAllotMentCode").val("");
+                                                        $("#txtBinderAllotMentCode").focus();
+                                                    }
+                                                });
+                                                //alert("Wrong Book Code: " + childResult.Message.split("^")[0]);
+                                                //$("#txtBinderAllotMentCode").val("");
+                                                //$("#txtBinderAllotMentCode").focus();
+                                            }
+                                        }
+                                    } else {
+                                        $("#txtBinderAllotMentCode").val("");
+                                        $("#txtBinderAllotMentCode").focus();
+                                        var x = document.getElementById("alarm");
+                                        x.play();
+                                        //BootstrapDialog.alert("Sticker code does not exists for the selected challan", function(result){
+                                        //    if(result) {
+                                        //        $("#txtBinderAllotMentCode").val("");
+                                        //        $("#txtBinderAllotMentCode").focus();
+                                        //    } else {
+                                                    
+                                        //    }
+                                        //});
+                                        $("#dialog").empty().append("Sticker code does not exists for the selected challan");
+                                        $("#dialog").dialog({
+                                            modal: true,
+                                            resizable: false,
+                                            open: function( event, ui ) {
+                                                $("#txtBinderAllotMentCode").val("");
+                                                $("#txtBinderAllotMentCode").prop("disabled", true);
+                                                $(':focus').blur();
+                                            },
+                                            close: function( event, ui ) {
+                                                $("#txtBinderAllotMentCode").prop("disabled", false);
+                                                $("#txtBinderAllotMentCode").val("");
+                                                $("#txtBinderAllotMentCode").focus();
+                                            }
+                                        });
+                                        //alert("Sticker code does not exists for the selected challan");
+                                    }
+                                });
+                            } else {
+                                var x = document.getElementById("alarm");
+                                x.play();
+                                //BootstrapDialog.alert('Please try again', function(result){
+                                //    if(result) {
+                                //        $("#txtBinderAllotMentCode").val("");
+                                //        $("#txtBinderAllotMentCode").focus();
+                                //    } else {
+                                                    
+                                //    }
+                                //});
+                                $("#dialog").empty().append("Please try again");
+                                $("#dialog").dialog({
+                                    modal: true,
+                                    resizable: false,
+                                    open: function( event, ui ) {
+                                        $("#txtBinderAllotMentCode").val("");
+                                        $("#txtBinderAllotMentCode").prop("disabled", true);
+                                        $(':focus').blur();
+                                    },
+                                    close: function( event, ui ) {
+                                        $("#txtBinderAllotMentCode").prop("disabled", false);
+                                        $("#txtBinderAllotMentCode").val("");
+                                        $("#txtBinderAllotMentCode").focus();
+                                    }
+                                });
+                                //alert('Please try again');
+                                //$("#txtBinderAllotMentCode").val("");
+                                //$("#txtBinderAllotMentCode").focus();
+                            }
+                        } else {
+                            var x = document.getElementById("alarm");
+                            x.play();
+                            //BootstrapDialog.alert('Please select challan number first', function(result){
+                            //    if(result) {
+                            //        $("#txtBinderAllotMentCode").val("");
+                            //        $("#txtBinderAllotMentCode").focus();
+                            //    } else {
+                                                    
+                            //    }
+                            //});
+                            $("#dialog").empty().append("Please select challan number first");
+                            $("#dialog").dialog({
+                                modal: true,
+                                resizable: false,
+                                open: function( event, ui ) {
+                                    $("#txtBinderAllotMentCode").val("");
+                                    $("#txtBinderAllotMentCode").prop("disabled", true);
+                                    $(':focus').blur();
+                                },
+                                close: function( event, ui ) {
+                                    $("#txtBinderAllotMentCode").prop("disabled", false);
+                                    $("#txtBinderAllotMentCode").val("");
+                                    $("#txtBinderAllotMentCode").focus();
+                                }
+                            });
+                            //alert('Please select challan number first');
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            function revertSingleBarcode(barcodeId, successcallback) {
+                if(confirm('Duplicate Scan. Do you want to revert this barcode?')) {
+                    @*$.ajax({
+                        url: '@(Url.Action("RevertScannedItems", "InvoiceCumChallan", new { area = "" }))',
+                        type: 'POST',
+                        data: { challanId: $("#ddlChallanEntry").val(), pData: barcodeId }
+                    }).done(function (data) {
+                        if (data != null && data != "") {
+                            //$("#dialog").dialog("close");
+                            ////$("#dialog").dialog("destroy");
+                            ////alert(data.Message);
+                            //GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#ddlChallanEntry").val());
+                            successcallback();
+                        }
+                    });*@
+                }
+            }
+
+
+            var generateCollection = function(){
+                var objInvoiceCumChallan = new Object();
+                var tblList = new Array();
+
+                objInvoiceCumChallan.InvoiceCumChallanNo = $("#ddlChallanEntry option:selected").text();
+                objInvoiceCumChallan.ChallanId = ($("#ddlChallanEntry option:selected").val() * 1);
+                objInvoiceCumChallan.CircleId = $("#hd_CircleId").val();
+                objInvoiceCumChallan.LanguageId = $("#hd_LanguageId").val();
+                objInvoiceCumChallan.CategoryId = $("#hd_CategoryId").val();
+                objInvoiceCumChallan.TransporterID = $("#lblTrnsporterName").attr("data-transid");
+                objInvoiceCumChallan.VEHICLE_NO = $("#lblVehicleNo").text();
+                objInvoiceCumChallan.CONSIGNEE_NO = $("#lblConsigneeNo").text();
+
+                $('table#tblInvCumChalNew tr.dta td').each(function () {
+                    if ($(this).attr("data-bookcode") !== undefined) {
+                        var obj = new Object();
+                        obj.Book_Code = $(this).attr("data-originalbookcode");
+                        obj.Book_Name = $(this).closest("tr.dta").find("td.bknm").html();
+                        obj.NetReqQty = ($(this).closest("tr.dta").find("td.qtytot").html()) * 1;
+                        obj.AlreadyShippedQty = ($(this).closest("tr.dta").find("td.qtyash").html()) * 1;
+                        obj.QtyShipped = ($(this).closest("tr.dta").find("td.qtysh").html()) * 1;
+                        obj.TotalLot = ($(this).closest("tr.dta").attr("data-cartoon")) * 1;
+                        obj.TotalLotDelimited = $(this).closest("tr.dta").attr("data-cartoon-new");
+                    @*obj.Cartoon = $(this).closest("tr.dta").find("td.qtycr").html();
+                    obj.Cartoon = $(this).closest("tr.dta").find("td.qtycr").attr("data-totbookbylot");*@
+                    tblList.push(obj);
+                }
+            });
+
+            objInvoiceCumChallan.InvoiceCumChallanCollection = tblList;
+            return objInvoiceCumChallan;
+        }
+
+
+
+        $(document).off("click", "#btnSaveConfirm").on("click", "#btnSaveConfirm", function (e) {
+            var objInvoiceCumChallan = generateCollection();
+
+            $.ajax({
+                url: '@(Url.Action("SaveAndConfirmChallan", "InvoiceCumChallan", new { area = "" }))',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(objInvoiceCumChallan)
+            }).done(function (result) {
+                if (result != null && result != "") {
+                    if (result.Success == 0) {
+                        alert(result.Message);
+                    } else if (result.Success == 1) {
+                        alert(result.Message);
+                        window.location.reload();
+                    }
+                }
+            });
+            //console.log(objInvoiceCumChallan);
+        });
+
+
+        $(document).off("click", "#btnSaveDraft").on("click", "#btnSaveDraft", function (e) {
+            
+            var objInvoiceCumChallan = generateCollection();
+            $.ajax({
+                url: '@(Url.Action("SaveAndConfirmChallan", "InvoiceCumChallan", new { isDraft = true }))',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({objInvoiceCumChallan:objInvoiceCumChallan,barcodeList:scannedBarcodeList.join(','),duplicatebarcodeList:duplicatescannedBarcodeList.join(',')})
+            }).done(function (result) {
+                if (result != null && result != "") {
+                    if (result.Success == 0) {
+                        alert(result.Message);
+                    } else if (result.Success == 1) {
+                        alert(result.Message);
+                    }
+                }
+                scannedBarcodeList=[];
+                duplicatescannedBarcodeList=[];
+            });
+            console.log(objInvoiceCumChallan);
+        });
+
+
+
+        function LoadChallanDropDown(fromDate, toDate, CirID, DisID) {
+            $.ajax({
+                @*url: '@(Url.Action("GetChallanViewData", "InvoiceCumChallanReqList", new { area = "" }))',*@
+                url: '@(Url.Action("GetChallanViewDataMinimal", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { startDate: fromDate, endDate: toDate, CircleID: CirID, DistrictID: DisID }
+            }).done(function (data) {
+                var list = document.getElementById("ddlChallanEntry");
+                list.innerHTML = "";
+                list.add(new Option("Select Challan No.", "0"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].InvoiceCumChallanNo, data[i].ChallanId));
+                    }
+                }
+            }).always(function (data) {
+                if (CirID == "-1" || DisID == "-1") {
+                    $("#dvChallanDetailEntry").empty();
+                }
+            });
+        }
+
+        $(document).off("click", "#btnSelectAll").on("click", "#btnSelectAll", function (e) {
+            $(".chkIndvidual").prop("checked", true);
+        });
+
+        $(document).off("click", "#btnDeSelectAll").on("click", "#btnDeSelectAll", function (e) {
+            $(".chkIndvidual").prop("checked", false);
+        });
+
+        $(document).off("click", "#btnRevertSelected").on("click", "#btnRevertSelected", function (e) {
+            if (confirm('Are you sure revert back the selected item(s)?')) {
+                var selected = [];
+                $('table#tblBarcode tr.trChkBarCode input[type=checkbox]').each(function () {
+                    if ($(this).is(":checked")) {
+                        selected.push($(this).attr('data-dtlid'));
+                    }
+                });
+                @*$.ajax({
+                    url: '@(Url.Action("RevertScannedItems", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { challanId: $("#ddlChallanEntry").val(), pData: selected.join(',') }
+                }).done(function (data) {
+                    if (data != null && data != "") {
+                        $("#dialog").dialog("close");
+                        //$("#dialog").dialog("destroy");
+                        //alert(data.Message);
+                        GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#ddlChallanEntry").val());
+                    }
+                });*@
+            } else {
+                return false;
+            }
+        });
+    </script>
+}

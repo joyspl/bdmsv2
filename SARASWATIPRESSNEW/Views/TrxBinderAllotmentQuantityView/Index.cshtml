@@ -1,0 +1,308 @@
+﻿@model SARASWATIPRESSNEW.Models.BinderAllotQuantity
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+<link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+
+<script type="text/javascript">
+    var dataGetFired = false;
+    var _grpPageNumber = 1;
+    var _grpTotalCount = @(ViewBag.TotalRecords);
+    var _grpPageSize = @(ViewBag.pageSize);
+
+    function GetLoadedCount() {
+        if (_grpTotalCount > (_grpPageNumber * _grpPageSize)) {
+            _grpPageNumber++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function GetData() {
+        if (dataGetFired == false) {
+            dataGetFired = true;
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            var allotmentcode= $("#allotment-code").val();
+            $.ajax({
+                url: "@(Url.Action("GetTrxBinderAllotmentQuantityData", "TrxBinderAllotmentQuantityView", new { area = "" }))",
+                type: "POST",
+                data: { startDate: fromDate, endDate: toDate, isonlyjson: 0, pageNo: _grpPageNumber, allotmentcode: allotmentcode }
+            }).done(function (data) {
+                $("#tblBookDtl").append(data);
+            }).always(function (data) {
+                dataGetFired = false;
+            });
+        }
+    }
+
+    $(function () {
+        $("div#dvBookDtl").unbind("scroll");
+        $("div#dvBookDtl").scroll(function () {
+            if ($("div#dvBookDtl").scrollTop() >= ($("table#tblBookDtl").height() - $("div#dvBookDtl")[0].clientHeight) && GetLoadedCount()) {
+                console.log("_grpTotalCount: " + _grpTotalCount + ", _grpPageNumber: " + _grpPageNumber + ", _grpPageSize: " + _grpPageSize);
+                GetData();
+            }
+        });
+    });
+
+    $(document).off("click", "#btnView").on("click", "#btnView", function (e) {
+        if (dataGetFired == false) {
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            var allotmentcode= $("#allotment-code").val();
+            $("#tblBookDtl").empty().append("<tr><td>Loading....</td></tr>");
+            $.ajax({
+                url: "@(Url.Action("GetTotalRecord", "TrxBinderAllotmentQuantityView", new { area = "" }))",
+                type: "GET",
+                data: { startDate: fromDate, endDate: toDate , allotmentcode:allotmentcode }
+            }).done(function (dta) {
+                _grpTotalCount = dta.TotalRecords;
+                $.ajax({
+                    url: "@(Url.Action("GetTrxBinderAllotmentQuantityData", "TrxBinderAllotmentQuantityView", new { area = "" }))",
+                    type: "POST",
+                    data: { startDate: fromDate, endDate: toDate, isonlyjson: 0, pageNo: 1 ,allotmentcode:allotmentcode }
+                }).done(function (data) {
+                    $("#tblBookDtl").empty().append(data);
+                });
+            }).always(function (data) {
+                _grpPageNumber = 1;
+                dataGetFired = false;
+            });
+        }
+    });
+
+    function ConfirmAllotment() {
+        var _griddata = gridTojson();
+        if (_griddata.trim() == "") {
+            alert("Please select atleast one binder from the list.");
+            return false;
+        }
+        if (confirm("Are you sure do you want to Confirm the binder allotment information?") == false) {
+            return false;
+        }
+        $.ajax({
+            url: "/TrxBinderAllotmentQuantityView/ConfirmBinderAllotment",
+            type: 'POST',
+            data: { griddata: _griddata },
+            cache: false,
+            success: function (data) {
+                $('#btnView').click();
+                alert(data);
+            },
+            error: function (data) {
+            }
+        }).done(function (data) {
+            window.location.href = "@Url.Action("Index", "TrxBinderAllotmentQuantityView", new { area = "" })";
+        });
+    }
+    function selectall(source) {
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+    function gridTojson() {
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+        return json;
+    }
+    function DeleteAllotment(RequisitionID) {
+        if (confirm("Are you sure do you want to delete binder allotment information!") == true) {
+            $.ajax({
+                url: "/TrxBinderAllotmentQuantityView/DeleteBinderAllotment",
+                type: 'POST',
+                data: { ReqisitionId: RequisitionID },
+                cache: false,
+                success: function (data) {
+                    $('#btnView').click();
+                    alert(data);
+
+                    return true;
+                },
+                error: function (data) {
+                }
+            });
+        }
+        else {
+            return false;
+        }
+
+    }
+    function ExportToExcel() {
+        var fromDate = $("#txtStartDate").val();
+        var toDate = $("#txtEndDate").val();
+        var url = "/TrxBinderAllotmentQuantityView/ExportBinderAllotment?startDate=" + fromDate + "&endDate=" + toDate;
+        window.location.href = url;
+    }
+</script>
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Binder Allotment Quantity</strong></h3>
+</div>
+
+<div class="panel-body">
+    <div>
+        <a href="/TrxBinderAllotmentQuantity/Index" style="width: 120px;" class="btn btn-mini btn-danger">Add New</a>
+    </div>
+    <br />
+    <div>
+        Printer IP
+        <select id="cmbip">
+            <option value="0">--Select Printer IP--</option>
+            <option value="192.168.0.67">SPL-I</option>
+            <option value="192.168.0.68">SPL-II</option>
+            <option value="192.168.0.69">SPL-III</option>
+        </select>
+    </div>
+    <div style="margin-top: 10px;"></div>
+    <table id="tblBtn" class="table" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+        <tr>
+            <td style="width: 10%;">@Html.Label("From Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.StartDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            <td style="width: 10%;">@Html.Label("To Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.EndDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            <td style="width: 10%;">@Html.Label("Allotment Code")</td>
+            <td style="width: 15%;"><input type="text" id="allotment-code" class="form-control" /></td>
+            <td style="width: 25%;">
+                <input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" />
+            </td>
+            <td style="width: 15%;">
+                <input type="button" id="btnExportToExcel" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" />
+            </td>
+        </tr>
+    </table>
+    <div style="width: 100%; height: 55vh;">
+        <table id="header" width="100%" class="divDataEntry" border="0">
+            <tr>
+                <td style='text-align: center; width: 10%;'>Edit/Delete</td>
+                <td style='text-align: center; width: 10%;'>
+                    <input type='checkbox' onclick='selectall(this)' />Allotment Code
+                </td>
+                <td style='text-align: center; width: 8%;'>Book Code</td>
+                <td style='text-align: center; width: 10%;'>Binder Name</td>
+                <td style='width: 8%;'>Language Name</td>
+                <td style='width: 10%;'>Book Name</td>
+                <td style='width: 8%;'>Allotment Date</td>
+                <td style='width: 8%; text-align: center;'>Total Qty</td>
+                <td style='width: 6%; text-align: center;'>No of Lot</td>
+                <td style='width: 10%; text-align: center;'>No of Sticker</td>
+                <td style='width: 10%; text-align: center;'>Remaining Sticker</td>
+            </tr>
+        </table>
+        <div id="dvBookDtl" style="width: 100%; height: 42vh; overflow: scroll; margin-top: 0px; border: 2px solid #808080;">
+            <table id="tblBookDtl" width="100%" border="0" class="table basic">
+                <tr>
+                    <td>Loading....</td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin-top: 10px;"></div>
+        <table width="100%" border="0">
+            <tr>
+                <td style="width: 15%;">
+                    <button type="button" id="btnSubmit" name="Command" style="width: 120px;" onclick="ConfirmAllotment();" value="Submit" class="btn btn-mini btn-danger">Confirm</button>
+                </td>
+                <td style="width: 85%;">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - @(Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["BinderStartDayInitial"])))));
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+
+        $("#btnView").click();
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).on("click", ".printbarcode", function () {
+        var printername = $("#cmbip").val();
+        var id = $(this).closest("tr").find("input[name=allotid]").val();
+        var from = $(this).closest("tr").find("input[name=frombar]").val();
+        var to = $(this).closest("tr").find("input[name=tobar]").val();
+        if (printername == "0") {
+            alert("Please select printer");
+            return;
+        }
+        if (from == "" || to == "") {
+            alert("Please enter parameter from and to");
+            return;
+        }
+        var diff = Number(to) - Number(from);
+        if (diff > 20000) {
+            alert("Barcode label not allowed to print more than 20000");
+            return;
+        }
+        $(this).closest("tr").find("input[name=frombar]").val("");
+        $(this).closest("tr").find("input[name=tobar]").val("");
+        @* var url = "@Url.Content("~/TrxBinderAllotmentQuantityView/BinderAllotmentOperationBarcodePrinting/?")";
+        url+="AllotmentId=" + id + "&From="+ from +"&To="+ to +"&Command=Print";
+        window.open(url, '_blank');*@
+
+        $.ajax({
+            url: '@Url.Action("PrintBinderLotPrintBarcode","TrxBinderAllotmentQuantityView")',
+            type: "POST",
+            cache: false,
+            data: { BinderAllotmentId: id, From: from, To: to, IP: printername },
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (e) {
+            },
+            complete: function (e) {
+                var data = e.responseText;
+                if (data == "success") {
+                    alert("Printed successfully");
+                }
+                else {
+                    alert(data);
+                }
+            },
+            fail: function (e) {
+            },
+            async: false
+        });
+
+    });
+</script>
+
+
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

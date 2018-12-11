@@ -1,0 +1,111 @@
+﻿@model SARASWATIPRESSNEW.Models.SummaryReport
+@{
+    ViewBag.Title = "Summary Repory";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+
+    SARASWATIPRESSNEW.UserSec objUser;
+    try
+    {
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+    }
+    catch (Exception)
+    {
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <strong>Summary Repory</strong>
+        @*<br />
+            <small style="font-size: 14px; color: red;">The last date for submission of  requisition for classes Pre-primary to X is 10-07-2018. Any unconfirmed requisition will be auto confirmed on 10-07-2018.</small>*@
+    </h3>
+</div>
+<div class="panel-body">
+
+
+    <table id="tblBtn" class="table" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+        <tr>
+            <td style="width: 15%;">@Html.Label("From Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.StartDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            <td style="width: 15%;">@Html.Label("End Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.EndDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            @* <td style="width: 25%;">
+                    <input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" />
+                </td>*@
+            <td style="width: 15%;">
+                <input type="button" id="btnEmail" value="Book Summary" onclick="ExportHdrToExcelbk();" style="width: 120px" class="btn btn-info btn-block" />
+            </td>
+
+            <td style="width: 15%;">
+                <input type="button" id="btnEmail" value="Khata Summary" onclick="ExportHdrToExcelkh();" style="width: 120px" class="btn btn-info btn-block" />
+            </td>
+
+        </tr>
+    </table>
+   
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        var date = new Date();
+        var dateNew = new Date();
+        dateNew.setDate(dateNew.getDate() - 7);
+        var firstDay = dateNew;
+
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', firstDay);
+
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', date);
+
+        // LoadDistrict();
+
+        // $('#btnView').trigger("click");
+    });
+
+    function ExportHdrToExcelbk()
+    {
+        var fromDate = $("#txtStartDate").val();
+        var toDate = $("#txtEndDate").val();
+
+        try
+        {
+            window.open("@(Url.Action("BookSummaryReportExportToExcel", "SummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+        }
+        catch (ex)
+        {
+            alert(ex.message);
+        }
+    }
+
+    function ExportHdrToExcelkh()
+    {
+        var fromDate = $("#txtStartDate").val();
+        var toDate = $("#txtEndDate").val();
+
+        try
+        {
+            window.open("@(Url.Action("KhataSummaryReportExportToExcel", "SummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+        }
+        catch (ex)
+        {
+            alert(ex.message);
+        }
+    }
+
+
+
+</script>

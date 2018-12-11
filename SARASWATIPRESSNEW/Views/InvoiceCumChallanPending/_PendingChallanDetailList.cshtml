@@ -1,0 +1,82 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.InvoiceCumChallan>
+@{
+    bool isConfrmImplemented = true;
+    Tuple<IEnumerable<SARASWATIPRESSNEW.Models.InvoiceCumChallan>, bool> finModel = new Tuple<IEnumerable<SARASWATIPRESSNEW.Models.InvoiceCumChallan>, bool>(Model, isConfrmImplemented);
+}
+
+@if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        <button class="btn btn-success" id="btnSendSmsToAll">Send SMS to Selected</button>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <button class="btn btn-success" id="btnSendEmailToAll">Send Email to Selected</button>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="$('#tblInvCumChalNewList').tableExport({ type: 'excel', escape: 'false' });">Export to Excel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+<div class="panel-body">
+    <div class="form-group" style="max-height: 350px; overflow-y: auto;">
+        <table id="tblInvCumChalNewList" style="width: 100%;" class="table table-bordered table-hover table-condensed table-striped table-responsive">
+            <thead>
+                <tr>
+                    @if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+                    {
+                        <th>
+                            <input type="checkbox" class="chkparent" />
+                        </th>
+                    }
+                    <th>Action</th>
+                    <th>Day-Diff</th>
+                    <th>Challan No.</th>
+                    <th>Challan Date</th>
+                    <th>District</th>
+                    <th>Circle</th>
+                    <th>Circle Mobile No.</th>
+                    <th>Circle Email ID</th>
+                    @*<th>Inspecter Contact Details</th>*@
+                    <th>Category</th>
+                    <th>Language</th>
+                    <th>Transporter Name</th>
+                    <th>Consignee No.</th>
+                    <th>Vehicle No.</th>
+                </tr>
+            </thead>
+            <tbody id="tbdyInvCumChalNewList">
+                @{Html.RenderPartial("~/Views/InvoiceCumChallanPending/_PendingListPartial.cshtml", finModel);}
+            </tbody>
+        </table>
+    </div>
+</div>
+@*@if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        <button class="btn btn-danger" id="btnConfirmInvoice">Confirm Selected Challan</button>
+                    </td>
+                    <td style="padding-left: 5%;">
+                        <button class="btn btn-primary" id="btnUnconfirmInvoice">Revert Selected Challan</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}*@

@@ -1,0 +1,144 @@
+﻿@model SARASWATIPRESSNEW.Models.MstCircle
+@{
+    ViewBag.Title = "CircleUpdate";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+ <script type="text/javascript">
+     $(document).ready(function () {
+         LoadDistrictDetails();
+     });
+     function LoadDistrictDetails() {
+
+         $.ajax({
+             url: "/MstCircle/GetDistrictDetails",
+             type: 'POST',
+             data: {},
+             cache: false,
+             success: function (data) {
+
+                 var HtmlItems = "<option value='-1'><<----Select District----->></option>";
+                 var itemCount = 0;
+                 if (data.length == 0) {
+                     HtmlItems = '<option>No District Aailable</option>';
+                 }
+                 else {
+                     HtmlItems = "<option value='-1'><<----Select District----->></option>";
+                 }
+                 $.each(data, function (i, item) {
+                     HtmlItems += "<option value='" + item.districtId + "'>" + item.DistrictName + "</option>";
+                 });
+                 $('#ddlDistrict').html(HtmlItems);
+
+                 var DistrictId = $("#hd_DistrictId").val()
+                 if (DistrictId > 0) {
+                     $("#ddlDistrict").val($("#hd_DistrictId").val());
+                     document.getElementById("ddlDistrict").disabled = true;
+                 }
+             },
+             error: function (data) {
+                 alert(data);
+             }
+         });
+
+     }
+
+     function isValidEntry() {
+
+         if (document.getElementById("ddlDistrict").selectedIndex == 0) {
+             alert("Please Select District..");
+             $('#ddlDistrict').focus();
+             return false;
+         }
+
+         if ($("#txtCircleCode").val() == "") {
+             alert("Enter Circle Code..");
+             $('#txtCircleCode').focus();
+             return false;
+         }
+         if ($("#txtCircleName").val() == "") {
+             alert("Enter Circle Name..");
+             $('#txtCircleName').focus();
+             return false;
+         }
+
+         var CircleCode = $("#txtCircleCode").val();
+         var CircleID = $("#txtCircleId").val();
+         if (CircleID == "") {
+             CircleID = -1;
+         }
+
+         $.ajax({
+             url: '@Url.Action("isDuplicateRecordExistInCircle", "MstCircle")',
+             data: { CircleID: CircleID, CircleCode: CircleCode },
+             type: "GET",
+             success: function (result) {
+                 if (result.length > 0) {
+                     alert("Duplicate circle code " + result[0].CircleCode + " exist under circle " + result[0].CircleName + " ..update can not be continue.");
+                     return false;
+                 }
+                 else {
+                     if (confirm("Are you sure do you want to save circle information!") == true) {
+                         document.getElementById('btnSubmit').click();
+                         return true;
+                     }
+                     else {
+                         return false;
+                     }
+                 }
+             }
+         });
+
+         
+     }
+
+
+</script>
+    @try
+    {       
+        @Html.Hidden("hd_DistrictId", Model.DistrictId)  
+    }
+    catch
+    {            
+        @Html.Hidden("hd_DistrictId", -1)  
+    }
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Circle Master</strong></h3>
+</div>
+
+<div class="panel-body">
+    @using (Html.BeginForm("CircleUpdate", "MstCircle", FormMethod.Post))
+    {
+        @Html.TextBoxFor(a => a.CircleId, new { @id = "txtCircleId", @class = "form-control" ,style = "display:none;" })
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">District Name</td>
+                <td style="width: 20%;">@Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "districtId", "DistrictName"), "<<--Select District-->>", new { @id = "ddlDistrict", @style = "width:380px", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Code</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.CircleCode, new { @id = "txtCircleCode", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">Circle Name</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.CircleName, new { @id = "txtCircleName", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    
+                    <button type="button" id="btnSave" name="Save" style="width: 120px;" onclick="return isValidEntry();" value="Draft" class="btn btn-mini btn-danger">Save</button>
+                    <button type="submit" id="btnSubmit" name="Command" style="width: 120px;display:none;" value="Submit" class="btn btn-mini btn-danger">Save</button>
+                    &nbsp;&nbsp;
+                    <a href="/MstCircle/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    }
+</div>
+

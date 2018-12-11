@@ -1,0 +1,112 @@
+﻿@model SARASWATIPRESSNEW.Models.DistrictCircleWiseRequisitionStock
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <!-- META SECTION -->
+    <title>District</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+</head>
+
+<div class="page-container">
+    <!--Start Menu Section -->
+
+    <div class='page-sidebar'>
+        <ul class='x-navigation'>
+            <li class='xn-logo'>
+                <a>WB Text Book</a>
+                <a href='#' class='x-navigation-control'></a>
+            </li>
+            <li class='xn-profile'>
+                <div class='profile'>
+
+                    <div class='profile-data'>
+                        <div class='profile-data-name'>District User</div>
+                    </div>
+                </div>
+            </li>
+            <li><a href='/CircleWiseRequisitionStock/Index'><span class='fa fa-image'></span>Circle Wise Requisition Stock Report</a></li>
+            <li><a href='/DirectorateCircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>
+            <li><a href='/DirectorMisReport/Index'><span class='fa fa-image'></span>District Wise MIS Report</a></li>
+            <li><a href='/DistrictCircleWiseRequisitionStock/Index'><span class='fa fa-image'></span>Circle Wise Requisition Stock Report</a></li>
+            <li><a href='/DirectorateLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+        </ul>
+    </div>
+    <!-- End Menu Section -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                <div class="mb-content">
+                    <p>Are you sure you want to log out?</p>
+                    <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Index", "DistrictCircleWiseRequisitionStock", FormMethod.Post))
+    {
+        <div class="page-content">
+            <div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header.jpg" />
+            </div>
+            <div class="panel panel-default" style="margin-top:30px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Circle Wise Requisition Stock Report</strong> </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.Label("District", new { @class = "col-md-1 col-xs-6 control-label" })
+                        <div class="col-md-3 col-xs-12">
+                            @Html.Label(Model.district_name.ToString(), new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+                </div>
+                <div class="panel-body">
+                    <table id="tableID" class="table datatable" style="margin-left:0px;" width="100%">
+                        <tr>
+                            <td style="text-align:left">Circle Name</td>
+                            <td style="text-align:center">No of School Enrolled</td>
+                        </tr>
+                        @try
+                        {
+                            for (int i = 0; i < Model.districtcirclewisecollection.Count; i++)
+                            {
+                                <tr>
+                                    <td style="text-align:left">@Model.districtcirclewisecollection[i].circle_name</td>
+                                    <td style="text-align:center">@Model.districtcirclewisecollection[i].no_of_school_cnf</td>
+                                </tr>
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+                            <tr>
+                                <td style="text-align:left"></td>
+                                <td style="text-align:center"></td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+

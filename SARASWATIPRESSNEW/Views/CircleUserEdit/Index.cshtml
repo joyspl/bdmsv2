@@ -1,0 +1,170 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleMaster
+
+@{
+    ViewBag.Title = "Profile Update";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+@*@using (Html.BeginForm("Index", "CircleUserEdit", FormMethod.Post))
+{*@
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <strong>Update Circle User Profile</strong>
+        <br />
+        <small style="font-size: 14px; color: red;"> * Marks are mandatory information, Unique Code will be sent to primary or alternate mobile number against Challan Number, and the same will be supplied to transporter at the time of Book Delivery. </small>
+    </h3>
+</div>
+<div class="panel-body" style="display: none;">
+    <div class="form-group">
+        @Html.Label("Circle", new { @class = "col-md-3 col-xs-6 control-label" })
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.CircleID, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.CircleID, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnCircleID" value="@(Model.CircleID)" />
+@*<input type="hidden" id="hdnCircleUserID" value="@(Model.CircleUserID)" />*@
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Circle Inspector Name <span class="mandatory">*</span></label>
+        @* @Html.Label("Circle Inspector Name", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.CircleOfficerName, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(a => a.CircleOfficerName, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Address <span class="mandatory">*</span></label>
+        @*@Html.Label("Address*", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextAreaFor(a => a.Address, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(a => a.Address, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Pincode <span class="mandatory">*</span></label>
+        @*@Html.Label("Pincode*", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.CirclePinCode, new { @class = "form-control numeric", @maxlength = "6", required = "required" })
+            @Html.ValidationMessageFor(a => a.CirclePinCode, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Police Station <span class="mandatory">*</span></label>
+        @*@Html.Label("Police Station*", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.PoliceStation, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(a => a.PoliceStation, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Email Id <span class="mandatory">*</span></label>
+        @* @Html.Label("Email Id*", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.EmailId, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(a => a.EmailId, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-3 col-xs-6 control-label">Mobile No <span class="mandatory">*</span></label>
+        @* @Html.Label("Mobile No* ", new { @class = "col-md-3 col-xs-6 control-label" })*@
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.MobileNo, new { @class = "form-control numeric", @maxlength = "10", required = "required" })
+            @Html.ValidationMessageFor(a => a.MobileNo, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        @Html.Label("Alternate Mobile No", new { @class = "col-md-3 col-xs-6 control-label" })
+        <div class="col-md-3 col-xs-12">
+            @Html.TextBoxFor(a => a.AlternateMobileNo, new { @class = "form-control numeric", @maxlength = "10" })
+            @Html.ValidationMessageFor(a => a.AlternateMobileNo, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+<div class="panel-body" style="display: none;">
+    <div class="form-group">
+        @Html.Label("Activate", new { @class = "col-md-1 col-xs-6 control-label" })
+        <div class="col-md-3 col-xs-12">
+            @Html.CheckBoxFor(a => a.ActiveStatus, new { required = "required" })
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+    <div class="form-group">
+        @Html.Label("", new { @class = "col-md-1 col-xs-6 control-label" })
+        <div class="col-md-3 col-xs-12">
+            <input type="button" id="btnSubmit" value="Save Changes" class="btn btn-mini btn-danger" />
+        </div>
+    </div>
+</div>
+@*}*@
+
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["Message"] as string)");
+        };
+    </script>
+}
+@section scripts {
+    <script>
+        $(document).off("click", "#btnSubmit").on("click", "#btnSubmit", function (e) {
+            debugger;
+            if ($("#CircleOfficerName").val() == "" || $("#EmailId").val() == ""
+                || $("#MobileNo").val() == "" || $("#PoliceStation").val() == "" || $("#CirclePinCode").val() == "") {
+                alert("Please do not leave blank all mandatory field(s).");
+            } else {
+                if (!validateEmailAll($("#EmailId").val())) {
+                    alert("Invalid email address");
+                } else {
+                    if (isNaN($("#CirclePinCode").val()) || $("#CirclePinCode").val().length != 6) {
+                        alert("Pincode must be 6 digit");
+                        return;
+                    }
+                    if (isNaN($("#MobileNo").val()) || $("#MobileNo").val().length != 10 || ($("#AlternateMobileNo").val() != "" && (isNaN($("#AlternateMobileNo").val()) || $("#AlternateMobileNo").val().length != 10))) {
+                        alert("Please check mobile number and/or alternate mobile number");
+                    } else {
+                        var jData = new Object();
+                        @*jData.CircleUserID = $("#hdnCircleUserID").val();*@
+                        jData.CircleID = $("#hdnCircleID").val();
+                        jData.CircleOfficerName = $("#CircleOfficerName").val();
+                        jData.Address = $("#Address").val();
+                        jData.EmailId = $("#EmailId").val();
+                        jData.MobileNo = $("#MobileNo").val();
+                        jData.PoliceStation = $("#PoliceStation").val();
+                        jData.CirclePinCode = $("#CirclePinCode").val();
+                        jData.AlternateMobileNo = $("#AlternateMobileNo").val();
+                        jData.Active = $("#ActiveStatus").is(":checked") ? 1 : 0;
+
+                        $.ajax({
+                            url: '@Url.Action("SaveProfileData", "CircleUserEdit", new { area = "" })',
+                            type: 'POST',
+                            data: JSON.stringify(jData),
+                            contentType: "application/json; charset=utf-8"
+                        }).done(function (result) {
+                            if (result != null && result.Success == 1) {
+                                alert("Data has been updated successfully.");
+                            }
+                        }).fail(function (jqXHR, textStatus) {
+                            alert("Error detected");
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+}

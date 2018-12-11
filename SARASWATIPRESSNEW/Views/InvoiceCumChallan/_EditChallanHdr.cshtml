@@ -1,0 +1,55 @@
+﻿@model SARASWATIPRESSNEW.Models.ChallanHeaderSimplified
+
+<input type="hidden" id="hdnChallanId" value="@Model.ChallanID" />
+<input type="hidden" id="hdnTransportedId" value="@Model.TRANSPORTER_ID" />
+<table style="width: 100%;">
+    <tr>
+        <td>
+            <span>Challan Number</span>
+        </td>
+        <td>
+            <span>@Model.CHALLAN_NUMBER</span>
+        </td>
+        <td>
+            <span>Select Transporter</span>
+        </td>
+        <td>
+            <select id="ddlTransporter" class="form-control select2"></select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Vehicle No.</span>
+        </td>
+        <td>
+            <input type="text" id="txtVEHICLENO" class="form-control" value="@Model.VEHICLE_NO" />
+        </td>
+        <td>
+            <span>Consignee No.</span>
+        </td>
+        <td>
+            <input type="text" id="txtCONSIGNEENO" class="form-control" value="@Model.CONSIGNEE_NO" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+         <td>
+            <span>Manual Challan No.</span>
+        </td>
+        <td>
+            <input type="text" id="ManualChallanNo" class="form-control" value="@Model.ManualChallanNo" />
+        </td>
+        <td colspan="2">
+            <button id="btnSaveChallanHeader" class="btn btn-danger">Save</button>
+        </td>
+    </tr>
+</table>

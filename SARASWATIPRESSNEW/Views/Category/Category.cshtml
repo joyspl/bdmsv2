@@ -1,0 +1,27 @@
+﻿@model SARASWATIPRESSNEW.Models.Category
+@{
+    ViewBag.Title = "Category";
+    Layout = "";
+}
+
+@using (Html.BeginForm("Category", "Category", FormMethod.Post))
+{
+   <table width="100%">
+       <tr>
+           <td>
+               @Html.Label("Category")
+           </td>
+       </tr>
+       <tr>
+           <td>
+               @Html.TextBoxFor(a=>a.Category_name)
+           </td>
+           <td>@Html.ValidationMessageFor(a => a.Category_name, null, new {style="color:red" })</td>
+       </tr>
+       <tr>
+            <td>
+                <input type="submit" id="btnsubmit" value="Submit" />
+            </td>
+        </tr>
+   </table> 
+}

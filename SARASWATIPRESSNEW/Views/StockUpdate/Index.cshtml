@@ -1,0 +1,183 @@
+﻿@model SARASWATIPRESSNEW.Models.StockUpdate
+
+@{
+    ViewBag.Title = "Requisition";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <strong>Bookwise Stock Summery</strong>
+        <br />
+        <small style="font-size:14px;color:red;"> Confirm requisition can be viewed only in stock update. After updating of stock kindly press the confirm button. </small>
+    </h3>
+</div>
+@*@using (Html.BeginForm("Index", "StockUpdate", FormMethod.Post))
+{*@
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Language")</label>
+        <div class="col-md-3 col-xs-12">
+            @Html.DropDownListFor(a => a.LanguageID, new SelectList(Model.languageCollection, "LanguageID", "language_name"), "Select", new { @id = "languageid", @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.LanguageID, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+    
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Category")</label>
+        <div class="col-md-3 col-xs-12">
+            @*@Html.DropDownListFor(a => a.CategoryID, new SelectList(Model.categoryCollection, "CategoryID", "Category_name"), "Select", new { @id = "categoryid", @onchange = "loadDoc(this.value)", @class = "form-control" })*@
+            @Html.DropDownListFor(a => a.CategoryID, new SelectList(Model.categoryCollection, "CategoryID", "Category_name"), "Select", new { @id = "categoryid", @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.CategoryID, null, new { style = "color:red" })
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="dvCollection"></div>
+@*}*@
+
+@section scripts {
+    <script>
+        function loadDoc(x) {
+            window.location.href = "?a=" + x + "&b=" + document.getElementById('languageid').value;
+            window.location.reload(a, document.getElementById('languageid').value);
+        }
+        function setDropDown() {
+            var lan_id = document.getElementById('mylanid').value;
+            var cat_id = document.getElementById('mycatid').value;
+
+            document.getElementById('categoryid').value = cat_id;
+            document.getElementById('languageid').value = lan_id;
+        }
+
+        function cal_bal(j) {
+            if ($("#tot_" + j).closest("tr").attr("data-isconfirmed") == "0") {
+                if ((document.getElementById('su_' + j).value * 1) < (document.getElementById('sd_' + j).value * 1)) {
+                    document.getElementById('sd_' + j).value = document.getElementById('su_' + j).value;
+                }
+
+                document.getElementById('bal_' + j).value = Math.abs((document.getElementById('tot_' + j).value * 1) - ((document.getElementById('su_' + j).value * 1) - (document.getElementById('sd_' + j).value * 1)));
+                if (parseInt(document.getElementById('bal_' + j).value) < 0) {
+                    document.getElementById('bal_' + j).value = 0;
+                }
+            } else if ($("#tot_" + j).closest("tr").attr("data-isconfirmed") == "1") {
+                if ((document.getElementById('tot_' + j).value * 1) < (document.getElementById('sd_' + j).value * 1)) {
+                    document.getElementById('sd_' + j).value = document.getElementById('tot_' + j).value;
+                }
+            }
+        }
+
+        function Submit() {
+            if (confirm("Are you sure you want to submit ?")) {
+                document.getElementById('mystat').value = true;
+            } else {
+                document.getElementById('mystat').value = false;
+            }
+        }
+
+
+        $(document).off("change", "#categoryid").on("change", "#categoryid", function (e) {
+            GetData();
+        });
+
+        function SaveDta(jData) {
+            $.ajax({
+                url: '@Url.Action("SubmitStockUpdate", "StockUpdate", new { area = "" })',
+                data: JSON.stringify(jData),
+                contentType: "application/json; charset=utf-8",
+                type: "POST"
+            }).done(function (result) {
+                if (result != null && result != "") {
+                    alert(result.Message);
+                    if (result.Success > 0) {
+                        GetData();
+                    }
+                }
+            });
+        }
+
+        function SaveDamagedDataOnly(jData) {
+            $.ajax({
+                url: '@Url.Action("SubmitStockDamage", "StockUpdate", new { area = "" })',
+                data: JSON.stringify(jData),
+                contentType: "application/json; charset=utf-8",
+                type: "POST"
+            }).done(function (result) {
+                if (result != null && result != "") {
+                    alert(result.Message);
+                    if (result.Success > 0) {
+                        GetData();
+                    }
+                }
+            });
+        }
+
+        $(document).off("click", "#btnConfirm").on("click", "#btnConfirm", function (e) {
+            var jData = [];
+            $("table.basic tr").each(function (e) {
+                if ($(this).find("td.qty").find(":input").val() !== undefined) {
+                    var item = new Object();
+                    item.CIRCLE_STOCK_UPDATE_AUTO_ID = $(this).attr("data-autoid");
+                    item.Stock_Update_Book_Id = $(this).attr("data-bookid");
+                    item.Stock_Update_Qty = $(this).find("td.qty").find(":input").val();
+                    item.Stock_Damage_Qty = $(this).find("td.dqty").find(":input").val();
+                    item.ISCONFIRMED = 1;
+                    item.BOOK_CODE = $(this).attr("data-bookcode");
+                    jData.push(item);
+                }
+            });
+
+            SaveDta(jData);
+        });
+
+        $(document).off("click", "#btnSave").on("click", "#btnSave", function (e) {
+            var jData = [];
+            $("table.basic tr").each(function (e) {
+                if ($(this).find("td.qty").find(":input").val() !== undefined) {
+                    var item = new Object();
+                    item.CIRCLE_STOCK_UPDATE_AUTO_ID = $(this).attr("data-autoid");
+                    item.Stock_Update_Book_Id = $(this).attr("data-bookid");
+                    item.Stock_Update_Qty = $(this).find("td.qty").find(":input").val();
+                    item.Stock_Damage_Qty = $(this).find("td.dqty").find(":input").val();
+                    item.ISCONFIRMED = 0;
+                    item.BOOK_CODE = $(this).attr("data-bookcode");
+                    jData.push(item);
+                }
+            });
+
+            SaveDta(jData);
+        });
+
+        $(document).off("click", "#btnDmgSave").on("click", "#btnDmgSave", function (e) {
+            var jData = [];
+            $("table.basic tr").each(function (e) {
+                if ($(this).find("td.qty").find(":input").val() !== undefined) {
+                    var item = new Object();
+                    item.CIRCLE_STOCK_UPDATE_AUTO_ID = $(this).attr("data-autoid");
+                    item.STOCK_DAMAGE_QTY_AFTERCONF = $(this).find("td.dqty").find(":input").val();
+                    item.BOOK_CODE = $(this).attr("data-bookcode");
+                    jData.push(item);
+                }
+            });
+
+            SaveDamagedDataOnly(jData);
+        });
+
+        function GetData() {
+            if ($("#categoryid").val() != "" && $("#languageid").val() != "") {
+                $.ajax({
+                    url: '@Url.Action("GetReqList", "StockUpdate", new { area = "" })' + '?catid=' + ($("#categoryid").val() * 1) + '&langid=' + ($("#languageid").val() * 1),
+                    type: "GET"
+                }).done(function (data) {
+                    try {
+                        $("#dvCollection").empty().html(data);
+                    } catch (exc) { }
+                });
+            } else {
+                alert("Please select language and category to get requisition list");
+            }
+        }
+    </script>
+}

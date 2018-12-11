@@ -1,0 +1,158 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Challan List";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Challan View</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/ChallanReceivedAtCircle.js"></script>
+    <script src="~/resources/js/plugins/moment.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - 365)));
+
+            //$("#txtStartDate").datepicker({
+            //    dateFormat: 'dd-M-yy'
+            //}).datepicker('setDate', moment("01-04-2018", "DD-MM-YYYY"));
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            $("#txtReceiveDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                orientation: "bottom auto"
+            }).datepicker('setDate', new Date());
+            
+            $('#btnView').click();
+        });
+    </script>
+</head>
+@try
+{
+    @Html.Hidden("hd_CircleId", Model.CircleId)
+}
+catch
+{
+    @Html.Hidden("hd_CircleId", -1)
+}
+<body>
+   @* <div class="page-container">*@
+        
+
+        
+        @*@using (Html.BeginForm("Index", "ChallanReceivedAtCircle", FormMethod.Post, new { @id = "frmChallanReceivedAtCircle" }))
+        {
+            <div class="page-content">*@
+                
+                <!--End Notification -->
+                <br />
+                @*<div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">*@
+                                    <div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><strong>Challan List</strong>
+         <br />
+        <small style="font-size:14px;color:red;">To view the challan select the challan date from back date. Kindly tick on the challan number to receive the challan.</small>
+
+                                        </h3>
+                                    </div>
+                                    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"> </div>
+                                    @*<div class="container">
+                                        <div class="panel panel-default">*@
+                                            <div class="panel-body">                                                
+                                                <div class="form-group">
+                                                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("From Date")</label>
+                                                    <div class="col-md-3 col-xs-12">
+                                                        @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                    </div>
+                                                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("To Date")</label>
+                                                    <div class="col-md-3 col-xs-12">
+                                                        @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                    </div>
+                                                    <label class="col-md-1 col-xs-6 control-label">@Html.Label("Pending Only")</label>
+                                                    <div class="col-md-3 col-xs-12">
+                                                        @Html.CheckBoxFor(a => a.IsPendingRequire, new { id = "chkIsPendingRequire" })
+                                                    </div>                                                   
+                                                </div>
+                                                <div class="panel-body">
+                                                    <table id="tblBtn" cellpadding="0" cellspacing="0" border="0" style=" width:240px;">
+                                                        <tr>
+                                                            <td ><input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" /></td>                                                            
+                                                            <td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>   
+                                                <div class="panel-body">
+                                                    <table id="tblBtn" cellpadding="0" cellspacing="0" border="0" style=" width:500px;">
+                                                        <tr>
+                                                            <td >Receive Date</td>
+                                                            <td>@Html.TextBoxFor(a => a.ReceivedTimeStamp, new { @id = "txtReceiveDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+                                                            <td><input type="button" id="btnReceiveChallan" value="Receive Challan" onclick="SaveReceiveChallan();" style="width: 150px" class="btn btn-info btn-block" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>                                     
+                                                <div style="width: 100%; height: 350px; overflow: scroll;">
+                                                    <table id="tblInvCumChal" cellpadding="0" cellspacing="0" border="1" class="table basic" style="table-layout: fixed; width: 2100px;">
+                                                        <tr>
+                                                            <th style="text-align:left;width:100px;">Status</th>
+                                                            <th style="text-align:left;width:200px;">Challan No.</th>
+                                                            <th style="text-align:center;width:150px;">Date</th>
+                                                            @*<th style="text-align:left;width:200px;">District Name</th>
+                                                            <th style="text-align:left;width:200px;">Circle Name</th>*@
+                                                            <th style="text-align:left;width:200px;">Category</th>
+                                                            <th style="text-align:left;width:100px;">Language</th>
+                                                            <th style="text-align:left;width:200px;">Transporter</th>
+                                                            <th style="text-align:left;width:150px;">Consignee No</th>
+                                                            <th style="text-align:left;width:150px;">Vehicle No</th>
+                                                            <th style="text-align:left;width:200px;">Last Updated By</th>
+                                                            <th style="text-align:left;width:200px;">Last Updated On</th>
+                                                            <th style="text-align:left;width:200px;">Remarks</th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                               
+                                            </div>
+                                        @*</div>
+                                    </div>*@
+                                @*</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+            @*</div>*@
+        }
+    @*</div>*@
+</body>
+
+

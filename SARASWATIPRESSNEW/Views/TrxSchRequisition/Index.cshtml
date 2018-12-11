@@ -1,0 +1,576 @@
+﻿@model SARASWATIPRESSNEW.Models.SchRequisition
+@{
+    ViewBag.Title = "Requisition";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+
+    int isautofillallenabledAtServerEndCheck = default(int);
+    SARASWATIPRESSNEW.UserSec objUser;
+    string qrycircleId = string.Empty;
+    int crclid = default(int);
+    try
+    {
+        qrycircleId = Request.QueryString["circleId"];
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+        int.TryParse(qrycircleId, out crclid);
+        Model.CircleID = crclid;
+        if (objUser.UserType == "7")
+        {
+            isautofillallenabledAtServerEndCheck = System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAllForTbUserOnly"] != null ? Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAllForTbUserOnly"]) : 0;
+        }
+        else
+        {
+            isautofillallenabledAtServerEndCheck = System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"] != null ? Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"]) : 1;
+        }
+    }
+    catch (Exception)
+    {
+        isautofillallenabledAtServerEndCheck = System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"] != null ? Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"]) : 1;
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+
+@section scripts {
+    <script type="text/javascript">
+        @*var isautofillallenabled = @(System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"] != null ? Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["EnableAutoFillAll"]) : 1);*@
+        var isautofillallenabled = @isautofillallenabledAtServerEndCheck;
+        $(document).ready(function () {
+            LoadSchoolMasterDetails(0);
+            LoadLanguageMasterDetails();
+            LoadCategoryMasterDetails();
+        });
+
+        $(document).off("change", "#ddlSearchSchoolBy").on("change", "#ddlSearchSchoolBy", function (e) {
+            LoadSchoolMasterDetails(($(this).val() * 1));
+        });
+
+        function LoadSchoolMasterDetails(searchBy) {
+            $.ajax({
+                url: "/TrxSchRequisition/GetSchoolMasterDtl",
+                type: 'POST',
+                data: "@(objUser.UserType)" == "7" ? { circleid: "@qrycircleId" } : {},
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "<option value='-1'><<----Select School----->></option>";
+                    var itemCount = 0;
+                    if (data.length == 0) {
+                        HtmlItems = '<option>No School Aailable</option>';
+                    }
+                    else {
+                        HtmlItems = "<option value='-1'><<----Select School----->></option>";
+                    }
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.SchoolID + "' data-schname='" + item.SchoolName + "' data-schcode='" + item.SchoolCode + "'>" + ((searchBy == 0) ? item.SchoolName : item.SchoolCode) + "</option>";
+                    });
+                    document.getElementById('ddlSchool').innerHTML = "";
+                    try {
+                        $('#txtSchoolMobile').val("");
+                        $('#txtSchoolEmailid').val("");
+                        //$('#ddlCategory').val("-1");
+                        //$('#ddlLanguageName').val("-1");
+                    } catch (er) { }
+
+                    $('#ddlSchool').html(HtmlItems);
+                    $("#spnSchoolRef").text("");
+
+                    var SchoolID = $("#hdSchoolID").val();
+                    if (SchoolID > 0) {
+                        $("#ddlSchool").val($("#hdSchoolID").val());
+                        $('#ddlSchool').change();
+                        document.getElementById("ddlSchool").disabled = true;
+
+                        if ($("#ddlSchool").val() != "-1") {
+                            var schName = $("#ddlSchool").find(':selected').attr('data-schname');
+                            var schCode = $("#ddlSchool").find(':selected').attr('data-schcode');
+                            if ($("#ddlSearchSchoolBy").val() == "1") {
+                                $("#spnSchoolRef").text(schName);
+                            } else {
+                                $("#spnSchoolRef").text(schCode);
+                            }
+                        } else {
+                            $("#spnSchoolRef").text("");
+                        }
+                    }
+
+                },
+                error: function (data) {
+                    // alert(data);
+                }
+            });
+        }
+        function LoadLanguageMasterDetails() {
+            $.ajax({
+                url: "/TrxSchRequisition/GetLanguageMasterDtl",
+                type: 'POST',
+                data: {},
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                    var itemCount = 0;
+                    if (data.length == 0) {
+                        HtmlItems = '<option>No Language Aailable</option>';
+                    }
+                    else {
+                        HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                    }
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                    });
+                    $('#ddlLanguageName').html(HtmlItems);
+                    var LanguageID = $("#hdLanguageID").val()
+                    if (LanguageID > 0) {
+                        $("#ddlLanguageName").val($("#hdLanguageID").val());
+                        $('#ddlLanguageName').change();
+                        document.getElementById("ddlLanguageName").disabled = true;
+                    }
+
+                },
+                error: function (data) {
+                    //alert(data);
+                }
+            });
+        }
+        function LoadCategoryMasterDetails() {
+            $.ajax({
+                url: "/TrxSchRequisition/GetCategoryMasterDtl",
+                type: 'POST',
+                data: {},
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "<option value='-1'><<----Select School Category----->></option>";
+                    var itemCount = 0;
+                    if (data.length == 0) {
+                        HtmlItems = '<option>No School Category Aailable</option>';
+                    }
+                    else {
+                        HtmlItems = "<option value='-1'><<----Select School Category----->></option>";
+                    }
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
+                    });
+                    $('#ddlCategory').html(HtmlItems);
+                    var CategoryId = $("#hdCategoryID").val()
+                    if (CategoryId > 0) {
+                        $("#ddlCategory").val($("#hdCategoryID").val());
+                        $('#ddlCategory').change();
+                        document.getElementById("ddlCategory").disabled = true;
+                    }
+                },
+                error: function (data) {
+                    //alert(data);
+                }
+            });
+        }
+        $(function () {
+            $("#ddlSchool").change(function () {
+                var SchoolId = $("#ddlSchool").val();
+                if ($("#ddlSchool").val() != "-1") {
+                    var schName = $("#ddlSchool").find(':selected').attr('data-schname');
+                    var schCode = $("#ddlSchool").find(':selected').attr('data-schcode');
+                    if ($("#ddlSearchSchoolBy").val() == "1") {
+                        $("#spnSchoolRef").text(schName);
+                    } else {
+                        $("#spnSchoolRef").text(schCode);
+                    }
+                } else {
+                    $("#spnSchoolRef").text("");
+                }
+
+                $.ajax({
+                    url: "/TrxSchRequisition/GetSchoolDtlBySchoolId",
+                    type: 'POST',
+                    data: { SchoolId: SchoolId },
+                    cache: false,
+                    success: function (data) {
+                        $("#txtSchoolMobile").val(data[0].SchoolMobile);
+                        $("#txtSchoolEmailid").val(data[0].SchoolEmailid);
+                        if (document.getElementById("ddlSchool").selectedIndex > 0 && document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
+                            LoadBookDtlForRequition();
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            });
+        });
+        $(function () {
+            $("#ddlLanguageName").change(function () {
+                if (document.getElementById("ddlSchool").selectedIndex > 0 && document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
+                    LoadBookDtlForRequition();
+                }
+            });
+        });
+        $(function () {
+            $("#ddlCategory").change(function () {
+                if (document.getElementById("ddlSchool").selectedIndex > 0 && document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
+                    @*$("#hdCategoryID").val($("#ddlCategory").val());*@
+                    LoadBookDtlForRequition();
+                }
+            });
+        });
+
+        function LoadBookDtlForRequition() {
+
+            if ($("#txtSchoolMobile").val() == "") {
+                var e = document.getElementById("ddlSchool");
+                var ddlSchooltxt = e.options[e.selectedIndex].text;
+
+                alert("Mobile No " + ddlSchooltxt + ". Requisition can not continue. Please update the contact details for the selected school.");
+                $('#txtSchoolMobile').focus();
+                return false;
+            }
+
+            var SchoolId = $("#ddlSchool").val();
+            var ReqDataId = $("#hdRequisitionID").val();
+            var categoryId = $("#ddlCategory").val();
+            var LanguageId = $("#ddlLanguageName").val();
+            $.ajax({
+                url: "/TrxSchRequisition/GetBookRequisitionDtl",
+                type: 'POST',
+                data: { ReqDataId: ReqDataId, categoryId: categoryId, LanguageId: LanguageId, schoolId: SchoolId },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "";
+                    for (var i = 0; i < data.length; i++) {
+                        HtmlItems += "<tr>";
+                        HtmlItems += "    <td style='text-align:left;width: 10%;'>" + data[i].ClassName + "</td>";
+                        HtmlItems += "    <td style='text-align:left;width: 20%;'>" + data[i].BookName + "</td>";
+                        HtmlItems += "    <td align='center' style='width: 10%;'>";
+                        HtmlItems += "          <input class='form-control' id='txtPreviousYearRequirement_" + i + "' name='reqTrxCollection[" + i + "].PreviousYearRequirement'  style='width:90px;text-align: center;' disabled='disabled' type='text' value='" + data[i].PreviousYearRequirement + "' />";
+                        HtmlItems += "    </td>";
+                        HtmlItems += "    <td align='center' style='width: 20%;'>";
+                        HtmlItems += "    <input class='form-control' id='txtBookCode_" + i + "' name='reqTrxCollection[" + i + "].BookCode' style='width:90px;display:none;' type='text' value='" + data[i].BookCode + "' /> <input class='form-control' id='txtBookID_" + i + "' name='reqTrxCollection[" + i + "].BookID' style='width:90px;display:none;' type='text' value='" + data[i].BookID + "' />";
+                        if (data[i].StudentEnrolled > 0) {
+                            if (isautofillallenabled > 0) {
+                                HtmlItems += "          <input class='form-control stdenrl' data-classint='" + data[i].CLASS_INT + "' data-isoptional='" + data[i].IsOptional + "' id='txtStudentEnrolled_" + i + "' name='reqTrxCollection[" + i + "].StudentEnrolled' onchange='autoFillAll(this);' style='width:90px;text-align: center;background-color: #6accbb;' type='text' value='" + data[i].StudentEnrolled + "'" + (data[i].BookLock ? "disabled='disabled'" : "") + "  />";
+                            } else {
+                                HtmlItems += "          <input class='form-control stdenrl' data-classint='" + data[i].CLASS_INT + "' data-isoptional='" + data[i].IsOptional + "' id='txtStudentEnrolled_" + i + "' name='reqTrxCollection[" + i + "].StudentEnrolled' onchange='autoFill(" + i + ");' style='width:90px;text-align: center;background-color: #6accbb;' type='text' value='" + data[i].StudentEnrolled + "'" + (data[i].BookLock ? "disabled='disabled'" : "") + "  />";
+                            }
+                        } else {
+                            if (isautofillallenabled > 0) {
+                                HtmlItems += "          <input class='form-control stdenrl' data-classint='" + data[i].CLASS_INT + "' data-isoptional='" + data[i].IsOptional + "' id='txtStudentEnrolled_" + i + "' name='reqTrxCollection[" + i + "].StudentEnrolled' onchange='autoFillAll(this);' style='width:90px;text-align: center;' type='text' value='" + data[i].StudentEnrolled + "'" + (data[i].BookLock ? "disabled='disabled'" : "") + "  />";
+                            } else {
+                                HtmlItems += "          <input class='form-control stdenrl' data-classint='" + data[i].CLASS_INT + "' data-isoptional='" + data[i].IsOptional + "' id='txtStudentEnrolled_" + i + "' name='reqTrxCollection[" + i + "].StudentEnrolled' onchange='autoFill(" + i + ");' style='width:90px;text-align: center;' type='text' value='" + data[i].StudentEnrolled + "'" + (data[i].BookLock ? "disabled='disabled'" : "") + "  />";
+                            }
+                        }
+                        HtmlItems += "    </td>";
+                        HtmlItems += "    <td  align='center' style='width: 15%; display: none;'>";
+                        if (data[i].StockQuantity > 0) {
+                            if (isautofillallenabled > 0) {
+                                HtmlItems += "          <input class='form-control stdstk' id='txtStockQuantity_" + i + "' name='reqTrxCollection[" + i + "].StockQuantity' onchange='autoFillAll(this);' style='width:90px;text-align: center;background-color: #6accbb;' type='text' value='" + data[i].StockQuantity + "' />";
+                            } else {
+                                HtmlItems += "          <input class='form-control stdstk' id='txtStockQuantity_" + i + "' name='reqTrxCollection[" + i + "].StockQuantity' onchange='autoFill(" + i + ");' style='width:90px;text-align: center;background-color: #6accbb;' type='text' value='" + data[i].StockQuantity + "' />";
+                            }
+                        }
+                        else {
+                            if (isautofillallenabled > 0) {
+                                HtmlItems += "          <input class='form-control stdstk' id='txtStockQuantity_" + i + "' name='reqTrxCollection[" + i + "].StockQuantity' onchange='autoFillAll(this);' style='width:90px;text-align: center;' type='text' value='" + data[i].StockQuantity + "' />";
+                            } else {
+                                HtmlItems += "          <input class='form-control stdstk' id='txtStockQuantity_" + i + "' name='reqTrxCollection[" + i + "].StockQuantity' onchange='autoFill(" + i + ");' style='width:90px;text-align: center;' type='text' value='" + data[i].StockQuantity + "' />";
+                            }
+                        }
+                        HtmlItems += "    </td>";
+                        HtmlItems += "    <td align='center' style='width: 15%; display: none;'>";
+                        HtmlItems += "          <input class='form-control stdreq' id='txtRequisitionQuantity_" + i + "' name='reqTrxCollection[" + i + "].RequisitionQuantity'  style='width:90px;text-align: center;'  disabled='disabled' type='text' value='" + data[i].RequisitionQuantity + "' />";
+                        HtmlItems += "    </td>";
+                        HtmlItems += "</tr>";
+                    }
+                    $('#tblBookDtl').html(HtmlItems);
+                },
+                error: function (data) {
+                    //alert(data);
+                }
+            });
+        }
+
+        function isValidEntry() {
+            if (document.getElementById("ddlSchool").selectedIndex == 0) {
+                alert("Please Select School..");
+                $('#ddlSchool').focus();
+                return false;
+            }
+            if (document.getElementById("ddlLanguageName").selectedIndex == 0) {
+                alert("Please Select Language..");
+                $('#ddlLanguageName').focus();
+                return false;
+            }
+            if (document.getElementById("ddlCategory").selectedIndex == 0) {
+                alert("Please Select Category..");
+                $('#ddlCategory').focus();
+                return false;
+            }
+
+            var iCnt = 0;
+            $("[id^=txtStudentEnrolled_]").each(function () {
+                if ($(this).val() > 0) {
+                    iCnt++;
+                }
+            }
+            );
+            if (iCnt == 0) {
+                alert("Please enter atleast one Student Enrolled qty.");
+                return false;
+            }
+            if (confirm("Are you sure do you want to Save the records?") == false) {
+                return false;
+            }
+            return true;
+        }
+
+        function autoFill(val) {
+            if (document.getElementById('txtStudentEnrolled_' + val).value == "") {
+                document.getElementById('txtStudentEnrolled_' + val).value = 0;
+            }
+            if (document.getElementById('txtStockQuantity_' + val).value == "") {
+                document.getElementById('txtStockQuantity_' + val).value = 0;
+            }
+
+            if (document.getElementById('txtStudentEnrolled_' + val).value > 0 || document.getElementById('txtStockQuantity_' + val).value > 0) {
+                document.getElementById('txtRequisitionQuantity_' + val).value = (document.getElementById('txtStudentEnrolled_' + val).value - document.getElementById('txtStockQuantity_' + val).value);
+            }
+            if (document.getElementById('txtRequisitionQuantity_' + val).value < 0) {
+                document.getElementById('txtRequisitionQuantity_' + val).value = 0;
+            }
+            document.getElementById('txtStudentEnrolled_' + val).style.backgroundColor = "";
+            document.getElementById('txtStockQuantity_' + val).style.backgroundColor = "";
+            if (document.getElementById('txtStudentEnrolled_' + val).value > 0) {
+                document.getElementById('txtStudentEnrolled_' + val).style.backgroundColor = "#6accbb";
+            }
+            if (document.getElementById('txtStockQuantity_' + val).value > 0) {
+                document.getElementById('txtStockQuantity_' + val).style.backgroundColor = "#6accbb";
+            }
+        }
+
+        function autoFillAll(element) {
+            var elem_txtStockQuantity;
+            var elem_txtStudentEnrolled;
+            var elem_txtRequisitionQuantity;
+            var isoptionalElement = false;
+
+            if ($(element).hasClass("stdstk")) {
+                elem_txtStockQuantity = $(element);
+                elem_txtStudentEnrolled = $(element).closest("tr").find(".stdenrl");
+                elem_txtRequisitionQuantity = $(element).closest("tr").find(".stdreq");
+                isoptionalElement = ($(element).closest("tr").find(".stdenrl").attr("data-isoptional") == "1");
+            } else if ($(element).hasClass("stdenrl")) {
+                elem_txtStockQuantity = $(element).closest("tr").find(".stdstk");
+                elem_txtStudentEnrolled = $(element);
+                elem_txtRequisitionQuantity = $(element).closest("tr").find(".stdreq");
+                isoptionalElement = ($(element).attr("data-isoptional") == "1");
+            }
+
+            $("#tblBookDtl").find("tr").each(function (i, el) {
+                var $tds = $(this).find("td");
+
+                if (!isoptionalElement) {
+                    if (!$($tds).find(".stdenrl").prop("disabled")
+                        && $($tds).find(".stdenrl").attr("data-isoptional") == "0"
+                        && $($tds).find(".stdenrl").attr("data-classint") == $(elem_txtStudentEnrolled).attr("data-classint")) {
+
+                        $($tds).find(".stdenrl").val(elem_txtStudentEnrolled[0].value);
+                    }
+                }
+
+                if ($($tds).find(".stdenrl")[0].value == "") {
+                    $($tds).find(".stdenrl")[0].value = 0;
+                }
+                if ($($tds).find(".stdstk")[0].value == "") {
+                    $($tds).find(".stdstk")[0].value = 0;
+                }
+                if ($($tds).find(".stdenrl")[0].value > 0 || $($tds).find(".stdstk")[0].value > 0) {
+                    $($tds).find(".stdreq")[0].value = ($($tds).find(".stdenrl")[0].value - $($tds).find(".stdstk")[0].value);
+                }
+                if ($($tds).find(".stdreq")[0].value < 0) {
+                    $($tds).find(".stdreq")[0].value = 0;
+                }
+                $($tds).find(".stdenrl")[0].style.backgroundColor = "";
+                $($tds).find(".stdstk")[0].style.backgroundColor = "";
+                if ($($tds).find(".stdenrl")[0].value > 0) {
+                    $($tds).find(".stdenrl")[0].style.backgroundColor = "#6accbb";
+                }
+                if ($($tds).find(".stdstk")[0].value > 0) {
+                    $($tds).find(".stdstk")[0].style.backgroundColor = "#6accbb";
+                }
+            });
+        }
+    </script>
+}
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+@try
+{       
+    @Html.Hidden("hdRequisitionID", Model.RequisitionID)
+    @Html.Hidden("hdCategoryID", Model.CategoryID)  
+    @Html.Hidden("hdSchoolID", Model.SchoolID)  
+    @Html.Hidden("hdLanguageID", Model.LanguageID)  
+}
+catch
+{            
+    @Html.Hidden("hdRequisitionID", -1)  
+    @Html.Hidden("hdCategoryID", -1)
+    @Html.Hidden("hdSchoolID", -1)  
+    @Html.Hidden("hdLanguageID", -1)
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Book Requisition Entry Form</strong>
+        <br />
+        <small style="font-size:14px;color:red;">Select the school name, school category and language, enter the quantity in total requirement column and save the requisition. Amar Boi I and II, are now divided into three parts for different languages Amar Boi –(KA), Amar Boi –(KHA), Amar Boi –(GA). Requirement for Amar Boi will be same for all. New Books for Academic Session 2019 for Classes III and IV are Word Book. Requisition for Academic Session 2019 to be given in 'Requirement For Academic Year 2019' column.</small>
+    </h3>
+</div>
+
+@{
+    if (Model.RequisitionID > 0)
+    {
+        using (Html.BeginForm("Index", "TrxSchRequisition", FormMethod.Post))
+        {
+           
+    <div class="panel-body">
+        <table width="100%" class="table basic">
+            <tr>
+                <td>
+                    <input type="hidden" name="ReqisitionId" value="@Model.RequisitionID" />
+                    <button type="submit" id="btnSubmit" name="Command" class="btn btn-mini btn-danger">Export to Excel</button>
+                    @*<a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>*@
+                </td>
+            </tr>
+        </table>
+    </div>
+            
+        }
+
+    }
+}
+
+@using (Html.BeginForm("TrxSchRequisitionUpdate", "TrxSchRequisition", FormMethod.Post))
+{
+    
+    <div class="panel-body">
+        @Html.TextBoxFor(a => a.RequisitionID, new { @id = "txtRequisitionID", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.RequisitionCode, new { @id = "txtTempRequisitionCode", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.CircleID, new { @id = "txtCircleID", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.SaveStatus, new { @id = "txtSaveStatus", @class = "form-control", style = "display:none;" })
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">Requisition Date</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.RequisitionDate, new { @id = "txtRequisitionDate", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+                <td style="width: 20%;">Requisition Code</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.RequisitionCode, new { @id = "txtRequisitionCode", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Schoold Name<font color="red">*</font></td>
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 2%;">
+                                <select id="ddlSearchSchoolBy" class="form-control" style="width: 100px;">
+                                    <option value="0">By Name</option>
+                                    <option value="1">By Code</option>
+                                </select>
+                            </td>
+                            <td>
+                                @if (Model.SchoolID > default(int))
+                                {
+                                    @Html.HiddenFor(a => a.SchoolID, new { @id = "hdnSchool" })
+                                }
+                                @Html.DropDownListFor(a => a.SchoolID, new SelectList(Enumerable.Empty<SelectListItem>(), "SchoolID", "SchoolName"), "<<--Select School-->>", new { @id = "ddlSchool", @style = "width:300 px;", @class = "form-control select2" })
+                            </td>
+                            <td style="padding-left: 2%;">
+                                <span id="spnSchoolRef"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>School Contact No</td>
+                <td colspan="3">@Html.TextBoxFor(a => a.MstSchool.SchoolMobile, new { @id = "txtSchoolMobile", disabled = "disabled", @style = "width: 200px;", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>School Email</td>
+                <td colspan="2">@Html.TextBoxFor(a => a.MstSchool.SchoolEmailid, new { @id = "txtSchoolEmailid", disabled = "disabled", @style = "width:100%", @class = "form-control" })</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>School Category</td>
+                <td>
+                    @if (Model.SchoolID > default(int))
+                    {
+                        @Html.HiddenFor(a => a.MstCategory.CategoryID, new { @id = "hdnCategory" })
+                    }
+                    @Html.DropDownListFor(a => a.MstCategory.CategoryID, new SelectList(Enumerable.Empty<SelectListItem>(), "CategoryID", "Category"), "<<--Select School Category-->>", new { @id = "ddlCategory", @style = "width:60%", @class = "form-control select2" })
+                </td>
+                <td>Language<font color="red">*</font></td>
+                <td>
+                    @if (Model.SchoolID > default(int))
+                    {
+                        @Html.HiddenFor(a => a.MstLanguage.LanguageID, new { @id = "hdnLanguage" })
+                    }
+                    @Html.DropDownListFor(a => a.MstLanguage.LanguageID, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Language-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control select2" })
+                </td>
+            </tr>
+        </table>
+
+        <div style="width: 100%; height: 55vh;">
+            <table width="100%" border="0" class="divDataEntry">
+                <tr>
+                    <th style="width: 10%;">Class</th>
+                    @*<th style="width: 10%;">Book Code</th>*@
+                    <th style="width: 20%;">Book Name</th>
+                    <th style="width: 10%;">Previous year Requirement</th>
+                    <th style="width: 20%; color:Tomato;">Requirement For Academic Year 2019@*No of Student Enrolled*@</th>
+                    <th style="width: 15%; display: none;">Stock</th>
+                    <th style="width: 15%; display: none;">Total Requirement</th>
+                </tr>
+            </table>
+            <div style="width: 100%; height: 45vh; overflow: scroll; border: 2px solid #808080;">
+                <table id="tblBookDtl" width="100%" border="0" class="table">
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <table width="100%" border="0">
+            <tr>
+                <td style="width: 30%;">
+                    @if (ViewBag.RequisitionLock != null && (bool)ViewBag.RequisitionLock && objUser.UserType != "7")
+                    {
+                        <span style="color:red">You can't edit this requisition</span>
+                    }
+                    @if ((Model.SaveStatus == 0 && !ViewBag.RequisitionLock) || objUser.UserType == "7")
+                    {
+                        if ((objUser.UserType == "7" && objUser.HasReqEditPermission == 1) || objUser.UserType != "7")
+                        //if (objUser.HasReqEditPermission == 1 && objUser.UserType == "7")
+                        {
+                            <button type="submit" id="btnSubmit" name="Command" style="width: 120px;" onclick="return isValidEntry();" value="Submit" class="btn btn-mini btn-danger">Save</button>                       
+                            @Html.Raw("&nbsp;&nbsp;")
+                        }
+                        if (objUser.UserType == "7")
+                        {
+                            <a href="@Url.Action("Index", "SchRequisionView", new { area = "" })" style="width: 120px;" class="btn btn-mini btn-danger">Back</a>
+                        }
+                    }
+                    @if (objUser.UserType != "7")
+                    {
+                        @Html.Raw("&nbsp;&nbsp;")
+                        <a href="/TrxSchRequisition/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                    }
+                </td>
+                <td style="width: 70%;">&nbsp;</td>
+            </tr>
+        </table>
+    </div>    
+     
+}
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            //alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

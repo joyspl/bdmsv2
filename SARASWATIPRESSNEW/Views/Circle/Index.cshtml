@@ -1,0 +1,256 @@
+﻿@model SARASWATIPRESSNEW.Models.Circle
+@{
+    ViewBag.Title = "Index";
+}
+<head>        
+        <!-- META SECTION -->
+        <title>Admin</title>      
+           <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        @*<! <link rel="icon" href="favicon.ico" type="image/x-icon" />*@  
+     
+        <script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+        <script type="text/javascript" src="/resources/js/demo_tables.js"></script> 
+      <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+        <!-- EOF CSS INCLUDE -->                                    
+     <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css"/>
+   
+    </head>
+
+<!-- Start Css Link -->
+<script type='text/javascript' src='/resources/js/plugins/jquery/jquery.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jquery/jquery-ui.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap.min.js'></script>
+			<!-- END PLUGINS -->
+		
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/scrolltotop/scrolltopcontrol.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/morris/raphael-min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/morris/morris.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/d3.v3.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/rickshaw.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/owl/owl.carousel.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/moment.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/daterangepicker/daterangepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tagsinput/jquery.tagsinput.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-select.js'></script>
+			<!-- END THIS PAGE PLUGINS-->
+			
+			<script type='text/javascript' src='/resources/js/plugins/jquery-validation/jquery.validate.js'></script>
+			<!-- START TEMPLATE -->
+			<script type='text/javascript' src='/resources/js/settings.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins.js'></script>
+			<script type='text/javascript' src='/resources/js/actions.js'></script>
+			<script type='text/javascript' src='/resources/js/demo_dashboard.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/sprintf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/jspdf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/base64.js'></script>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+<div class="page-container" >  
+             <!--Start Menu Section -->
+<div class='page-sidebar'>  	 
+			<ul class='x-navigation'>  
+			<li class='xn-logo'>  
+			<a href='index.html'>EduAims Admin</a>  
+			<a href='#' class='x-navigation-control'></a>  
+			</li>  
+			<li class='xn-profile'>  
+			<div class='profile'>  
+			
+			<div class='profile-data'>  
+			<div class='profile-data-name'>EduAims</div>  
+			<div class='profile-data-title'>System Admin</div>  
+			</div>  
+			</div>  
+			</li>  
+			   
+			<li class='active'>  
+			<a href='home'><span class='fa fa-desktop'></span> <span class='xn-text'>Dashboard</span></a>  
+			</li>  
+			<li class='xn-openable'>  
+			<a href='#'><span class='fa fa-files-o'></span> <span class='xn-text'>Master</span></a>  
+			<ul>  
+			<li><a href='subjectmaster'><span class='fa fa-image'></span>Subject Master</a></li>  
+			<li><a href='topicmaster'><span class='fa fa-image'></span>Topic Master</a></li>  
+			<li><a href='testmaster'><span class='fa fa-image'></span>Test Master</a></li>  
+			<li><a href='exammaster'><span class='fa fa-image'></span>Exam Master</a></li>  
+			<li><a href='studentmaster'><span class='fa fa-image'></span>Student Master</a></li>  
+			<li><a href='classmaster'><span class='fa fa-image'></span>Class Master</a></li>  
+			<li><a href='sectionmaster'><span class='fa fa-image'></span>Section Master</a></li>  
+			</ul>  
+			</li>  
+			<li class='xn-openable'>  
+			<a href='#'><span class='fa fa-files-o'></span> <span class='xn-text'>Template Manager</span></a>  
+			<ul>  
+			<li><a href='createtemplet'><span class='fa fa-image'></span>Create Question Template</a></li>  
+			<li><a href='evaluationmaster'><span class='fa fa-image'></span>Evaluation Master</a></li>  
+			<li><a href='uploadtemplete'><span class='fa fa-image'></span>Upload Template</a></li>  
+			</ul>  
+			</li>  
+			<li class='xn-openable'>  
+			<a href='#'><span class='fa fa-files-o'></span> <span class='xn-text'>Question Uploader</span></a>  
+			<ul>  
+			<li><a href='uploadanswersheet'><span class='fa fa-image'></span>Upload Answer-Sheet</a></li>  
+			</ul>  
+			</li>  
+			</ul>  
+			<!-- END X-NAVIGATION -->  
+			</div>
+<!-- End Menu Section -->
+                <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container" >
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>                    
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@using (Html.BeginForm("Index","Circle", FormMethod.Post))
+{
+     <div class="page-content">
+           <div style="width: auto; text-align:left; background-color: white;">
+              <img src="/resources/img/reports/header2.jpg" />
+                  </div>
+       <!--  <ul class='x-navigation x-navigation-horizontal x-navigation-panel'>
+			 
+            
+			      <li class='xn-icon-button pull-right'>
+			          <a href='#' class='mb-control' data-box='#mb-signout'><span class='fa fa-sign-out'></span></a>                        
+			     <div class='informer informer-danger'>Logout</div> 
+			  </li>
+			     
+			  </ul> -->
+
+
+<!--End Notification -->
+         <br />
+          <div class="page-content-wrap">
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Add New Circle</strong></h3>
+                                   <!-- <ul class="panel-controls">
+                                        <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                                    </ul> -->
+                                </div>
+                             <div class="panel-body">
+                             <div class="form-group">
+                                        @Html.Label("District", new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                                                                                                            
+                                             @Html.TextBoxFor(a=>a.district_id,new {@class="form-control"})
+                                              
+                                           
+                                        </div>
+                                    </div>   
+                                 </div>
+                            <div class="panel-body">
+                                 <div class="form-group">
+                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Code")</label>
+                                        <div class="col-md-3 col-xs-12"> 
+                                                                                                                            
+                                             @Html.TextBoxFor(a=>a.Circle_code,new {@class="form-control"})
+                                              
+                                           
+                                        </div>
+                                    </div> 
+                                </div>
+                            <div class="panel-body">
+                                 <div class="form-group">
+                                        <label class="col-md-1 col-xs-6 control-label"> @Html.Label("Circle Name")</label>
+                                        <div class="col-md-3 col-xs-12"> 
+                                                                                                                            
+                                             @Html.TextBoxFor(a=>a.Circle_name,new {@class="form-control"})
+
+                                             <br /><input type="submit"  class="btn btn-primary pull-left" id="btnsubmit" value="Submit" />
+                                              
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                </div>
+                                </form>
+                             </div>
+                            </div>
+                        </div>
+              </div>
+  <!-- <table width="100%">
+       <tr>
+           <td>
+               @Html.Label("District")
+           </td>
+       </tr>
+       <tr>
+           <td>
+               @Html.TextBoxFor(a=>a.district_id)
+           </td>
+           <td>@Html.ValidationMessageFor(a => a.district_id, null, new {style="color:red" })</td>
+       </tr>
+       <tr>
+           <td>
+               @Html.Label("Circle Code")
+           </td>
+       </tr>
+       <tr>
+           <td>
+               @Html.TextBoxFor(a=>a.Circle_code)
+           </td>
+           <td>@Html.ValidationMessageFor(a => a.Circle_code, null, new {style="color:red" })</td>
+       </tr>
+       <tr>
+           <td>
+               @Html.Label("Circle Name")
+           </td>
+       </tr>
+       <tr>
+           <td>
+               @Html.TextBoxFor(a=>a.Circle_name)
+           </td>
+           <td>@Html.ValidationMessageFor(a => a.Circle_name, null, new {style="color:red" })</td>
+       </tr>
+       <tr>
+            <td>
+                <input type="submit" id="btnsubmit" value="Submit" />
+            </td>
+        </tr>
+   </table> -->
+       
+  
+}
+    </div>
+
+

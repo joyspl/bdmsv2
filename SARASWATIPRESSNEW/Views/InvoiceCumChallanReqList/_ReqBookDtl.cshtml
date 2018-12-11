@@ -1,0 +1,41 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@if (Model != null)
+{
+    if (Model.InvoiceCumChallanCollection != null && Model.InvoiceCumChallanCollection.Count() > default(int))
+    {
+        foreach (var obj in Model.InvoiceCumChallanCollection)
+        {
+            <tr class="dta" data-cartoon="@obj.TotalLot" data-cartoon-new="@(string.IsNullOrWhiteSpace(obj.TotalLotDelimited) ? "0" : obj.TotalLotDelimited)">
+                <td data-bookcode="@obj.Common_Book_Code" data-originalbookcode="@obj.Book_Code">@obj.Common_Book_Code</td>
+                <td class="bknm">@obj.Book_Name</td>
+                <td class="qtytot" title="@obj.BookSurplusQty.Replace("<br/>", "")">@obj.NetReqQty</td>
+                <td class="qtyash">@obj.AlreadyShippedQty</td>
+                <td class="qtyrmn">@obj.RemainBal</td>
+                <td class="qtysh">@obj.QtyShipped </td>
+                <td style="display: none;" class="qtycr" data-lot="@obj.Lot" data-totbookbylot="@obj.TotBooksPerLot">@obj.Cartoon</td>
+            </tr>
+        }
+    }
+    else if (Model.lstBinderDetailsByScan != null && Model.lstBinderDetailsByScan.Count() > default(int))
+    {
+        foreach (var obj in Model.lstBinderDetailsByScan)
+        {
+            <tr class="dta">
+                <td>@obj.BinderName</td>
+                <td data-bookcode="@obj.Common_Book_Code" data-originalbookcode="@obj.Book_Code">@obj.Common_Book_Code</td>
+                <td>@obj.Book_Name</td>
+                <td>@obj.Lot</td>
+                <td>@obj.TotalQty</td>
+                <td>@obj.ScannedQty</td>
+                <td>@obj.RemainingQty</td>
+            </tr>
+        }
+    }
+}
+else
+{
+    <tr>
+        <td colspan="7" style="text-align: center">No record found</td>
+    </tr>   
+}

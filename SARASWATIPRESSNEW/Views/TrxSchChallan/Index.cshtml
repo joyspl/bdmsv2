@@ -1,0 +1,315 @@
+﻿@model SARASWATIPRESSNEW.Models.SchProvisionalChallan
+@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script src="~/Scripts/AppJs/MainAppJs.js"></script>
+<script type="text/javascript"> 
+    function LoadTransporterDetails() {
+        $.ajax({
+            url: "/TrxSchChallan/GetTransporterDetails",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<--Select Transporter-->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Transporter Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<--Select Transporter-->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlTransporterID').html(HtmlItems);
+                var TransporterID = $("#hd_TransporterID").val()
+                if (TransporterID > 0) {
+                    $("#ddlTransporterID").val($("#hd_TransporterID").val());
+                }
+            },
+            error: function (data) {
+            },
+        }).done(function () {           
+        });
+    }
+
+    $(function () {
+        $('#btnAdd').click(function () {
+            $('#tblBookDtl').html("");
+            clearError();
+            document.getElementById('txtRequiredQty').value = 0;
+            document.getElementById('txtIssuedQty').value = 0;
+            document.getElementById('txtRemainigQty').value = 0;
+            document.getElementById('txtRequiredWeight').value = 0;
+            document.getElementById('txtIssuedWeight').value = 0;
+            document.getElementById('txtRemainigWeight').value = 0;
+
+            var BinderAllotMentCode = $("#txtBinderAllotMentCode").val();
+            var ChallanId = $("#hdChallanId").val();
+            $.ajax({
+                url: "/TrxSchChallan/UpdateSchChallan",
+                type: 'POST',                
+                data: { BinderAllotMentCode: BinderAllotMentCode, ChallanId: ChallanId },
+                cache: false,
+                success: function (data)
+                {
+                    if (data.UpdateCode == "ERROR") {
+                        appendMsg(data.UpdateMessage, "ERROR");
+                    }
+                    else {
+                        appendMsg(data.UpdateMessage, "INFO");
+                    }                    
+                    UpScroll();
+                    $('#tblBookDtl').html("Loading....");
+                    var HtmlItems = "";
+                    for (var i = 0; i < data.BookRequisitionCalculatedDtlCollection.length; i++) {
+                        HtmlItems += "<tr id='tr_" + i + "' style='background-color:#6accbb'>";
+                        HtmlItems += "    <td style='text-align:left;width: 15%;'>" + data.BookRequisitionCalculatedDtlCollection[i].Class + "</td>";
+                        HtmlItems += "    <td style='text-align:left;width: 15%;'>" + data.BookRequisitionCalculatedDtlCollection[i].BookCode + "</td>";
+                        HtmlItems += "    <td style='text-align:left;width: 26%;'>" + data.BookRequisitionCalculatedDtlCollection[i].BookName + "</td>";
+                        HtmlItems += "    <td style='text-align:center;width: 15%;'><input class='form-control' id='txtChallanQty_" + i + "'  style='width:90px;text-align: center;' type='text'  value='" + data.BookRequisitionCalculatedDtlCollection[i].ChallanQty + "' /></td>";
+                        HtmlItems += "    <td style='text-align:center;width: 15%;'><input class='form-control' id='txtQty_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='" + data.BookRequisitionCalculatedDtlCollection[i].Qty + "' /></td>";
+                        HtmlItems += "    <td style='text-align:center;width: 14%;'><input class='form-control' id='txtWeight_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='" + data.BookRequisitionCalculatedDtlCollection[i].TotWeight + "'  /></td>";
+                        HtmlItems += "</tr>";
+                    }
+                    $('#tblBookDtl').html(HtmlItems);
+                    document.getElementById('txtRequiredQty').value = data.RequiredQty;
+                    document.getElementById('txtIssuedQty').value = data.IssuedQty;
+                    document.getElementById('txtRemainigQty').value = data.RemainigQty;
+
+                    document.getElementById('txtRequiredWeight').value = data.RequiredWeight;
+                    document.getElementById('txtIssuedWeight').value = data.IssuedWeight;
+                    document.getElementById('txtRemainigWeight').value = data.RemainigWeight;
+                    if (data.UpdateCode == "ERROR") {
+                        alert(data.UpdateMessage);
+                    }
+                    $("#txtBinderAllotMentCode").val("");
+                },
+                error: function (data) {
+                    $('#tblBookDtl').html("");
+                    alert("Some Error Occured");
+                }
+            });
+        });
+
+        $("#txtBinderAllotMentCode").keypress(function (e) {
+            clearError();
+            if (e.which == 13) {
+                $('#btnAdd').click();
+            }
+        });
+    });
+
+    function SaveChallan() {
+        if (document.getElementById("ddlTransporterID").selectedIndex == 0) {
+            alert("Select Transporter..");
+            $('#ddlTransporterID').focus();
+            return false;
+        }             
+       
+        if ($("#txtVehicleNo").val() == "") {
+            alert("Enter Vehicle No..");
+            $('#txtVehicleNo').focus();
+            return false;
+        }
+        if ($("#txtConsigneeNo").val() == "") {
+            alert("Enter Consignee No..");
+            $('#txtConsigneeNo').focus();
+            return false;
+        }
+        if ($("#txtRequiredQty").val() <= 0 || $("#txtRemainigQty").val() > 0) {
+            alert("Required Quantity should be more than  0 and and remaining quantity should be 0 to save challan information!");
+            $('#txtRequiredQty').focus();
+            return false;
+        }
+
+        if (confirm("Are you sure do you want to save the  challan details!") == false) {
+            return false;
+        }
+       
+        $.ajax({
+            url: "/TrxSchChallan/UpdateSchConfirmChallan",
+            type: "POST",
+            data: { "TransporterID": $('#ddlTransporterID').val(), "ConsigneeNo": $("#txtConsigneeNo").val(), "VehicleNo": $('#txtVehicleNo').val(), "ChallanId": $('#hdChallanId').val() },
+            success: function (data) {
+                if (data.UpdateCode == "ERROR") {
+                    appendMsg(data.UpdateMessage, "ERROR");
+                } else {
+                    appendMsg(data.UpdateMessage, "INFO");
+                    alert(data.UpdateMessage);
+                    $('#btnCancel').click();
+                }               
+            },
+            error: function (error) {
+                alert('failed');
+                alert(error);
+            }
+        }).done(function () {
+           // $('#btnCancel').click();
+        });
+    }
+
+</script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Challan Entry Form</strong></h3>
+</div>
+@using (Html.BeginForm("TrxSchChallan", "UpdateSchChallan", FormMethod.Post))
+{
+
+    try
+    {       
+        @Html.Hidden("hdChallanId", Model.ChallanId)   
+        @Html.Hidden("hdLanguageID", Model.LanguageID)  
+        @Html.Hidden("hdDistrictId", Model.DistrictId)  
+        @Html.Hidden("hdCircleId", Model.CircleId)  
+        @Html.Hidden("hd_TransporterID", Model.TransporterID) 
+    
+    }
+    catch
+    {            
+        @Html.Hidden("hdChallanId", -1)   
+        @Html.Hidden("hdLanguageID", -1)  
+        @Html.Hidden("hdDistrictId", -1)  
+        @Html.Hidden("hdCircleId", -1)  
+        @Html.Hidden("hd_TransporterID",-1) 
+    }
+    
+    <div class="panel-body">
+        <table width="80%" border="0" class="table basic">
+            <tr> 
+                 <td style="width: 15%;text-align:right;">Challan No</td>
+                <td  style="width:20%;">
+                    @Html.TextBoxFor(a => a.ChallanNo, new { @id = "txtChallanNo", @style = "width:100%;border:none;", @class = "form-control" })
+                </td>              
+                <td style="width: 15%; text-align:right;">Vehicle No :</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.VehicleNo, new { @id = "txtVehicleNo", @class = "form-control", @maxlength = 35, @style = "width:100%" })</td>
+                <td style="width:30%;"></td>
+            </tr>
+            <tr>
+                <td  style="text-align:right;">Transporter Name :</td>
+                <td>
+                    @Html.DropDownListFor(a => a.TransporterID, new SelectList(Enumerable.Empty<SelectListItem>(), "TransporterID", "Transporter_name"), "Select", new { @id = "ddlTransporterID", @class = "form-control", @style = "width:100%" })
+                </td>
+                 <td style="width: 15%; text-align:right;">Consignee No :</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.ConsigneeNo, new { @id = "txtConsigneeNo", @class = "form-control", @maxlength = 35, @style = "width:100%" })</td>
+                <td>&nbsp;</td>
+            </tr>  
+            <tr>               
+                <td style="text-align:right;">Binder Allotment Code</td>
+                <td>
+                    @Html.TextBoxFor(a => a.BinderAllotMentCode, new { @id = "txtBinderAllotMentCode", @style = "width:100%", @class = "form-control" })
+                </td>
+                <td colspan="3"> <input type="button" id="btnAdd" value="Add" style="width: 100px" class="btn btn-info btn-block" /></td>               
+            </tr>  
+            
+        </table>
+        <div id="ErrorMsgContainer" style="width: 100%; vertical-align: text-top;"> </div>
+        <table width="100%" border="0">
+            <tr>
+                <td style="width: 80%;">
+                    <div style="width: 100%; height: 300px;">
+                        <table width="100%" border="0" class="divDataEntry">
+                            <tr>
+                                <th style="width: 15%;">Class</th>
+                                <th style="width: 15%;">Book Code</th>
+                                <th style="width: 25%;">Book Name</th>
+                                <th style="width: 15%;">Challan Quantity</th>
+                                <th style="width: 15%;"> Quantity</th>
+                                <th style="width: 15%;">Weight</th>
+                            </tr>
+                        </table>
+                        <div style="width: 100%; height: 250px; overflow: scroll; border: 2px solid #808080;">
+                            <table id="tblBookDtl" width="100%" border="0" class="table">
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 20%;">&nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style=" width: 100%; font-size: 16px; font-weight: bold; color: #761313;">
+                        <table border="0" class="divDataEntry">
+                            <tr>
+                                <td style="width: 20%; background-color: #6accbb;text-align: center; ">&nbsp;</td>
+                                <td style="width: 20%; background-color: #6accbb;text-align: center; ">Required</td>  
+                                <td style="width: 20%; background-color: #6accbb;text-align: center; ">Issued</td>  
+                                <td style="width: 20%; background-color: #6accbb;text-align: center; ">Remaining</td>   
+                                <td style="width: 20%; vertical-align:middle;text-align:center;" rowspan="2">
+                                @if (Model.SaveStatus == 1)
+                                {
+                                    <button type="button" id="btnSubmit" name="Command" style="width: 120px;height:50px; " onclick="return SaveChallan();" value="Submit" class="btn btn-mini btn-danger">Save & Confirm 1</button>
+                                }
+                                else
+                                {
+                                  <span> &nbsp;</span> 
+                                }
+                                </td>                          
+                            </tr>
+                            <tr>
+                                <td style="background-color: #6accbb;">Qty (Copies):</td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtRequiredQty' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                </td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtIssuedQty' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                </td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtRemainigQty' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                 </td>
+                                
+                            </tr>
+                            <tr>
+                                <td style="background-color: #6accbb;">Weight (Kgs):</td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtRequiredWeight' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                </td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtIssuedWeight' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                </td>
+                                <td style="text-align: center; background-color: #b0e6db;">
+                                    <input class='form-control' id='txtRemainigWeight' style='width: 100%; text-align: center; color: brown; font-size: 16px;' type='text' value='0' />
+                                 </td>
+                                 <td style="text-align:center;"><a href="/TrxSchChallanViewConfirmed/Index"  id ="btnCancel" style="width: 120px;" class="btn btn-mini btn-danger">Back</a></td>  
+                            </tr>
+                          
+                        </table>
+                    </div>
+                </td>
+                <td>&nbsp; </td>
+            </tr>
+        </table>
+        <div style="margin-top:10px;"></div>
+
+      
+    </div>    
+}
+<script>
+    $(document).ready(function () {
+        $('#txtBinderAllotMentCode').focus();
+        LoadTransporterDetails();
+      
+        $('#btnAdd').click();
+    });
+</script>
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+            };
+    </script>
+}

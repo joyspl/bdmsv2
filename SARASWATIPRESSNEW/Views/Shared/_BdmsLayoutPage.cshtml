@@ -1,0 +1,300 @@
+﻿@using System.Data;
+@using SARASWATIPRESSNEW.BusinessLogicLayer;
+@{    
+    bool isNavigateToUpdateProfile = default(bool);
+    var controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+    if (Session["UserSec"] == null || string.IsNullOrEmpty(Session["UserSec"].ToString()))
+    {
+        Response.Redirect(Url.Action("Index", "CircleLogin"));
+    }
+
+    int circleReferenceId = Session["REF_CRCL_ID_NEW"] != null ? Convert.ToInt32(Session["REF_CRCL_ID_NEW"].ToString()) : default(int);
+
+    if (circleReferenceId > default(int))
+    {
+        DataTable dtRefInfo = new BusinessLogicDbTrx().GetCircleDtilById(circleReferenceId);
+        if (dtRefInfo.Rows.Count > 0 && string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["EMAIL_ID"].ToString())
+            || string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["MOBILE_NO"].ToString())
+            || string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["CIRCLE_ADDRESS"].ToString())
+            || string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["POLICE_STATION"].ToString())
+            //|| string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["ALTERNATE_MOBILE_NO"].ToString())
+            || string.IsNullOrWhiteSpace(dtRefInfo.Rows[0]["CIRCLE_OFFICER_NAME"].ToString()))
+        {
+            isNavigateToUpdateProfile = true;
+        }
+        else
+        {
+            isNavigateToUpdateProfile = default(bool);
+        }
+    }
+    else
+    {
+        isNavigateToUpdateProfile = default(bool);
+    }
+
+    if (isNavigateToUpdateProfile && controllerName != "CircleUserEdit")
+    {
+        Response.Redirect(Url.Action("Index", "CircleUserEdit"));
+    }
+    if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "LOGISTIC" && !Request.Url.AbsolutePath.Contains("InvoiceCumChallanReqList"))
+    {
+        Response.Redirect(Url.Action("Index", "InvoiceCumChallanReqList"));
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<script type="text/javascript" src="/resources/js/jquery.min.js"></script>*@
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script src="@Url.Content("~/resources/js/jquery.blockUI.min.js")"></script>
+    <link href="~/resources/css/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/Styles.css" rel="stylesheet" />
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/resources/js/commonFile.js"></script>
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/resources/js/plugins/bootstrap/bootstrap.min.js"></script>
+    @*<link rel="stylesheet" href="~/resources/demos/style.css">*@
+
+
+
+    <script>
+        var dontBlock = false;
+        var loadingMessage = "<h3><img src=\"/resources/img/ajax-loader.gif\" /> We are processing your request. Please be patient.</h3>";
+
+        $(document).ajaxStart(function () {
+            if (!dontBlock) {
+                try {
+                    $.blockUI({ message: loadingMessage, baseZ: 9999999 })
+                } catch (ex) { }
+            }
+        }).ajaxStop($.unblockUI).ajaxError($.unblockUI);
+
+        $(window).load(function () {
+            try {
+                $.unblockUI();
+            } catch (ex) { }
+        });
+
+        $(function () {
+            try {
+                $(".select2").select2();
+            } catch (exc) { }
+        });
+    </script>
+</head>
+<body>
+    <div class="page-container">
+        <div class='page-sidebar'>
+            <ul class='x-navigation'>
+                <li class='xn-logo'>
+                    <a href='javascript:void(0);'>WB Text Book</a>
+                    <a href='#' class='x-navigation-control'></a>
+                </li>
+                @if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "ADMIN")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>System Admin</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="@(ViewBag.Active == "SchRequisitionApproval" ? "active" : "")"><a href='/SchRequisitionApproval/Index'><span class='fa fa-image'></span>Requisition Approval</a></li>
+                    <li><a href="/MstDistrict/Index"><span class='fa fa-image'></span>District</a></li>
+                    <li><a href="/MstCircle/Index"><span class='fa fa-image'></span>Circle</a></li>
+                    <li><a href="/MstSchool/Index"><span class='fa fa-image'></span>School Master</a></li>
+                    <li><a href="/MstTransporter/Index"><span class='fa fa-image'></span>Transporter</a></li>
+                    <li><a href="/MstLanguage/Index"><span class='fa fa-image'></span>Language</a></li>
+                    <li><a href="/MstChallanBookCeategory/Index"><span class='fa fa-image'></span>Challan Ceategory</a></li>
+                    <li><a href="/MstBookCategory/Index"><span class='fa fa-image'></span>Book Ceategory</a></li>
+                    <li><a href="/Book_Master/Index"><span class='fa fa-image'></span>Book Master</a></li>
+                    <li><a href="/MstCircleUser/Index"><span class='fa fa-image'></span>Circle User</a></li>
+                    <li><a href='/CircleUser/Index'><span class='fa fa-image'></span>Create New Circle</a></li>
+                    <li><a href='/CircleUserView/Index'><span class='fa fa-image'></span>Circle user List</a></li>
+                    <li><a href='/AdminCircleLock/Index'><span class='fa fa-image'></span>Circle Lock</a></li>
+                    <li><a href='/CircleSingleLogin/Index'><span class='fa fa-image'></span>Circle User Login Permission</a></li>
+                    <li><a href='/CircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>
+                    <li class="@(ViewBag.Active == "AdminSummaryReport" ? "active" : "")"><a href='/AdminSummaryReport/Index'><span class='fa fa-image'></span>Summary Report</a></li>
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+                }
+                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>Circle User</div>
+                            </div>
+                        </div>
+                    </li>   
+                    <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+                    <li class="@(ViewBag.Active == "MstSchoolView" ? "active" : "")"><a href='/MstSchoolView/Index'><span class='fa fa-edit'></span>School Master</a></li>              
+                    <li class="@(ViewBag.Active == "TrxSchRequisition" ? "active" : "")"><a href='/TrxSchRequisition/Index'><span class='fa fa-edit'></span>New Requisition</a></li>
+                    <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
+                    @*<li><a href='/StockUpdate/Index'><span class='fa fa-image'></span>Stock Update</a></li>*@
+                    <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>
+                    <li><a href='/MisReport/Index'><span class='fa fa-image'></span>MIS Report</a></li>
+                    @*<li><a href='/InterCircleTrnf/Index'><span class='fa fa-image'></span>Inter Circle Transfer</a></li>*@
+                    <li><a href='/ChallanReceivedAtCircle/index'><span class='fa fa-image'></span>Receive Challan</a></li>
+                    <li><a href='/SchoolChallan/index'><span class='fa fa-image'></span>School Challan</a></li>
+                    <li><a href='/SchoolChallanView/index'><span class='fa fa-image'></span>School Challan View</a></li>
+                    <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+                    <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li> 
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                }
+                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CHALLAN")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>TB User</div>
+                            </div>
+                        </div>
+                    </li>   
+                    
+@*<li class="@(ViewBag.Active=="TrxSchProvisionalChallan"?"active":"")"><a href='/TrxSchProvisionalChallan/Index'><span class='fa fa-book'></span>School Provisional Challan</a></li>
+                    <li class="@(ViewBag.Active=="TrxSchProvisionalChallanView"?"active":"")"><a href='/TrxSchProvisionalChallanView/Index'><span class='fa fa-book'></span>School Provisional Challan View</a></li>
+                    <li class="@(ViewBag.Active=="TrxSchChallanViewConfirmed"?"active":"")"><a href='/TrxSchChallanViewConfirmed/Index'><span class='fa fa-book'></span>Cofirmed Challan List</a></li>*@
+                    <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
+                    <li class="@(ViewBag.Active == "TrxBinderAllotmentQuantityView" ? "active" : "")"><a href='/TrxBinderAllotmentQuantityView/Index'><span class='fa fa-edit'></span>Binder Allotment Qty</a></li>                    
+                    <li class="@(ViewBag.Active == "TrxProvisionalChallanView" ? "active" : "")"><a href='/TrxProvisionalChallanView/Index'><span class='fa fa-image'></span>Provisional Challan View</a></li>
+                    <li class="@(ViewBag.Active == "InvoiceCumChallanReqList" ? "active" : "")"><a href='/InvoiceCumChallanReqList/Index'><span class='fa fa-image'></span>Challan View</a></li>                   
+                    <li class="@(ViewBag.Active == "InvoiceCumChallanReqDetails" ? "active" : "")"><a href='/InvoiceCumChallanReqList/ChallanDetails'><span class='fa fa-image'></span>Challan Details</a></li>
+                    @*<li class="@(ViewBag.Active == "InvoiceCumChallanReqRevertPartial" ? "active" : "")"><a href='/InvoiceCumChallanReqList/PartialChallanRevart'><span class='fa fa-recycle'></span>Partial Challan Revert</a></li>*@
+                    <li class="@(ViewBag.Active == "InvoiceCumChallanReqDetailsNotRcvd" ? "active" : "")"><a href='/InvoiceCumChallanReqList/ChallanNotRcvdAtCircle'><span class='fa fa-image'></span>Not Reeceived Challan</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/CircleWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>Circle Wise Challan Delivery Report</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/DistrictWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>District Wise Challan Delivery Report</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")" ><a href='/BinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Binder Wise Book Quantity Report</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")" ><a href='/ChallanBinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Challan Wise Binder Wise Book Quantity Report</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/Invoice/Index'><span class='fa fa-image'></span>Invoice</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/InvoiceView/Index'><span class='fa fa-image'></span>Invoice View</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href="/UnBilledChallanDtlByDistrict/Index"><span class='fa fa-image'></span>Un-Billed Challan Details</a></li> 
+                    <li class="@(ViewBag.Active == "SummaryReport" ? "active" : "")"><a href='/SummaryReport/Index'><span class='fa fa-image'></span>Delivery Status</a></li>                            
+                    <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                }
+                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "DIRECORATE")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>Directorate User</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="@(ViewBag.Active == "SchRequisitionApproval" ? "active" : "")"><a href='/SchRequisitionApproval/Index'><span class='fa fa-image'></span>Requisition Approval</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/CircleWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>District Wise Circle Wise MIS Report</a></li>
+                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/DistrictWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>District Wise Challan Delivery Report</a></li>
+                    <li class="@(ViewBag.Active == "TrxProvisionalChallanView" ? "active" : "")"><a href='/CircleWiseRequisitionStock/Index'><span class='fa fa-image'></span>Circle Wise School Enrolled Report</a></li>
+                    <li class="@(ViewBag.Active == "SummaryReport" ? "active" : "")"><a href='/SummaryReport/Index'><span class='fa fa-image'></span>Delivery Status</a></li>
+                    <li><a href='/DirectorateHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                }
+                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "DISTRICT")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>District User</div>
+                            </div>
+                        </div>
+                    </li>   
+                    <li class="@(ViewBag.Active == "SchRequisitionApproval" ? "active" : "")"><a href='/SchRequisitionApproval/Index'><span class='fa fa-image'></span>Requisition Approval</a></li>
+                    <li class="@(ViewBag.Active == "TrxProvisionalChallanView" ? "active" : "")"><a href='/MisReportByCircle/Index'><span class='fa fa-image'></span>Circle Wise MIS Report</a></li>                
+                    <li class="@(ViewBag.Active == "InvoiceCumChallanReqList" ? "active" : "")"><a href='/CircleWiseChallanDelivaryReportByDistrict/Index'><span class='fa fa-image'></span>Circle Wise Book Status Report</a></li>
+                    <li class="@(ViewBag.Active == "DistSummaryReport" ? "active" : "")"><a href='/DistSummaryReport/Index'><span class='fa fa-image'></span>Delivery Status</a></li>
+                    <li><a href='/DistrictHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                }
+                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "LOGISTIC")
+                {
+                    <li class='xn-profile'>
+                        <div class='profile'>
+                            <div class='profile-data'>
+                                <div class='profile-data-name'>Logistic User</div>
+                            </div>
+                        </div>
+                    </li>   
+                    
+                    <li class="@(ViewBag.Active == "InvoiceCumChallanReqList" ? "active" : "")"><a href='/InvoiceCumChallanReqList/Index'><span class='fa fa-image'></span>Challan View</a></li>
+                    <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
+                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                }
+            </ul>
+        </div>
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span>Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div style="width: auto; text-align: left; background-color: white;">
+                @*<img src="/resources/img/reports/header.jpg" />*@
+            </div>
+            <!--End Notification -->
+            <br />
+            <div class="page-content-wrap">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="border-bottom: 2px groove #808080;">
+                                <table width="100%" border="0">
+                                    @try
+                                    {
+                                        if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
+                                        {
+                                        <tr>
+                                            <td style="width: 15%;">District Name</td>
+                                            <td style="width: 20%;">@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)</td>
+                                            <td style="width: 15%;">Circle Name</td>
+                                            <td style="width: 20%;">@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)</td>
+                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DisplayName)</td>*@
+                                        </tr>
+                                        }
+                                        else
+                                        {
+                                        <tr>
+                                            <td style="width: 15%;"><span class='fa fa-user'></span>&nbsp; User Id :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)</td>
+                                            <td style="width: 20%;">&nbsp;</td>
+                                            <td style="width: 15%;">&nbsp;</td>
+                                            <td style="width: 20%;">&nbsp;</td>
+                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DisplayName)</td>*@
+                                        </tr>
+                                        }
+                                    }
+                                    catch
+                                    {  <tr>
+                                        <td colspan="4">&nbsp;</td>
+                                    </tr>}
+                                </table>
+                            </div>
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

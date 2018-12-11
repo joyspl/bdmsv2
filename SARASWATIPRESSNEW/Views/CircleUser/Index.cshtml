@@ -1,0 +1,288 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleUser
+@{
+    ViewBag.Title = "Index";
+}
+<head>        
+        <!-- META SECTION -->
+        <title>New Requisition</title>      
+           <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        @*<! <link rel="icon" href="favicon.ico" type="image/x-icon" />*@  
+     
+        <script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+        <script type="text/javascript" src="/resources/js/demo_tables.js"></script> 
+      <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+        <!-- EOF CSS INCLUDE -->                                    
+     <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css"/>
+   
+    </head>
+<script type='text/javascript' src='/resources/js/plugins/jquery/jquery.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jquery/jquery-ui.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap.min.js'></script>
+			<!-- END PLUGINS -->
+		
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/scrolltotop/scrolltopcontrol.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/morris/raphael-min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/morris/morris.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/d3.v3.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/rickshaw.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/owl/owl.carousel.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/moment.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/daterangepicker/daterangepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tagsinput/jquery.tagsinput.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-select.js'></script>
+			<!-- END THIS PAGE PLUGINS-->
+			
+			<script type='text/javascript' src='/resources/js/plugins/jquery-validation/jquery.validate.js'></script>
+			<!-- START TEMPLATE -->
+			<script type='text/javascript' src='/resources/js/settings.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins.js'></script>
+			<script type='text/javascript' src='/resources/js/actions.js'></script>
+			<script type='text/javascript' src='/resources/js/demo_dashboard.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/sprintf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/jspdf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/base64.js'></script>
+
+<!-- End Css Link -->
+<body onload="setDropDown()">
+   <!-- <div><a href="/RequisionView/Index">Requisition List</a></div>
+    <p></p>
+    <div><a href="/CircleUser/Index">Circle User Edit Profile</a></div>
+       -->
+    <div class="page-container" > 
+        <div class='page-sidebar'>  	 
+			<ul class='x-navigation'>  
+			<li class='xn-logo'>  
+			<a href='index.html'>WB Text Book</a>  
+			<a href='#' class='x-navigation-control'></a>  
+			</li>  
+			<li class='xn-profile'>  
+			<div class='profile'>  
+			
+			<div class='profile-data'>  
+			<div class='profile-data-name'>System Admin</div>  
+			  
+			</div>  
+			</div>  
+			</li>  
+			  
+			 
+			 <li><a href='/CircleUser/Index'><span class='fa fa-image'></span>Create New Circle</a></li>
+                <li><a href='/CircleUserView/Index'><span class='fa fa-image'></span>Circle user List</a></li>
+                @*<li><a href='/BookWiseStockReportCircle/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>*@
+                <li><a href='/CircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>
+                <li><a href='/Logout/Index'><span class='fa fa-image'></span>Log out</a></li>
+ 
+		 
+			</div>
+@using (Html.BeginForm("Index", "CircleUser", FormMethod.Post))
+
+{    
+     <div class="page-content">
+           <div style="width: auto; text-align:left; background-color: white;">
+              <img src="/resources/img/reports/header.jpg" />
+                  </div>
+       
+
+
+<!--End Notification -->
+         <br />
+         <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Circle",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                           @Html.DropDownListFor(a => a.CircleID, new SelectList(Model.circlecollection, "CircleID", "Circle_name"), "Select", new { @id = "circleid", @class = "form-control" })
+                                           @Html.ValidationMessageFor(a => a.CircleID, null, new {style="color:red" })
+                                              
+                                           
+                                        </div>
+                                    </div>   
+                                 </div>
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Circle Inspector Name",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.circleofficername,new { @class = "form-control" })  
+                                            @Html.ValidationMessageFor(a => a.circleofficername, null, new {style="color:red" })
+                                        </div>
+                                    </div>   
+                                 </div>
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Address",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.address,new { @class = "form-control" })  
+                                            @Html.ValidationMessageFor(a => a.address, null, new {style="color:red" })
+                                        </div>
+                                    </div>   
+                                 </div>
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Mobile No",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.mobileno,new { @class = "form-control"})  
+                                            @Html.ValidationMessageFor(a => a.mobileno, null, new {style="color:red" })
+                                        </div>
+                                    </div>   
+                                 </div>
+                                     <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Email ID",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.emailid,new { @class = "form-control" })  
+                                            @Html.ValidationMessageFor(a => a.emailid, null, new {style="color:red" })
+                                        </div>
+                                    </div>   
+                                 </div>
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("User Name",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.userid,new { @class = "form-control" })  
+                                            @Html.ValidationMessageFor(a => a.userid, null, new {style="color:red" })
+                                        </div>
+                                    </div>   
+                                 </div>
+                                    <div class="panel-body">
+                             <div class="form-group">
+                                        
+                                         @Html.Label("Password",new { @class="col-md-1 col-xs-6 control-label"})
+                                        <div class="col-md-3 col-xs-12"> 
+                                             @Html.TextBoxFor(a=>a.password,new { @class = "form-control" })  
+                                            @Html.ValidationMessageFor(a => a.password, null, new {style="color:red" })
+                                            <br />
+                                            <input type="submit" id="btnsubmit" class="btn btn-mini btn-danger" value="Save" />
+                                        </div>
+                                    </div>   
+                                 </div>
+                              </div>
+                                
+                                </div>
+                                </div>
+             </div>
+         </div>
+    
+
+    @*<table width="100%">
+        <tr>
+            <td>
+                @Html.Label("Circle")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownListFor(a=>a.CircleID,new SelectList(Model.circlecollection,"CircleID","Circle_name"),"Select",new {@id="circleid"}) 
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.CircleID, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Circle Inspector Name")
+            </td>
+        </tr>  
+             
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.circleofficername)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.circleofficername, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Address")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextAreaFor(a=>a.address)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.address, null, new {style="color:red" })</td>
+        </tr>              
+        <tr>
+            <td>
+                @Html.Label("Mobile No")
+            </td>
+        </tr>
+        <tr>            
+            <td>
+                @Html.TextBoxFor(a=>a.mobileno)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.mobileno, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Email Id")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.emailid)
+            </td>           
+            <td>@Html.ValidationMessageFor(a => a.emailid, null, new { style = "color:red" })</td>
+        </tr>
+       
+        <tr>
+            <td>
+                @Html.Label("User Name")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.userid)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.userid, null, new {style="color:red" })</td>
+        </tr>
+
+         <tr>
+            <td>
+                @Html.Label("Password")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.password)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.password, null, new {style="color:red" })</td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="submit" id="btnsubmit" value="Submit" />
+            </td>
+        </tr>
+    </table>*@
+    
+    
+
+}
+</body>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.CircleUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script>
+    function ExportToExcel() {
+        var url = "/MstCircleUser/ExportCircleUserData";
+        window.location.href = url;
+    }
+</script>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Circle User Master</strong></h3>
+</div>
+<div class="panel-body">
+<table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style=" width:100%;">
+    <tr>
+        <td><a href="/MstCircleUser/AddCircleUsers" style="width: 120px;" class="btn btn-info btn-block">Add New</a></td>
+        <td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+    </tr>
+</table>
+<table width="50%" border="0" align="center" class="table">
+    <tr>
+        <th style="text-align: left; width: 20%;">Circle Name</th>
+        <th style="text-align: left; width: 20%;">circle officer name</th>
+        <th style="text-align: left; width: 20%;">email id</th>
+         <th style="text-align: left; width: 20%;">Circle Address</th>
+        <th style="text-align: left; width: 20%;">user id</th>
+        <th style="text-align: left; width: 20%;">Password</th>
+         <th style="text-align: left; width: 20%;">Active</th>
+        <th style="text-align: left; width: 20%;">Flag</th>
+        <th style="text-align: left; width: 20%;">Pin Code</th>
+        </tr>
+    @try
+    {
+        foreach (var objModel in Model)
+        {
+            <tr>
+                <td style="text-align: left">
+                    <input id="hdId" value="@objModel.CircleID" type="hidden" />
+                    @objModel.circleName
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.CircleOfficerName
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.EmailId
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.Address
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.Userid
+                </td>
+                <td style="text-align: left">                   
+                    @objModel.Password
+                </td>
+              
+                <td style="text-align: left">                   
+                    @(@objModel.active==true?"Yes":"No")
+                </td>
+                <td style="text-align: left">  
+                     @(@objModel.flag==true?"Yes":"No")                 
+                </td>
+                 <td style="text-align: left">                   
+                    @objModel.CirclePinCode
+                </td>
+                 
+            </tr>
+        }
+    }
+    catch (Exception ex)
+    {
+        <tr>
+            <td style="text-align: center" colspan="3"></td>
+        </tr>
+    }
+</table>
+</div>

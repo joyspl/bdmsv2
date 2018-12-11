@@ -1,0 +1,67 @@
+﻿@model SARASWATIPRESSNEW.Models.StockUpdate
+
+@{
+    var objVar = (SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"];
+    var CircleId = ((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleID;
+    
+}
+
+<div class="panel-body">
+    <div class="table-responsive">
+        <table class="table basic table-bordered table-condensed table-hover table-stripped" id="tblStockTrnf">
+            <tr>
+                <th>Book Name</th>
+                <th>Previous Year Stock</th>
+                <th>Previous Year Damaged Stock</th>
+                <th>Net Requisition</th>
+                <th>Total Transferred Books</th>
+                @*<th>No. of Books Rcvd.</th>*@
+            </tr>
+            @try
+            {
+                for (int i = 0; i < Model.reqStockCollection.Count; i++)
+                {
+                <tr class="dtll" data-isconfirmed="@Model.reqStockCollection[i].ISCONFIRMED" data-autoid="@(Model.reqStockCollection[i].AutoID)" data-bookcode="@Model.reqStockCollection[i].BOOK_CODE" data-bookid="@(Model.reqStockCollection[i].BookID)">
+                    <td style="text-align: left">@Model.reqStockCollection[i].BookName (@Model.reqStockCollection[i].BOOK_CODE)</td>
+                    <td style="text-align: center">@Model.reqStockCollection[i].StockUpdateQuantity</td>
+                    <td style="text-align: center">@Model.reqStockCollection[i].StockDamageQuantity</td>
+                    <td style="text-align: center">@Model.reqStockCollection[i].Balance</td>
+                    <td style="text-align: center" class="dtrf">@Html.TextBoxFor(a => a.reqStockCollection[i].TOTAL_TRNF_BOOKS, new { @class = "form-control", @id = "trf_" + i, @onchange = "validateTrnf(" + i + ")" })</td>
+                    @*<td style="text-align: center">@Model.reqStockCollection[i].Balance</td>*@
+                </tr>
+                }
+            }
+            catch (Exception ex)
+            {
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    @*<td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>*@
+                    <td style="text-align: center; visibility: hidden"></td>
+                </tr>
+            }
+            <tr>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.cat_id, new { @id = "mycatid" })
+                </td>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.lan_id, new { @id = "mylanid" })
+                </td>
+                <td style="visibility: hidden">
+                    @Html.TextBoxFor(a => a.stat, new { @id = "mystat" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <button type="button" id="btnSave" name="Command" class="btn btn-mini btn-warning">Save Data</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

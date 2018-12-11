@@ -1,0 +1,375 @@
+﻿@model SARASWATIPRESSNEW.Models.Requisition
+@{
+    ViewBag.Title = "Requisition";
+    Layout = "";
+}
+<head>
+    <title>New Requisition</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+<body onload="setDropDown()">
+    @*<div class="page-container">*@
+        
+        
+        @using (Html.BeginForm("Requisition", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.ReqSessionCode, new { id = "hdReqSessionCode" })
+            if (Model.isConfirmed == "1")
+            {
+                @*<div class="page-content">
+                    <div style="width: auto; text-align:left; background-color: white;">
+                        <img src="/resources/img/reports/header.jpg" />
+                    </div>*@
+                    <!--End Notification -->
+                    <br />
+                    @*<div class="page-content-wrap">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal">
+                                    <div class="panel panel-default">*@
+                                        <div class="panel-heading">
+                                            <div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>&nbsp;&nbsp;</div>
+                                            <h3 class="panel-title"><strong>Book Requisition Entry Form</strong></h3>
+                                        </div>
+                                        <div style="visibility:hidden">
+                                            @Html.Label("Circle", new { @class = "col-md-1 col-xs-6 control-label" })
+                                            @Html.Label(Model.CircleID.ToString(), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.CircleID, null, new { style = "color:red" })
+                                        </div>
+                                       
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Requisition Date")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.RequisitionDate, new { disabled = "disabled", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.SchoolID, new SelectList(Model.schoolCollection, "SchoolID", "schooldisplaytext"), "Select", new { @id = "schoolid", disabled = "disabled", @class = "form-control" })
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School Contact No")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.school_contact_no, new { @id = "school_phne", @class = "form-control", disabled = "disabled" })
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School Email Id")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.school_email_id, new { @id = "school_emailid", @class = "form-control", disabled = "disabled" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Category")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.CategoryID, new SelectList(Model.categoryCollection, "CategoryID", "Category_name"), "Select", new { @id = "categoryid", @class = "form-control", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(a => a.CategoryID, null, new { style = "color:red" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Language")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.LanguageID, new SelectList(Model.languageCollection, "LanguageID", "language_name"), "Select", new { @id = "languageid", disabled = "disabled", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(a => a.LanguageID, null, new { style = "color:red" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @*</div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Requistion List for School Name</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <table width="100%" border="0" class="table basic">
+                                <tr>
+                                    <th style="text-align:center">Class</th>
+                                    <th style="text-align:left">Book Name</th>
+                                    <th style="text-align:left">No of Student <br /> Enrolled</th>
+                                    <th style="text-align:left">Total Requirement</th>
+                                    <th style="visibility:hidden">Book Id</th>
+                                </tr>
+                                @try
+                                {
+                                    for (int i = 0; i < Model.reqTrxCollection.Count; i++)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@Model.reqTrxCollection[i].classname</td>
+                                            <td style="text-align:left">@Model.reqTrxCollection[i].BookName</td>
+                                            <td style="text-align:right">@Html.TextBoxFor(a => a.reqTrxCollection[i].StudentEnrolled, new { @class = "form-control", @id = "prev_" + i, disabled = "disabled", @style = "width:90px;" })</td>
+                                            <td style="text-align:right">@Html.TextBoxFor(a => a.reqTrxCollection[i].QtyRequirement, new { @class = "form-control", @id = "cur_" + i, disabled = "disabled", @style = "width:90px;" })</td>
+                                            <td style="text-align:center;visibility:hidden">@Html.TextBoxFor(a => a.reqTrxCollection[i].BookID)</td>
+                                        </tr>
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    <tr>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center;visibility:hidden"></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.cat_up_id, new { @id = "mycatid" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.lan_up_id, new { @id = "mylanid" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.code_school, new { @id = "myschoolcode" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.stat, new { @id = "mystat" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <h3 class="panel-title" style="color:red;">
+                                            <strong>
+                                                You can only able to view the Requisition but update Not allowed. Please contact system administrator to Unlock the update
+                                            </strong>
+                                        </h3>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                @*</div>*@
+            }
+            else
+            {
+                <div class="page-content">
+                    <div style="width: auto; text-align:left; background-color: white;">
+                        <img src="/resources/img/reports/header.jpg" />
+                    </div>
+                    <!--End Notification -->
+                    <br />
+                    <div class="page-content-wrap">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                            @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>&nbsp;&nbsp;</div>
+                                            <h3 class="panel-title"><strong>Book Requisition Entry Form</strong></h3>
+                                        </div>
+                                        <div style="visibility:hidden">
+                                            @Html.Label("Circle", new { @class = "col-md-1 col-xs-6 control-label" })
+                                            @Html.Label(Model.CircleID.ToString(), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.CircleID, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <a href="/School/Index" class="btn btn-mini btn-danger">Add School</a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Requisition Date")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.RequisitionDate, new { disabled = "disabled", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.SchoolID, new SelectList(Model.schoolCollection, "SchoolID", "schooldisplaytext"), "Select", new { @id = "schoolid", @onchange = "school_details(this.value)", @class = "form-control" })
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School Contact No")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.school_contact_no, new { @id = "school_phne", @class = "form-control" })
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("School Email Id")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.TextBoxFor(a => a.school_email_id, new { @id = "school_emailid", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Category")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.CategoryID, new SelectList(Model.categoryCollection, "CategoryID", "Category_name"), "Select", new { @id = "categoryid", @class = "form-control", @onchange = "Category_detials(this.value)" })
+                                                    @Html.ValidationMessageFor(a => a.CategoryID, null, new { style = "color:red" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Language")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.DropDownListFor(a => a.LanguageID, new SelectList(Model.languageCollection, "LanguageID", "language_name"), "Select", new { @id = "languageid", @onchange = "loadDoc(this.value)", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(a => a.LanguageID, null, new { style = "color:red" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Requistion List for School Name</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <table width="100%" border="0" class="table basic">
+                                <tr>
+                                    <th style="text-align:center">Class</th>
+                                    <th style="text-align:left">Book Name</th>
+                                    <th style="text-align:left">No of Student <br /> Enrolled</th>
+                                    <th style="text-align:left">Total Requirement</th>
+                                    <th style="visibility:hidden">Book Id</th>
+                                </tr>
+                                @try
+                                {
+                                    for (int i = 0; i < Model.reqTrxCollection.Count; i++)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@Model.reqTrxCollection[i].classname</td>
+                                            <td style="text-align:left">@Model.reqTrxCollection[i].BookName</td>
+                                            <td style="text-align:right">@Html.TextBoxFor(a => a.reqTrxCollection[i].StudentEnrolled, new { @class = "form-control", @id = "prev_" + i, @onchange = "autoFill(" + i + ")", @style = "width:90px;" })</td>
+                                            <td style="text-align:right">@Html.TextBoxFor(a => a.reqTrxCollection[i].QtyRequirement, new { @class = "form-control", @id = "cur_" + i, @onchange = "compare(" + i + ")", @style = "width:90px;" })</td>
+                                            <td style="text-align:center;visibility:hidden">@Html.TextBoxFor(a => a.reqTrxCollection[i].BookID)</td>
+                                        </tr>
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    <tr>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center;visibility:hidden"></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.cat_up_id, new { @id = "mycatid" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.lan_up_id, new { @id = "mylanid" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.code_school, new { @id = "myschoolcode" })
+                                    </td>
+                                    <td style="visibility:hidden">
+                                        @Html.TextBoxFor(a => a.stat, new { @id = "mystat" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger" onclick="Submit();">Save Requisition</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+
+        }
+    </div>
+    <script>
+
+        function loadDoc(x) {
+            //alert(x + document.getElementById('languageid').value);
+            //window.location.href += "";
+            window.location.href = "?CategoryId=" + document.getElementById('categoryid').value + "&LanguageId=" + x + "&SchoolId=" + document.getElementById('schoolid').value;
+            location.reload(a, document.getElementById('languageid').value, document.getElementById('schoolid').value);
+        }
+        function school_details(s) {
+            window.location.href = "?CategoryId=" + document.getElementById('categoryid').value + "&LanguageId=" + document.getElementById('languageid').value + "&SchoolId=" + s;
+            location.reload(a, b, e);
+        }
+        function Category_detials(s) {
+            document.getElementById('languageid').value = "Select";
+            loadDoc(0);
+        }
+
+        function setDropDown() {
+            var lan_id = document.getElementById('mylanid').value;
+            var cat_id = document.getElementById('mycatid').value;
+            var school_code = document.getElementById('myschoolcode').value;
+
+            document.getElementById('categoryid').value = cat_id;
+            document.getElementById('languageid').value = lan_id;
+            document.getElementById('schoolid').value = school_code;
+        }
+        function autoFill(val) {
+            // if (document.getElementById('prev_' + val).value = "" ) { document.getElementById('prev_' + val).value = 0; document.getElementById('cur_' + val).value = 0; }
+            document.getElementById('cur_' + val).value = document.getElementById('prev_' + val).value;
+        }
+        function compare(val) {
+            // if (document.getElementById('cur_' + val).value = "") { document.getElementById('cur_' + val).value = 0; }
+            // if (document.getElementById('cur_' + val).value = "") { document.getElementById('prev_' + val).value = 0; document.getElementById('cur_' + val).value = 0; }
+            if (parseInt(document.getElementById('cur_' + val).value) > parseInt(document.getElementById('prev_' + val).value)) {
+                document.getElementById('cur_' + val).value = document.getElementById('prev_' + val).value;
+            }
+        }
+        function Submit() {
+
+            if (confirm("Are you sure you want to submit ?")) {
+                document.getElementById('mystat').value = true;
+            } else {
+                document.getElementById('mystat').value = false;
+            }
+        }
+
+    </script>
+</body>
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["Message"] as string)");
+        };
+    </script>
+}

@@ -1,0 +1,155 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.InvoiceCumChallan>
+@{
+    bool isConfrmImplemented = true;
+    
+    SARASWATIPRESSNEW.UserSec objUser;
+    try
+    {
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+    }
+    catch (Exception)
+    {
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+
+@if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        <button class="btn btn-success" id="btnSendSmsToAll">Send SMS to All</button>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <button class="btn btn-success" id="btnSendEmailToAll">Send Email to All</button>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" id="btnExportToExcel">Export to Excel</button>
+                    </td>
+                    @*For MVC Report Export to Excel using Crystal Report - Start*@
+                    @*<td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" id="btnExportToExcel">Export to Excel</button>
+                    </td>*@
+                    @*For MVC Report Export to Excel using Crystal Report - End*@
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+<div class="panel-body">
+    <div class="form-group" style="max-height: 350px; overflow-y: auto;">
+        <table id="tblInvCumChalNewList" style="width: 100%;" class="table table-bordered table-hover table-condensed table-striped table-responsive">
+            <thead>
+                <tr>
+                    @if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+                    {
+                        <th>
+                            <input type="checkbox" class="chkparent" />
+                        </th>
+                    }
+                    <th>Action</th>
+                    <th>Challan No.</th>
+                    <th>Challan Date</th>
+                    <th>District</th>
+                    <th>Circle</th>
+                    @*<th>Inspecter Contact Details</th>*@
+                    <th>Category</th>
+                    <th>Language</th>
+                    <th>Transporter Name</th>
+                    <th>Consignee No.</th>
+                    <th>Vehicle No.</th>
+                    @*<th>Circle Mobile No.</th>
+                    <th>Circle Email ID No.</th>*@
+                </tr>
+            </thead>
+            <tbody id="tbdyInvCumChalNewList">
+                @if (Model != null && Model.Count() > default(int))
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="cb" data-challanid="@item.ChallanId" data-crclinsp-name="@item.InspectorName" data-crclinsp-phone="@item.InspectorPhoneNo" data-crclinsp-email="@item.InspectorEmailId">
+                            @if (isConfrmImplemented)
+                            {
+                                <td>
+                                    @*@if (item.IsInvoiceCreated == "0")
+                                    @if (item.ConfirmStatus == 0)
+                                    {*@
+                                        <input type="checkbox" class="chkchild" data-challannum="@item.InvoiceCumChallanNo" data-challanid="@item.ChallanId" data-crclinsp-name="@item.InspectorName" data-crclinsp-phone="@item.InspectorPhoneNo" data-crclinsp-email="@item.InspectorEmailId" />
+                                   @* }*@
+                                </td>
+                            }
+                            <td>
+                                <a href="javascript:void(0);" class="challancancel" data-challanid="@item.ChallanId" style="display: none;"> Cancel</a>&nbsp;
+                                @*@if (item.IsInvoiceCreated == "0")*@
+                                @if (item.ConfirmStatus == 0)
+                                {
+                                    if (isConfrmImplemented)
+                                    {
+                                        @*<a href="@(string.Format("{0}{1}?Command=Edit", Url.Content("~/InvoiceCumChallanReqList/EditOperation/"), item.ChallanId))">Edit</a>*@
+                                        <a href="javascript:void(0);" class="aEdit" data-challanid="@item.ChallanId">Edit</a>
+                                        @Html.Raw("&nbsp;|&nbsp");
+                                        <a href="@(string.Format("{0}{1}?Command=Print&isdemoprint=1", Url.Content("~/InvoiceCumChallanReqList/PrintOperation/"), item.ChallanId))" target="_blank">Print</a>   
+                                    }
+                                }
+                                else
+                                {
+                                    <a href="@(string.Format("{0}{1}?Command=Print&isdemoprint=0", Url.Content("~/InvoiceCumChallanReqList/PrintOperation/"), item.ChallanId))" target="_blank">Print</a>   
+                                }
+                            </td>
+                            <td>@item.InvoiceCumChallanNo</td>
+                            <td>@item.InvoiceCumChallanDate</td>
+                            <td>@item.DistrictName</td>
+                            <td>@item.CircleName</td>
+                            @*<td>@string.Format("{0} ({1})", item.InspectorPhoneNo, item.InspectorEmailId)</td>*@
+                            <td>@item.CategoryName</td>
+                            <td>@item.Language</td>
+                            <td>@item.Transporter</td>
+                            <td>@item.CONSIGNEE_NO</td>
+                            <td>@item.VEHICLE_NO</td>
+                            @*<td>@item.InspectorPhoneNo</td>
+                            <td>@item.InspectorEmailId</td>*@
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" style="text-align: center; color: #f00; height: 100px;">No record found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (Model != null && Model.Count() > default(int) && isConfrmImplemented)
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        <button class="btn btn-danger" id="btnConfirmInvoice">Confirm Selected Challan</button>
+                    </td>
+                    @if (objUser.HasChallanRevertPermission > default(int))
+                    { 
+                        <td style="padding-left: 5%;">
+                            <button class="btn btn-primary" id="btnUnconfirmInvoice">Revert Selected Challan</button>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+    </div>
+}

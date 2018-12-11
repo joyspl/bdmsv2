@@ -1,0 +1,257 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+@{
+    ViewBag.Title = "Partial Challan Revert";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+
+    SARASWATIPRESSNEW.UserSec objUser;
+    try
+    {
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+    }
+    catch (Exception)
+    {
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>@ViewBag.Title</strong></h3>
+</div>
+<div class="panel-body padding-b-0">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">From Date</label>
+        <div class="col-md-3 col-xs-4">
+            @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @maxlength = "15", @class = "form-control" })
+        </div>
+        <label class="col-md-1 col-xs-2 control-label">To Date</label>
+        <div class="col-md-3 col-xs-4">
+            @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @maxlength = "15", @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-1 col-xs-2 control-label">Challan No.</label>
+        <div class="col-md-3 col-xs-6">
+            <select id="ddlChallanEntry" class="form-control select2"></select>
+        </div>
+    </div>
+</div>
+<div class="panel-body" id="dvChallanDetails"></div>
+<div class="panel-body">
+    <div class="form-group">
+        <table id="tblChallanRevert" style="width: 100%;" class="table table-bordered table-hover table-condensed table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Book Code</th>
+                    <th>Book Name</th>
+                    <th>Shipped Qty.</th>
+                    <th>Cancelled Qty.</th>
+                    <th>Revised Qty.</th>
+                </tr>
+            </thead>
+            <tbody id="tbdyChallanrevert"></tbody>
+        </table>
+    </div>
+</div>
+<div class="panel-body" id="dvRevertBtn">
+    @if (objUser.HasChallanRevertPermission > default(int))
+    {
+        <div class="form-group pull-right">
+            <button id="btnRevertPartialChallanQty" class="btn btn-primary">Revert Challan Quantity</button>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <link href="~/resources/css/noty.css" rel="stylesheet" />
+    <script src="~/Scripts/noty.min.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.compatibility.js"></script>
+    <script src="~/Scripts/jquery.scannerdetection.js"></script>
+    <link href="~/resources/css/BarCode/BarCode.css" rel="stylesheet" />
+    <script>
+        var lotManualQty = @(System.Configuration.ConfigurationManager.AppSettings["ManualQty"] != null ? Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["ManualQty"]) : 25);
+
+        $(function () {
+            var date = new Date();
+            var dateNew = new Date();
+            dateNew.setDate(dateNew.getDate() - 2);
+            var firstDay = dateNew;
+
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    LoadChallanDropDown(dateText, $("#txtEndDate").val(), -1, -1);
+                }
+            }).datepicker('setDate', firstDay);
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                onSelect: function (dateText) {
+                    LoadChallanDropDown($("#txtStartDate").val(), dateText, -1, -1);
+                }
+            }).datepicker('setDate', date);
+
+            $("#dvRevertBtn").hide();
+            LoadChallanDropDown($("#txtStartDate").val(), $("#txtEndDate").val(), -1, -1);
+        });
+
+        var scannedBarcodeList =[];
+        var duplicatescannedBarcodeList =[];
+
+        $(document).off("change", "#ddlChallanEntry").on("change", "#ddlChallanEntry", function (e) {
+            if ($(this).val() != "0") {
+                $.ajax({
+                    url: '@(Url.Action("GetChallanDetailsOnDemandForRevert", "InvoiceCumChallanReqList", new { area = "" }))' + '?challanId=' + $(this).val(),
+                    type: 'GET'
+                }).done(function (data) {
+                    $("#dvChallanDetails").empty().html(data);
+                    GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#ddlChallanEntry").val());
+                }).always(function (data) {
+                    try { } catch (exc) { }
+                });
+            } else {
+                $("#dvChallanDetails").empty();
+                $("#dvRevertBtn").hide();
+                $("tbody#tbdyChallanrevert").empty().append("<tr><td colspan=\"5\" style=\"text-align: center\">No record found</td></tr>");
+            }
+        });
+
+        function GetReqBookDtlNew(disId, cirId, catId, langId, challanId) {
+            $.ajax({
+                url: '@(Url.Action("GetBooksReqDetailsForRevert", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { District: disId, CircleId: cirId, categoryId: catId, languageId: langId, ChallanId: challanId, isPartialViewRequest: true },
+            }).done(function (data) {
+                $("tbody#tbdyChallanrevert").empty().append(data);
+                if ($('table#tblChallanRevert tr.dta').length > 0) {
+                    $("#dvRevertBtn").show();
+                } else {
+                    $("#dvRevertBtn").hide();
+                }
+            }).always(function (data) {
+                try { } catch (ex) { }
+            });
+        }
+
+        $(document).off("click", "#btnRevertPartialChallanQty").on("click", "#btnRevertPartialChallanQty", function (e) {
+            if (confirm("Are you sure to revert challan quantities?")) {
+                var selected = [];
+                $("tbody#tbdyChallanrevert tr.dta").each(function () {
+                    if ($(this).find("td input[type=text]").val() != "0") {
+                        var obj = new Object();
+                        obj.Book_Code = $(this).attr("data-originalbookcode");
+                        obj.RevisedQty = ($(this).find("td.tdrqty").find("strong").text() * 1);
+                        obj.CancelledQty = ($(this).find("td input[type=text]").val() * 1);
+                        selected.push(obj);
+                    }
+                });
+
+                var mData = new Object();
+                mData.lst = escape(JSON.stringify(selected));
+                mData.ChallanId = ($("#ddlChallanEntry").val() * 1);
+
+                $.ajax({
+                    url: "@Url.Action("UpdateRevertChallanDetails", "InvoiceCumChallanReqList", new { area = "" })",
+                    type: "POST",
+                    data: JSON.stringify(mData),
+                    contentType: "application/json; charset=utf-8"
+                }).done(function (data) {
+                    alert(data.Message);
+                    if (data.Success > 0) {
+                        GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#ddlChallanEntry").val());
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+        function LoadChallanDropDown(fromDate, toDate, CirID, DisID) {
+            $.ajax({
+                @*url: '@(Url.Action("GetChallanViewData", "InvoiceCumChallanReqList", new { area = "" }))',*@
+                url: '@(Url.Action("GetChallanViewDataMinimal", "InvoiceCumChallanReqList", new { area = "" }))',
+                type: 'POST',
+                data: { startDate: fromDate, endDate: toDate, CircleID: CirID, DistrictID: DisID, isFinalRequest: true }
+            }).done(function (data) {
+                var list = document.getElementById("ddlChallanEntry");
+                list.innerHTML = "";
+                list.add(new Option("Select Challan No.", "0"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].InvoiceCumChallanNo, data[i].ChallanId));
+                    }
+                }
+            }).always(function (data) {
+                if (CirID == "-1" || DisID == "-1") {
+                    $("#dvChallanDetails").empty();
+                    $("#dvRevertBtn").hide();
+                    $("tbody#tbdyChallanrevert").empty().append("<tr><td colspan=\"5\" style=\"text-align: center\">No record found</td></tr>");
+                }
+            });
+        }
+
+        $(document).off("click", "#btnSelectAll").on("click", "#btnSelectAll", function (e) {
+            $(".chkIndvidual").prop("checked", true);
+        });
+
+        $(document).off("click", "#btnDeSelectAll").on("click", "#btnDeSelectAll", function (e) {
+            $(".chkIndvidual").prop("checked", false);
+        });
+
+        function CheckForRevertQty(elem) {
+            try {
+                if ((($(elem).val() * 1) > 0)) {
+                    if (($(elem).closest("tr.dta").find("td.tdqty").text() * 1) >= ($(elem).val() * 1)) {
+                        if (($(elem).val() * 1) % lotManualQty == 0) {
+                            //elem.style.backgroundColor = "#6accbb";
+                            $(elem).closest("tr.dta").find("td.tdrqty").html("<strong style=\"color: #ff0000;\">" + (($(elem).closest("tr.dta").find("td.tdqty").text() * 1) - ($(elem).val() * 1)) + "</strong>");
+                        } else {
+                            $(elem).val("0");
+                            //elem.style.backgroundColor = "";
+                            $(elem).closest("tr.dta").find("td.tdrqty").html("<strong style=\"color: #2d702f;\">" + (($(elem).closest("tr.dta").find("td.tdqty").text() * 1) - ($(elem).val() * 1)) + "</strong>");
+                            alert("Quantity deduction not allowed");
+                            $(elem).focus();
+                        }
+                    } else {
+                        $(elem).val("0");
+                        //elem.style.backgroundColor = "";
+                        $(elem).closest("tr.dta").find("td.tdrqty").html("<strong style=\"color: #2d702f;\">" + (($(elem).closest("tr.dta").find("td.tdqty").text() * 1) - ($(elem).val() * 1)) + "</strong>");
+                        alert("Quantity cannot be more than shipped quantity");
+                        $(elem).focus();
+                    }
+                } else {
+                    $(elem).val("0");
+                    //elem.style.backgroundColor = "";
+                    $(elem).closest("tr.dta").find("td.tdrqty").html("<strong style=\"color: #2d702f;\">" + (($(elem).closest("tr.dta").find("td.tdqty").text() * 1) - ($(elem).val() * 1)) + "</strong>");
+                }
+            } catch (ex) { }
+        }
+
+        function CheckAndRemoveExistingValue(el) {
+            if ($(el).val() == "0") {
+                $(el).val("");
+            }
+        }
+
+        function CheckAndSetValueOnBlur(el) {
+            if ($(el).val() == "") {
+                $(el).val("0");
+            }
+        }
+
+        $(document.body).on("keydown", ".number", function (e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 32, 13, 110, 188, 189, 190, 191]) !== -1
+                || (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true))
+                || (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57))
+                && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

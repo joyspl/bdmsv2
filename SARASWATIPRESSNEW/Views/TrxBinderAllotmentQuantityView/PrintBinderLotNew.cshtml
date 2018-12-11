@@ -1,0 +1,30 @@
+﻿@using Microsoft.Reporting.WebForms
+@model Tuple<SARASWATIPRESSNEW.Models.BinderAllotQuantity, List<SARASWATIPRESSNEW.Models.BinderAllotQuantityDtl>>
+
+@{
+    ViewBag.Title = "Print Barcode";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print Barcode</title>
+</head>
+<body>
+    <div>
+        @*@if (Model.Item2 != null && Model.Item2.Count() > default(int))
+            {
+                ReportViewer rptViewer = new ReportViewer();
+                rptViewer.LocalReport.ReportPath = Server.MapPath(@"~/BarcodeGenerator/rptBarcode.rdlc");
+                ReportDataSource ds = new ReportDataSource("dsBarcode", Utility.ToDataTable<SARASWATIPRESSNEW.Models.BinderAllotQuantityDtl>(Model.Item2));
+                rptViewer.LocalReport.DataSources.Clear();
+                rptViewer.LocalReport.DataSources.Add(ds);
+                rptViewer.DataBind();
+                rptViewer.LocalReport.Refresh();
+            }*@
+        @Html.Partial("vwBarcode", Model);
+    </div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+﻿@model SARASWATIPRESSNEW.Models.SchRequisitionView
+@{
+    ViewBag.Title = "Requisition Approval";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+
+    SARASWATIPRESSNEW.UserSec objUser;
+    try
+    {
+        objUser = Session["UserSec"] != null ? ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]) : new SARASWATIPRESSNEW.UserSec();
+    }
+    catch (Exception)
+    {
+        objUser = new SARASWATIPRESSNEW.UserSec();
+    }
+}
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#btnView').click(function () {
+            var distId = @(Session["UserSec"] != null ? (string.IsNullOrWhiteSpace(((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) ? "0" : ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) : "0");
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            if(distId>0)
+            {
+                var sendDistId= distId;
+            }
+            else{
+
+                var sendDistId= $("#ddlDistrict").val();
+            }
+            $.ajax({
+                url: "/SchRequisitionApproval/GetSchRequisionViewListData",
+                type: 'POST',
+                //data: { startDate: fromDate, endDate: toDate, districtId: $("#ddlDistrict").val(), circleId: $("#ddlCircle").val(), isapproved: ($("#chkIsApprovedRecords").is(":checked") ? 1 : 0) },
+                data: { startDate: fromDate, endDate: toDate, districtId: sendDistId, circleId: $("#ddlCircle").val(), isapproved: ($("#chkIsApprovedRecords").is(":checked") ? 1 : 0) },
+                cache: false,
+                success: function (data) {
+                    $('#tblBookDtl').empty().append(data);
+                },
+                error: function (data) {
+                    alert("Some Error Occured");
+                }
+            });
+        });
+    });
+
+    function ApproveRequisition() {
+        var _griddata = gridTojson();
+        if (_griddata.trim() == "") {
+            alert("Please select atleast one Requisition from the list.");
+            return false;
+        }
+        if (confirm("Are you sure do you want to Approve selected Requisition?") == false) {
+            return false;
+        }
+        $.ajax({
+            url: "/SchRequisitionApproval/RequisitionApproval",
+            type: 'POST',
+            data: { griddata: _griddata },
+            cache: false,
+            success: function (data) {
+                $('#btnView').click();
+                alert(data);
+            },
+            error: function (data) { }
+        });
+    }
+
+    function selectall(source) {
+        checkboxes = document.getElementsByClassName('chkApprove');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+    
+    function gridTojson() {
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByClassName('chkApprove');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+        return json;
+    }
+
+    function ExportHdrToExcel() {
+        $.ajax({
+            url: '@Url.Action("GetSchRequisionViewListDataToExcel", "SchRequisitionApproval", new { area = "" })?startDate=' + $("#txtStartDate").val() + '&endDate=' + $("#txtEndDate").val() + '&districtId=' + $("#ddlDistrict").val() + '&circleId=' + $("#ddlCircle").val() + '&isapproved=' + ($("#chkIsApprovedRecords").is(":checked") ? 1 : 0),
+            type: 'GET'
+        }).done(function (data) {
+            if (data != null && data != "" && data.Filename != "") {
+                window.location.href = '@Url.Action("Download", "SchRequisitionApproval", new { area = "" })' + '/?file=' + data.Filename;
+            } else {
+                alert("Unable to generate file");
+            }
+        });
+    }
+</script>
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <strong>Book Requisition List Approval Status</strong>
+        @*<br />
+        <small style="font-size: 14px; color: red;">The last date for submission of  requisition for classes Pre-primary to X is 10-07-2018. Any unconfirmed requisition will be auto confirmed on 10-07-2018.</small>*@
+    </h3>
+</div>
+@if (objUser.UserType == "2")
+{
+    <div class="panel-body">
+        <div class="form-group" >
+            <div style="display:none">
+                <label class="col-md-1 col-xs-2 control-label">District</label>
+                <div class="col-md-3 col-xs-4">
+                    <select id="ddlDistrict" class="form-control select2" disabled></select>
+                </div>
+            </div>
+            <label class="col-md-1 col-xs-2 control-label">Circle</label>
+            <div class="col-md-3 col-xs-4">
+                <select id="ddlCircle" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" >
+        <div class="form-group">
+            <div class="col-md-1 col-xs-1">
+                <input type="checkbox" id="chkIsApprovedRecords" />
+            </div>
+            <label for="chkIsApprovedRecords" class="col-md-6 col-xs-6 control-label">Show Approved Records</label>
+        </div>
+    </div>
+}
+
+@if (objUser.UserType == "5" )
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <div >
+                <label class="col-md-1 col-xs-2 control-label">District</label>
+                <div class="col-md-3 col-xs-4">
+                    <select id="ddlDistrict" class="form-control select2" ></select>
+                </div>
+            </div>
+            <label class="col-md-1 col-xs-2 control-label">Circle</label>
+            <div class="col-md-3 col-xs-4">
+                <select id="ddlCircle" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-1 col-xs-1">
+                <input type="checkbox" id="chkIsApprovedRecords" />
+            </div>
+            <label for="chkIsApprovedRecords" class="col-md-6 col-xs-6 control-label">Show Approved Records?</label>
+        </div>
+    </div>
+}
+
+<!-- 4.12.18 Admin section -->
+
+@if (objUser.UserType == "3")
+{
+    <div class="panel-body">
+        <div class="form-group">
+            <div>
+                <label class="col-md-1 col-xs-2 control-label">District</label>
+                <div class="col-md-3 col-xs-4">
+                    <select id="ddlDistrict" class="form-control select2"></select>
+                </div>
+            </div>
+            <label class="col-md-1 col-xs-2 control-label">Circle</label>
+            <div class="col-md-3 col-xs-4">
+                <select id="ddlCircle" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-1 col-xs-1">
+                <input type="checkbox" id="chkIsApprovedRecords" />
+            </div>
+            <label for="chkIsApprovedRecords" class="col-md-6 col-xs-6 control-label">Show Approved Records?</label>
+        </div>
+    </div>
+}
+
+<div class="panel-body">
+    <table id="tblBtn" class="table" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+        <tr>
+            <td style="width: 15%;">@Html.Label("From Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.StartDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            <td style="width: 15%;">@Html.Label("End Date")</td>
+            <td style="width: 15%;">@Html.TextBoxFor(a => a.EndDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+            <td style="width: 25%;">
+                <input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" />
+            </td>
+            <td style="width: 15%;">
+                <input type="button" id="btnEmail" value="Export To Excel" onclick="ExportHdrToExcel();" style="width: 120px" class="btn btn-info btn-block" />
+            </td>
+        </tr>
+    </table>
+    <div style="width: 100%; height: 50vh;">
+        <table id="header" width="100%" class="divDataEntry" border="0">
+
+            <!-- 4.12.18 Admin list section -->
+
+            @if (objUser.UserType == "3")
+            {
+                <tr>
+                    <td style="text-align: center; width: 10%;"><input type="checkbox" onclick="selectall(this)" />&nbsp;&nbsp;&nbsp;Approved</td>
+                    
+                    <td style="text-align: center; width: 5%;">Action</td>
+                    <td style='text-align: center; width: 15%;'>Requisition Code</td>
+                    <td style='text-align: center; width: 10%;'>Requisition Date</td>
+                    @*<td style='width: 10%;'>School Code</td>*@
+                    <td style='width: 25%;'>School Name</td>
+                    <td style='width: 10%;'>Language</td>
+                    <td style='width: 15%;'>Category</td>
+                    <td style='width: 10%;'>Approved On</td>
+                </tr>
+            }
+
+@if (objUser.UserType == "5" )
+{
+            <tr>
+                <td style="text-align: center; width: 10%;"><input type="checkbox" onclick="selectall(this)" />&nbsp;&nbsp;&nbsp;Approved</td>
+                <td style="text-align: center; width: 5%;">Approved By District</td>
+                <td style="text-align: center; width: 5%;">Action</td>
+                <td style='text-align: center; width: 15%;'>Requisition Code</td>
+                <td style='text-align: center; width: 10%;'>Requisition Date</td>
+                @*<td style='width: 10%;'>School Code</td>*@
+                <td style='width: 25%;'>School Name</td>
+                <td style='width: 10%;'>Language</td>
+                <td style='width: 15%;'>Category</td>
+                <td style='width: 10%;'>Approved On</td>
+            </tr>
+}
+
+            @if (objUser.UserType == "2")
+            {
+                <tr>
+                    <td style="text-align: center; width: 10%;"><input type="checkbox" onclick="selectall(this)" />&nbsp;&nbsp;&nbsp;Approved By District</td>
+                    <td style="text-align: center; width: 8%;">Director Approval</td>
+                    <td style="text-align: center; width: 5%;">Action</td>
+                    <td style='text-align: center; width: 15%;'>Requisition Code</td>
+                    <td style='text-align: center; width: 10%;'>Requisition Date</td>
+                    @*<td style='width: 10%;'>School Code</td>*@
+                    <td style='width: 25%;'>School Name</td>
+                    <td style='width: 10%;'>Language</td>
+                    <td style='width: 15%;'>Category</td>
+                    <td style='width: 10%;'>Approved On</td>
+                </tr>
+            }
+        </table>
+        <div style="width: 100%; height: 42vh; overflow: scroll; margin-top: 0px; border: 2px solid #808080;">
+            <table id="tblBookDtl" width="100%" border="0" class="table basic">
+                <tr>
+                    <td>Loading...</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <table width="100%" border="0">
+        <tr>
+            <td style="width: 15%;">
+                <button type="button" id="btnSubmit" name="Command" onclick="ApproveRequisition();" class="btn btn-mini btn-danger">Approve Selected</button>
+            </td>
+            <td style="width: 85%;">
+                <p style='font-size: 12px; color: green;'>Select The requisition Check box and click on Approve Selected button to approve selected requisition</p>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var date = new Date();
+        var dateNew = new Date();
+        dateNew.setDate(dateNew.getDate() - 7);
+        var firstDay = dateNew;
+
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', firstDay);
+
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', date);
+
+        LoadDistrict();
+
+        $('#btnView').trigger("click");
+    });
+
+    $(document).off("change", "#ddlDistrict").on("change", "#ddlDistrict", function (e) {
+        LoadCircleByDistrict($(this).val());
+        $('#tblBookDtl').empty();
+    });
+
+    $(document).off("change", "#ddlCircle").on("change", "#ddlCircle", function (e) {
+        $('#btnView').trigger("click");
+    });
+
+    $(document).off("click", ".aPrint").on("click", ".aPrint", function (e) {
+        //window.open
+    });
+
+    function LoadDistrict() {
+        $.ajax({
+            url: '@(Url.Action("GetDistrictDetails", "InvoiceCumChallan", new { area = "" }))',
+            type: 'POST'
+        }).done(function (data) {
+            var list = document.getElementById("ddlDistrict");
+            list.innerHTML = "";
+            list.add(new Option("All District", "-1"));
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    list.add(new Option(data[i].Text, data[i].Value));
+                }
+            }
+            var distId = @(Session["UserSec"] != null ? (string.IsNullOrWhiteSpace(((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) ? "0" : ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) : "0");
+            if(distId>0)
+            {
+                $("#ddlDistrict").val(distId);
+                LoadCircleByDistrict(distId);
+            }
+            
+            
+        }).always(function (data) {
+            if ($("#ddlDistrict").val() == "-1") {
+                var list = document.getElementById("ddlCircle");
+                list.innerHTML = "";
+                list.add(new Option("All Circle", "-1"));
+            }
+        });
+    }
+
+    function LoadCircleByDistrict(distId) {
+        if (distId == "-1") {
+            var list = document.getElementById("ddlCircle");
+            list.innerHTML = "";
+            list.add(new Option("All Circle", "-1"));
+        } else {
+            $.ajax({
+                url: '@(Url.Action("GetCircleDetailsOfaDistrict", "InvoiceCumChallan", new { area = "" }))',
+                type: 'POST',
+                data: { DistrictID: distId }
+            }).done(function (data) {
+                var list = document.getElementById("ddlCircle");
+                list.innerHTML = "";
+                list.add(new Option("All Circle", "-1"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].Text, data[i].Value));
+                    }
+                }
+            });
+        }
+    }
+</script>
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

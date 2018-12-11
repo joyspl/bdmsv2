@@ -1,0 +1,616 @@
+﻿@model SARASWATIPRESSNEW.Models.SchProvisionalChallan
+@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadDistrictDetails();
+        LoadLanguageMasterDetails();
+        
+    });
+    function LoadDistrictDetails() {
+        $.ajax({
+            url: "/TrxSchProvisionalChallan/GetDistrictDetails",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<--Select District-->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No District Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<--Select District-->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlDistrict').html(HtmlItems);
+                $('#ddlCircle').html("<option value='-1'><<--Select Circle-->></option>");
+                var DistrictId = $("#hdDistrictId").val()
+                if (DistrictId > 0) {
+                    $("#ddlDistrict").val($("#hdDistrictId").val());
+                    document.getElementById("ddlDistrict").disabled = true;
+                    $('#ddlDistrict').change();
+                }
+            },
+            error: function (data) {
+            }
+        });
+
+    }
+    function LoadLanguageMasterDetails() {
+        $.ajax({
+            url: "/TrxSchRequisition/GetLanguageMasterDtl",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                var itemCount = 0;
+                if (data.length == 0) {
+                    HtmlItems = '<option>No Language Aailable</option>';
+                }
+                else {
+                    HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                }
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                });
+                $('#ddlLanguageName').html(HtmlItems);
+                var LanguageID = $("#hdLanguageID").val()
+                if (LanguageID > 0) {
+                    $("#ddlLanguageName").val($("#hdLanguageID").val());
+                    document.getElementById("ddlLanguageName").disabled = true;
+                    $('#ddlLanguageName').change();
+                }
+
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    $(function () {
+        $("#ddlDistrict").change(function () {
+            //appendMsg("Please Wait..", "INFO");
+            var DisID = $("#ddlDistrict").val();
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetCircleDetailsOfaDistrict",
+                type: 'POST',
+                data: { DistrictID: DisID },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "<option value='-1'><<--Select Circle-->></option>";
+                    var itemCount = 0;
+                    if (data.length == 0) {
+                        HtmlItems = "<option>No Circle Exist</option>";
+                    }
+                    else {
+                        HtmlItems = "<option value='-1'><<--Select Circle-->></option>";
+                    }
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                    });
+                    $('#tblRequisitionForProbChallan').html("");
+                    $('#ddlCircle').html(HtmlItems);
+                    var DistrictId = $("#hdCircleId").val()
+                    if (DistrictId > 0) {
+                        $("#ddlCircle").val($("#hdCircleId").val());
+                        document.getElementById("ddlCircle").disabled = true;
+                        $('#ddlCircle').change();
+                    }
+                    //clearError();
+                },
+                error: function (data) {
+                    // clearError();
+                }
+            });
+        });
+    });    
+    $(function () {
+        $("#ddlLanguageName").change(function () {
+            $('#tblRequisitionForProbChallan').html("");           
+             if (document.getElementById("ddlLanguageName").selectedIndex > 0) {
+                LoadBookDtlForProvisionalChallan();
+            }
+            
+        });
+    });
+    $(function () {
+        $("#ddlCircle").change(function () {
+            var CirID = $("#ddlCircle").val();
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetCircleAddressDetails",
+                type: 'POST',
+                data: { CircleID: CirID },
+                cache: false,
+                success: function (data) {
+                    $("#txtCircleAddress").val(data.CirclAddress);
+                    if (document.getElementById("ddlLanguageName").selectedIndex > 0) {
+                        LoadBookDtlForProvisionalChallan();
+                    }                    
+                },
+                error: function (data) {
+                }
+            });
+        });
+    });    
+    function LoadBookDtlForProvisionalChallan() {
+        $('#tblRequisitionForProbChallan').html("");
+        var LanguageId = $("#ddlLanguageName").val();
+        $.ajax({
+            url: "/TrxSchProvisionalChallan/GetBookByLanguageIdDtl",
+            type: 'POST',
+            data: { LanguageId: LanguageId },
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "";               
+                for (var i = 0; i < data.length; i++)
+                {                  
+                    HtmlItems += "<tr id='tr_" + i + "'>";
+                    HtmlItems += "    <td style='text-align:left;width: 17%;'><input type='checkbox' onclick='trToggleBackgroundColor(" + i + ")'  id='chk_" + i + "' name='check' value='" + data[i].BookCode + "' />&nbsp;&nbsp;&nbsp;" + data[i].ClassName + "</td>";
+                    HtmlItems += "    <td style='text-align:left;width: 20%;'>" + data[i].BookCode + "</td>";
+                    HtmlItems += "    <td style='text-align:left;width: 25%;'>" + data[i].BookName + "</td>";  
+                    HtmlItems += "    <td style='text-align:left;width: 20%;'><input class='form-control' id='txtQty_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='0' /></td>";
+                    HtmlItems += "    <td style='text-align:center;width: 18%;'><input class='form-control' id='txtWeight_" + i + "' disabled = 'disabled' style='width:90px;text-align: center;' type='text' value='0' /></td>";
+                    HtmlItems += "</tr>";
+                }
+                $('#tblBookDtl').html(HtmlItems);
+
+                var InChallanId = $("#hdChallanId").val();
+                if (InChallanId > 0) {
+                    LoadSchBookRequisitionCalculatedDtlByChallanId();
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    function LoadSchBookRequisitionCalculatedDtl() {
+       var checkboxes = document.getElementsByName('check');
+        for (var j = 0, n = checkboxes.length; j < n; j++) {           
+            document.getElementById('txtQty_' + j).value = 0;
+            document.getElementById('txtWeight_' + j).value = 0;
+
+            document.getElementById('txtQty_' + j).style.backgroundColor = "";
+            document.getElementById('txtWeight_' + j).style.backgroundColor = "";
+        }
+        document.getElementById('txtTotWeight').value = 0;
+        document.getElementById('txtTotQty').value = 0;
+        document.getElementById('txtTotWeight').style.backgroundColor = "";
+        document.getElementById('txtTotQty').style.backgroundColor = "";
+
+        var _BookCode = gridTojson();
+        var _ReqCode = ReqGridTojson();
+        var LanguageId = $("#ddlLanguageName").val();
+        if (document.getElementById("ddlLanguageName").selectedIndex > 0 && _ReqCode != "" > 0 && _BookCode.trim() != "") {
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetSchBookRequisitionCalculatedDtl",
+                type: 'GET',
+                data: { InLanguageId: LanguageId, InRequisitionIds: _ReqCode, InBookCodeIds: _BookCode },
+                cache: false,
+                success: function (data) {
+                    var calWeight = 0;
+                    var calQty = 0;
+                    if (data.length > 0) {
+                        checkboxes = document.getElementsByName('check');
+                        for (var i = 0; i < data.length; i++) {                            
+                            for (var j = 0, n = checkboxes.length; j < n; j++) {                               
+                                if (checkboxes[j].value == data[i].BookCode) {
+                                    document.getElementById('txtQty_' + j).value = 0;
+                                    document.getElementById('txtWeight_' + j).value = 0;
+                                    document.getElementById('txtQty_' + j).style.backgroundColor = "";
+                                    document.getElementById('txtWeight_' + j).style.backgroundColor = "";
+                                    if (checkboxes[j].checked) {
+                                        calWeight = calWeight + data[i].TotWeight;
+                                        calQty = calQty + data[i].Qty;
+                                        document.getElementById('txtQty_' + j).value = data[i].Qty;
+                                        document.getElementById('txtWeight_' + j).value = data[i].TotWeight;
+                                        document.getElementById('txtQty_' + j).style.backgroundColor = "#ffe300";
+                                        document.getElementById('txtWeight_' + j).style.backgroundColor = "#ffe300";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    document.getElementById('txtTotWeight').value = calWeight;
+                    document.getElementById('txtTotQty').value = calQty;
+
+                    document.getElementById('txtTotWeight').style.backgroundColor = "#ffe300";
+                    document.getElementById('txtTotQty').style.backgroundColor = "#ffe300";      
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        }
+    }
+    function LoadSchBookRequisitionCalculatedDtlByChallanId() {
+        var InChallanId = $("#hdChallanId").val();
+        if (InChallanId>0) {
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetSchBookRequisitionCalculatedDtlByChallanId",
+                type: 'GET',
+                data: { InChallanId: InChallanId },
+                cache: false,
+                success: function (data) {
+                    var calWeight = 0;
+                    var calQty = 0;
+                    if (data.length > 0) {
+                        checkboxes = document.getElementsByName('check');
+                        for (var j = 0, n = checkboxes.length; j < n; j++) {
+                            document.getElementById('txtWeight_' + j).value = 0;
+                            document.getElementById('txtQty_' + j).style.backgroundColor = "";
+                            document.getElementById('txtWeight_' + j).style.backgroundColor = "";
+                            document.getElementById('tr_' + j).style.backgroundColor = "";
+                            var x = document.getElementById('chk_' + j);
+                            x.style.display = "none";
+                            for (var i = 0; i < data.length; i++) {
+                                if (checkboxes[j].value == data[i].BookCode) {                                  
+                                    calWeight = calWeight + data[i].TotWeight;
+                                    calQty = calQty + data[i].Qty;
+                                    document.getElementById('txtQty_' + j).value = data[i].Qty;
+                                    document.getElementById('txtWeight_' + j).value = data[i].TotWeight;
+                                    document.getElementById('txtQty_' + j).style.backgroundColor = "#ffe300";
+                                    document.getElementById('txtWeight_' + j).style.backgroundColor = "#ffe300";
+                                    document.getElementById('tr_' + j).style.backgroundColor = "#6accbb";
+                                    document.getElementById('txtQty_' + j).disabled = false;
+                                    document.getElementById('txtWeight_' + j).disabled = false;
+                                }
+                            }
+                        }
+                    }
+                    document.getElementById('txtTotWeight').value = calWeight;
+                    document.getElementById('txtTotQty').value = calQty;
+
+                    document.getElementById('txtTotWeight').style.backgroundColor = "#ffe300";
+                    document.getElementById('txtTotQty').style.backgroundColor = "#ffe300";
+                    var Y = document.getElementById('chkSelectAllBook');
+                    Y.style.display = "none";
+                    var Z = document.getElementById('selectAllBookCode');
+                    Z.style.display = "none";
+                    
+                    
+                    LoadSchRequisitionForProbChallanByChallanId();
+
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        }
+    }
+    function LoadSchRequisitionForProbChallan() {
+        var _BookCode = gridTojson        
+        if (document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCircle").selectedIndex > 0 && _BookCode != "") {
+            var CirID = $("#ddlCircle").val();
+            var LanguageId = $("#ddlLanguageName").val();           
+            $('#tblRequisitionForProbChallan').html("<tr><td style='color:red;'>Loading........</td></tr>");
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetSchRequisitionForProbChallan",
+                type: 'GET',
+                data: {InCircleID: CirID, InLanguageId: LanguageId, BookCode: _BookCode },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "";
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<tr id='Reqtr_" + i + "'>";
+                        HtmlItems += "      <td style='text-align:center;width: 15%;'><input type='checkbox' onclick='trToggleBackgroundColorForRequisition(" + i + ")'  id='ReqCheck" + i + "' name='ReqCheck' value='" + item.RequisitionID + "' />&nbsp;&nbsp;&nbsp;" + item.RequisitionCode + "</td>";
+                        HtmlItems += "      <td style='text-align:center;width: 15%;'>" + item.RequisitionDate + "</td>";
+                        HtmlItems += "      <td style='width: 16%;'>" + item.SchoolCode + "</td>";
+                        HtmlItems += "      <td style='width: 40%;'>" + item.SchoolName + "</td>";
+                        HtmlItems += "      <td style='text-align:center;width: 14%;'>" + item.RemainQuantity + "</td>";
+                        HtmlItems += "</tr>";
+                    });
+                    
+                    $('#tblRequisitionForProbChallan').html(HtmlItems);
+                },
+                error: function (data) {
+                    alert("Some Error Occured");
+                }
+            });
+        }
+        else {
+            $('#tblRequisitionForProbChallan').html("");
+            return false;
+        }
+        
+    }
+    function LoadSchRequisitionForProbChallanByChallanId() {
+        var InChallanId = $("#hdChallanId").val();
+        if (InChallanId>0) {                  
+            $('#tblRequisitionForProbChallan').html("<tr><td style='color:red;'>Loading........</td></tr>");
+            $.ajax({
+                url: "/TrxSchProvisionalChallan/GetSchRequisitionForProbChallanByChallanId",
+                type: 'GET',
+                data: { InChallanId: InChallanId },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "";
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<tr style='background-color:#6accbb;' id='Reqtr_" + i + "'>";
+                        HtmlItems += "      <td style='text-align:center;width: 15%;'>" + item.RequisitionCode + "</td>";
+                        HtmlItems += "      <td style='text-align:center;width: 15%;'>" + item.RequisitionDate + "</td>";
+                        HtmlItems += "      <td style='width: 16%;'>" + item.SchoolCode + "</td>";
+                        HtmlItems += "      <td style='width: 40%;'>" + item.SchoolName + "</td>";
+                        HtmlItems += "      <td style='text-align:center;width: 14%;'>" + item.RemainQuantity + "</td>";
+                        HtmlItems += "</tr>";
+                    });
+
+                    $('#tblRequisitionForProbChallan').html(HtmlItems);
+                },
+                error: function (data) {
+                    alert("Some Error Occured");
+                }
+            });
+        }
+        else {
+            $('#tblRequisitionForProbChallan').html("");
+            return false;
+        }
+
+    }
+    function isValidEntry() {
+        if (document.getElementById("ddlDistrict").selectedIndex == 0) {
+            alert("Please Select District..");
+            $('#ddlDistrict').focus();
+            return false;
+        }
+        if (document.getElementById("ddlLanguageName").selectedIndex == 0) {
+            alert("Please Select Language..");
+            $('#ddlLanguageName').focus();
+            return false;
+        }
+        if (document.getElementById("ddlCircle").selectedIndex == 0) {
+            alert("Please Select Circle..");
+            $('#ddlCircle').focus();
+            return false;
+        }
+        var _BookCode = gridBookTojson();
+        var _ReqCode = ReqGridTojson();       
+       
+        if (_BookCode == "" > 0) {
+            alert("Please enter atleast one Book from the list");
+            return false;
+        }
+        if (_ReqCode == "" > 0) {
+            alert("Please enter atleast one Requisition from the list");
+            return false;
+        }
+        document.getElementById('txtInBookCodeIds').value = _BookCode;
+        document.getElementById('txtInRequisitionIds').value = _ReqCode;
+        if (confirm("Are you sure do you want to Save the records?") == false) {
+            return false;
+        }
+       // document.getElementById('btnSubmit').click();
+        return true;
+    }
+    function trToggleBackgroundColor(val) {       
+        document.getElementById('tr_' + val).style.backgroundColor = "";
+        if (document.getElementById('chk_' + val).checked) {            
+            document.getElementById('tr_' + val).style.backgroundColor = "#6accbb";            
+        }
+        LoadSchRequisitionForProbChallan();
+        LoadSchBookRequisitionCalculatedDtl();
+    }
+    function selectall(source) {
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+            document.getElementById('tr_' + i).style.backgroundColor = "";
+            if (checkboxes[i].checked) {
+                document.getElementById('tr_' + i).style.backgroundColor = "#6accbb";
+
+            }
+        }
+        LoadSchRequisitionForProbChallan();
+        LoadSchBookRequisitionCalculatedDtl();
+    }
+    function trToggleBackgroundColorForRequisition(val) {
+        document.getElementById('Reqtr_' + val).style.backgroundColor = "";
+        if (document.getElementById('ReqCheck' + val).checked) {
+            document.getElementById('Reqtr_' + val).style.backgroundColor = "#6accbb";
+        }
+        LoadSchBookRequisitionCalculatedDtl();
+    }
+    function selectallRequisition(source) {
+        checkboxes = document.getElementsByName('ReqCheck');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+            document.getElementById('Reqtr_' + i).style.backgroundColor = "";
+            if (checkboxes[i].checked) {
+                document.getElementById('Reqtr_' + i).style.backgroundColor = "#6accbb";
+            }
+        }
+        LoadSchBookRequisitionCalculatedDtl();
+    }
+    function gridTojson() {
+
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+
+        return json;
+    }
+    function gridBookTojson() {
+
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true && document.getElementById('txtQty_' + i).value>0) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+
+        return json;
+    }  
+    function ReqGridTojson() {
+
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByName('ReqCheck');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+
+        return json;
+    }
+</script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+    
+ </style>
+@try
+{       
+    @Html.Hidden("hdChallanId", Model.ChallanId)   
+    @Html.Hidden("hdLanguageID",  Model.LanguageID)  
+    @Html.Hidden("hdDistrictId",  Model.DistrictId)  
+    @Html.Hidden("hdCircleId",  Model.CircleId)  
+}
+catch
+{            
+    @Html.Hidden("hdChallanId", -1)   
+    @Html.Hidden("hdLanguageID", -1)  
+    @Html.Hidden("hdDistrictId", -1)  
+    @Html.Hidden("hdCircleId",  -1)  
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Provisional Challan Entry Form</strong></h3>
+</div>
+
+@using (Html.BeginForm("TrxSchProvisionalChallanUpdate","TrxSchProvisionalChallan", FormMethod.Post))
+{
+    <div class="panel-body" >
+        @Html.TextBoxFor(a => a.ChallanId, new { @id = "txtChallanID", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.ChallanNo, new { @id = "txtTempChallanNo", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.InBookCodes, new { @id = "txtInBookCodeIds", @class = "form-control", style = "display:none;" })
+        @Html.TextBoxFor(a => a.InRequisitionIds, new { @id = "txtInRequisitionIds", @class = "form-control", style = "display:none;" })
+        
+        
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">Challan Date</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.ChallanDate, new { @id = "txtChallanDate", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+                <td style="width: 20%;">Challan Code</td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.ChallanNo, new { @id = "txtChallanNo", disabled = "disabled", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>District Name<font color="red">*</font></td>
+                <td>@Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "DistrictId", "DistrictName"), "<<--Select District-->>", new { @id = "ddlDistrict", @style = "width:60%", @class = "form-control" })</td>
+                 <td>Circle Name<font color="red">*</font></td>
+                <td>@Html.DropDownListFor(a => a.CircleId, new SelectList(Enumerable.Empty<SelectListItem>(), "CircleId", "CircleName"), "<<--Select Circle-->>", new { @id = "ddlCircle", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>Circle Address</td>
+                <td colspan="2">
+                     @Html.TextAreaFor(e => e.CircleAddress, 2, 20,  new { @id = "txtCircleAddress", disabled = "disabled",  @class = "form-control" })
+                <td>&nbsp;</td>
+            </tr>
+            <tr>                
+                <td>Language<font color="red">*</font></td>
+                <td>@Html.DropDownListFor(a => a.LanguageID, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Language-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control" })</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <table width="100%" border="0" >
+        <tr>
+            <td style="width: 70%;">
+                <div style="width: 100%; height: 300px;">
+                    <table width="100%" border="1" class="divDataEntry">
+                        <tr>
+                            <th style="width: 15%;">
+                                <input id="selectAllBookCode" type='checkbox' onclick='selectall(this)' />&nbsp;&nbsp;&nbsp;Class</th>
+                            <th style="width: 18%;">Book Code</th>
+                            <th style="width: 20%;">Book Name</th>
+                            <th style="width: 15%;">Quantity</th>
+                            <th style="text-align: center; width: 22%;">Weight</th>
+                        </tr>
+                    </table>
+                    <div style="width: 100%; height: 250px; overflow: scroll; border: 2px solid #808080;">
+                        <table id="tblBookDtl" width="100%" border="0" class="table">
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td style="width:30%;">
+                <div style="margin:auto; width:90%; font-size:16px;font-weight:bold; color:#761313;">
+                <table border="0" class="divDataEntry">
+                    <tr>
+                        <td style="width:60%;background-color:#6accbb;">Total Qty (Copies):</td>
+                        <td style="width:40%; text-align:center; background-color:#b0e6db;"><input class='form-control' id='txtTotQty'  style='width:100%;text-align: center;color:brown;font-size:16px;' type='text' value='0' /></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#6accbb;">Total Wight (Kgs):</td>
+                        <td style="text-align:center; background-color:#b0e6db;"><input class='form-control' id='txtTotWeight'  style='width:100%;text-align: center;color:brown;font-size:16px;' type='text' value='0' /></td>
+                    </tr>
+                </table>
+                </div>
+            </td>
+        </tr>
+         </table>
+        
+        <div style="width: 80%; height: 50vh;">         
+             <table id="header" width="100%" class="divDataEntry" border="0"  >
+                    <tr>
+                        <td style='text-align:center;width: 15%;'><input id="chkSelectAllBook" type='checkbox' onClick='selectallRequisition(this)' />&nbsp;&nbsp;&nbsp;Requisition Code</td>
+                        <td style='text-align:center;width: 15%;'>Requisition Date</td>
+                        <td style='width: 15%;'>School Code</td>
+                        <td style='width: 40%;'>School Name</td>
+                        <td style='text-align:center;width: 15%;'>Quantity</td>                        
+                    </tr>                   
+                </table>
+              <div style="width: 100%; height: 42vh; overflow: scroll;margin-top:0px; border: 2px solid #808080;">               
+                <table id="tblRequisitionForProbChallan" width="100%" border="0" class="table basic">
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>                   
+                </table>
+            </div>           
+        </div>
+        <table width="100%" border="0">
+            <tr>                
+                <td style="width: 30%;">
+                    @if (Model.ChallanId <= 0)
+                    {
+                        <button type="submit" id="btnSubmit" name="Command" style="width: 120px; " onclick="return isValidEntry();" value="Submit" class="btn btn-mini btn-danger">Save</button>                       
+                    }
+                     &nbsp;&nbsp;
+                    <a href="/TrxSchProvisionalChallanView/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td style="width: 70%;">&nbsp;</td>                
+            </tr>
+        </table>
+    </div>    
+}
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

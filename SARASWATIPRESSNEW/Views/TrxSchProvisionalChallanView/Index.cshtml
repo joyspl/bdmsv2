@@ -1,0 +1,202 @@
+﻿@model SARASWATIPRESSNEW.Models.SchProvisionalChallan
+@{
+    ViewBag.Title = "SchRequisitionView";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+<link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+ </style>
+<script type="text/javascript">
+   
+    $(function () {
+        $('#btnView').click(function () {
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            $.ajax({
+                url: "/TrxSchProvisionalChallanView/GetTrxSchProvisionalChallanListData",
+                type: 'POST',
+                data: { startDate: fromDate, endDate: toDate },
+                cache: false,
+                success: function (data) {
+                    var HtmlItems = "";
+                  
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<tr>";
+                        HtmlItems += "  <td style='text-align:center;width: 10%;'>";
+                        if (item.SaveStatus == "0") {
+                            HtmlItems += "      <a href='/TrxSchProvisionalChallan/ProvisionalChallanOperation/?ChallanId=" + item.ChallanId + "&Command=Edit'>View</a>&nbsp;|&nbsp;";
+                            HtmlItems += "      <a href='#' onclick='return DeleteRequisition(" + item.ChallanId + ", \"" + item.ChallanNo + "\");'>Delete</a>";
+                        }
+                        else {
+                            HtmlItems += "      <a href='/TrxSchProvisionalChallan/ProvisionalChallanOperation/?ChallanId=" + item.ChallanId + "&Command=Confirmed'>Confirmed</a>";
+                        }
+                        HtmlItems += "  </td>";
+                        if (item.SaveStatus == "0") {
+                            HtmlItems += "      <td style='text-align:Left;width: 15%;'><input type='checkbox'  id='chk' name='check' value='" + item.ChallanId + "' />&nbsp;&nbsp;&nbsp;" + item.ChallanNo + "</td>";
+                        }
+                        else {
+                            HtmlItems += "      <td style='text-align:Left;width: 15%;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.ChallanNo + "</td>";
+                        }
+                        HtmlItems += "      <td style='text-align:center;width: 11%;'>" + item.ChallanDate + "</td>";
+                        HtmlItems += "      <td style='width: 15%;'>" + item.DistrictName + "</td>";
+                        HtmlItems += "      <td style='width: 15%;'>" + item.CircleName + "</td>";
+                        HtmlItems += "      <td style='width: 10%;'>" + item.LanguageName + "</td>";
+                        HtmlItems += "      <td style='width: 10%;text-align:center;'>" + item.LastUpdatedOn + "</td>";
+                        HtmlItems += "      <td style='width: 14%;'>" + item.LastUpdatedBy + "</td>";
+                        HtmlItems += "</tr>";
+                    });
+
+                    $('#tblBookDtl').html(HtmlItems);
+                },
+                error: function (data) {
+                    alert("Some Error Occured");
+                }
+            });
+        });
+    });
+   
+
+    function ConfirmRequisition() {
+        var _griddata = gridTojson();
+        if (_griddata.trim() == "") {
+            alert("Please select atleast one Requisition from the list.");
+            return false;
+        }
+        if (confirm("Are you sure do you want to Confirm the Requisition?") == false) {
+            return false;
+        }
+        $.ajax({
+            url: "/TrxSchProvisionalChallanView/ConfirmRequisition",
+            type: 'POST',
+            data: { griddata: _griddata },
+            cache: false,
+            success: function (data) {
+                $('#btnView').click();
+                alert(data);
+            },
+            error: function (data) {
+            }
+        });
+    }
+    function selectall(source) {
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+    function gridTojson() {
+
+        var json = '';
+        var $ccol = [];
+        checkboxes = document.getElementsByName('check');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            if (checkboxes[i].checked == true) {
+                $ccol.push(checkboxes[i].value);
+            }
+        }
+        json += $ccol.join(",") + '';
+
+        return json;
+    }
+    function DeleteRequisition(RequisitionID, RequisitionCode) {
+        if (confirm("Are you sure do you want to delete " + RequisitionCode + " requisition information!") == true) {
+            $.ajax({
+                url: "/TrxSchProvisionalChallanView/DeleteRequisition",
+                type: 'POST',
+                data: { ReqisitionId: RequisitionID },
+                cache: false,
+                success: function (data) {
+                    $('#btnView').click();
+                    alert(data);
+                   
+                    return true;
+                },
+                error: function (data) {
+                }
+            });           
+        }
+        else {
+            return false;
+        }
+       
+    }
+</script>
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>School Provisional Challan View</strong></h3>
+</div>
+    <div class="panel-body">
+        <table id="tblBtn" class="table" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+            <tr>
+                <td style="width: 15%;">@Html.Label("From Date")</td>
+                <td style="width: 15%;">@Html.TextBoxFor(a => a.StartDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+                <td style="width: 15%;">@Html.Label("End Date")</td>
+                <td style="width: 15%;">@Html.TextBoxFor(a => a.EndDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+                <td style="width: 25%;">
+                    <input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" /></td>
+                <td style="width: 15%;">
+                    <input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+            </tr>
+        </table>
+        <div style="width: 100%; height: 50vh;">         
+             <table id="header" width="100%" class="divDataEntry" border="1"  >
+                    <tr>
+                        <td style='text-align:center;width: 10%;'>Edit  Delete</td>
+                        <td style='text-align:Left;width: 15%;'>&nbsp;<input type='checkbox' onClick='selectall(this)' />&nbsp;&nbsp;&nbsp;Challan No</td>
+                        <td style='text-align:center;width: 10%;'>Challan Date</td>
+                        <td style='width: 15%;'>District Name</td>
+                        <td style='width: 15%;'>CircleName</td>
+                        <td style='width: 10%;'>Language</td>                        
+                        <td style='width: 10%;text-align:center;'>Last Updated On</td>
+                        <td style='width: 15%;'>Last Updated By</td>
+                    </tr>                   
+                </table>
+              <div style="width: 100%; height: 42vh; overflow: scroll;margin-top:0px; border: 2px solid #808080;">               
+                <table id="tblBookDtl" width="100%" border="0" class="table basic">
+                    <tr>
+                        <td>Loading....</td>
+                    </tr>                   
+                </table>
+            </div>           
+        </div>
+         <table width="100%" border="0">
+            <tr>                
+                <td style="width: 15%;">
+                    <button type="button" id="btnSubmit" name="Command" style="width: 120px; " onclick="ConfirmRequisition();" value="Submit" class="btn btn-mini btn-danger">Confirm</button>
+                </td>
+                <td style="width: 85%;"> <p style='font-size:12px;color:green;' >&nbsp;</p></td>                
+            </tr>
+        </table>
+    </div>
+ <script>
+    $(document).ready(function () {
+        $('#btnView').click();
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+    });
+    
+</script>
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

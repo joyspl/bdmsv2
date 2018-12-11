@@ -1,0 +1,81 @@
+﻿@model SARASWATIPRESSNEW.Models.DistrictWiseChallanDelivaryReport
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<head>
+    <!-- META SECTION -->
+    <title>District Wise Circle Wise MIS Report</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+        });
+    </script>
+    <script type="text/javascript">
+        function ExportToExcel() {
+          
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            //var NestId = $(this).data('id');
+            var url = "/DistrictWiseChallanDelivaryReport/ExportDistrictWiseChallanDelivaryReport?startDate";
+            window.location.href = url;
+            
+        }
+    </script>
+</head>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+@*<div class="page-container">*@
+    
+    
+    
+        @*<div class="page-content">*@
+            @*<div style="width: auto; text-align:left; background-color: white;">
+                <img src="/resources/img/reports/header.jpg" />
+            </div>*@
+            @*<div class="panel panel-default" style="margin-top:30px;">*@
+                <div class="panel-heading">
+                   @* <h3 class="panel-title">District Wise Challan Delivary Report</h3>*@
+                    <h3 class="panel-title">District Wise Challan Delivery Report</h3>
+         </div>
+          <div class="panel-body">
+             <div class="form-group">
+                 <label class="col-md-1 col-xs-6 control-label">@Html.Label("From Date")</label>
+                 <div class="col-md-3 col-xs-12">
+                     @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                 </div>
+                 <label class="col-md-1 col-xs-6 control-label">@Html.Label("To Date")</label>
+                 <div class="col-md-3 col-xs-12">
+                     @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                 </div>
+
+             </div>
+         </div>
+         <div class="panel-heading">
+             <input type="button" id="btnSubmit" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" />
+         </div>
+
+    @* </div>*@
+
+       @* </div>*@
+    
+@*</div>*@

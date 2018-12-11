@@ -1,0 +1,47 @@
+﻿.mandatory {
+    color: red;
+    
+}
+
+
+.form-control[disabled], .form-control[readonly] {
+    color: #00f;
+}
+
+/*-- 6.12.18 pomeli */
+
+.x-navigation li>a{
+    background:#dcdcdc!important;
+    color:#0000FF !important
+}
+.x-navigation li.active > a
+{
+    background:#1caf9a!important;
+}
+.x-navigation > li.xn-logo > a:first-child {
+    background:#1caf9a!important;
+    color:#FFF!important;
+}
+
+.x-navigation li > a:hover {
+    background: #262a33!important;
+    color: #fff!important;
+}
+
+.page-container{
+    background:#F5F5F5!important
+}
+.profile
+{
+    background:#F5F5F5!important;
+   
+}
+.profile .profile-data .profile-data-name
+{
+     color:#000000!important 
+}
+
+/*------------*/
+
+
+

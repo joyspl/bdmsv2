@@ -1,0 +1,29 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleWiseRequisitionStock
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("Index", "DistrictCircleWiseMisReport", FormMethod.Post))
+    {
+        @*<div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header.jpg" />
+            </div>*@
+            <div class="panel panel-default" style="margin-top:30px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">District Wise Circle Wise MIS Report</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("District")</label>
+                        <div class="col-md-3 col-xs-12">
+                            @Html.DropDownListFor(a => a.district_id, new SelectList(Model.districtcollectionlist, "DistrictID", "District_name"), "Select", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Export to Excel</button>
+                </div>
+                
+            </div>
+    }

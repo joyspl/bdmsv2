@@ -1,0 +1,195 @@
+﻿@model SARASWATIPRESSNEW.Models.MstSchool
+@{
+    ViewBag.Title = "School Master";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script type="text/javascript">  
+   
+    function isValidEntry() {       
+        if (document.getElementById('txtSchoolCode').value == "") {
+            alert("Please enter School code..");
+            document.getElementById('txtSchoolCode').focus();
+            return false;
+        }
+        if (document.getElementById('txtSchoolName').value == "") {
+            alert("Please enter School Name..");
+            document.getElementById('txtSchoolName').focus();
+            return false;
+        }
+        if (document.getElementById('txtSchoolAdrees').value == "") {
+            alert("Please enter School Address..");
+            document.getElementById('txtSchoolAdrees').focus();
+            return false;
+        }
+        if (/^\d{6}$/.test(document.getElementById('txtPostalCode').value) == false) {
+            alert("Please enter valid 6 digit Postal code..");
+            document.getElementById('txtPostalCode').focus();
+            return false;
+        }
+        if (document.getElementById('txtDeleivaryAddress').value == "") {
+            alert("Please enter Deleivary Address..");
+            document.getElementById('txtDeleivaryAddress').focus();
+            return false;
+        }
+        
+        if (document.getElementById('txtSchoolEmailid').value != "") {
+            if (/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(document.getElementById('txtSchoolEmailid').value) == false) {
+                alert("Please enter valid School Email..");
+                document.getElementById('txtSchoolEmailid').focus();
+                return false;
+            }
+        }
+        if (/^\d{10}$/.test(document.getElementById('txtSchoolMobile').value)==false) {        
+            alert("Please enter  valid 10 digit School Mobile No..");
+            document.getElementById('txtSchoolMobile').focus();
+            return false;
+        }
+        if (/^\d{10}$/.test(document.getElementById('txtSchoolAlternateMobile').value) == false) {
+            alert("Please enter valid 10 digit Alternative Mobile No..");
+            document.getElementById('txtSchoolMobile').focus();
+            return false;
+        }
+        if (document.getElementById('txtSchoolMobile').value == document.getElementById('txtSchoolAlternateMobile').value)
+        {
+            alert("Alternate Mobile no can not be same as School Mobile No.");
+            document.getElementById('txtSchoolAlternateMobile').focus();
+            return false;
+        }
+        
+       
+        if (document.getElementById('txtPoliceStation').value == "") {
+            alert("Please enter Police Station.");
+            document.getElementById('txtPoliceStation').focus();
+            return false;
+        }
+
+        var SchoolCode = $("#txtSchoolCode").val();
+        var InDataUniqueId = $("#hdDataUniqueId").val();
+        if (InDataUniqueId == "") {
+            InDataUniqueId = -1;
+        }
+
+        
+      
+        $.ajax({
+            url: '@Url.Action("isDuplicateRecordExistInSchool", "MstSchool")',
+            data: { InDataUniqueId: InDataUniqueId, InSchoolCode: SchoolCode },
+             type: "GET",
+             success: function (result) {
+                 if (result.length > 0) {
+                     alert("Duplicate school code " + result[0].SchoolCode + " exist under school  " + result[0].SchoolName + " and circle " + result[0].CircleName + " ..update can not be continue.");
+                     return false;
+                 }
+                 else {
+                     if (confirm("Are you sure do you want to save circle information!") == true) {
+                         document.getElementById('btnSubmit').click();
+                         return true;
+                     }
+                     else {
+                         return false;
+                     }
+                 }
+             }
+        });        
+    }
+
+    function FillingAddress() {
+        if (document.getElementById('txtSchoolAdrees').value != "") {
+            if (document.getElementById('chkSameAsAddress').checked) {
+                document.getElementById('txtDeleivaryAddress').value = document.getElementById('txtSchoolAdrees').value;
+               // document.getElementById('txtDeleivaryAddress').disabled = true;
+            }
+            else {
+                document.getElementById('txtDeleivaryAddress').value = "";
+               // document.getElementById('txtDeleivaryAddress').disabled = false;
+            }
+        } else {
+            document.getElementById('chkSameAsAddress').checked = false;
+        }
+
+
+    }
+   
+</script>
+<style type="text/css">
+    table.divDataEntry td, th {
+        padding: 4px 4px 4px 4px;
+        vertical-align: top;
+        border: 1px solid;
+    }
+ </style>
+@try
+{       
+    @Html.Hidden("hdDataUniqueId", Model.SchoolID)
+}
+catch
+{            
+    @Html.Hidden("hdDataUniqueId",  -1)
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>School Master</strong></h3>
+</div>
+
+@using (Html.BeginForm("MstSchoolUpdate", "MstSchool", FormMethod.Post))
+{
+    <div class="panel-body" style="height:70vh;" >
+        @Html.TextBoxFor(a => a.SchoolID, new { @id = "txtSchoolID", @class = "form-control", style = "display:none;" })
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">School Code<font color="red">*</font></td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.SchoolCode, new { @id = "txtSchoolCode", @style = "width:60%", @class = "form-control" })</td>
+                <td style="width: 20%;">School Name<font color="red">*</font></td>
+                <td style="width: 30%;">@Html.TextBoxFor(a => a.SchoolName, new { @id = "txtSchoolName", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>School Address<font color="red">*</font></td>
+                <td>
+                     @Html.TextAreaFor(e => e.SchoolAdrees, 2, 10,  new { @id = "txtSchoolAdrees",  @class = "form-control" })
+                </td>
+                <td>Postal Code<font color="red">*</font></td>
+                <td>@Html.TextBoxFor(a => a.PostalCode, new { @id = "txtPostalCode",@maxlength="6", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>School Address <font color="red">*</font></td>
+                <td>
+                    <span style="font-weight:bold;"> <input type='checkbox'  id='chkSameAsAddress' onclick="FillingAddress();" name='check' value='' />Same As School Address</span><br />
+                    @Html.TextAreaFor(e => e.DeleivaryAddress, 2, 10,  new { @id = "txtDeleivaryAddress",  @class = "form-control" }) </td>
+                
+                <td>School Email@*<font color="red">*</font>*@</td>
+                <td>@Html.TextBoxFor(a => a.SchoolEmailid, new { @id = "txtSchoolEmailid", @style = "width:60%", @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td>School Mobile<font color="red">*</font></td>
+                <td>@Html.TextBoxFor(a => a.SchoolMobile, new { @id = "txtSchoolMobile",  @style = "width:60%",@maxlength="10", @class = "form-control" })</td>
+                <td>Alternate Mobile<font color="red">*</font></td>
+                <td>@Html.TextBoxFor(a => a.SchoolAlternateMobile, new { @id = "txtSchoolAlternateMobile", @style = "width:60%",@maxlength="10", @class = "form-control" })</td>
+            </tr> 
+            <tr>
+                <td>Police Station<font color="red">*</font></td>
+                <td>@Html.TextBoxFor(a => a.PoliceStation, new { @id = "txtPoliceStation",  @style = "width:60%", @class = "form-control" })</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>            
+        </table>
+        
+        <table width="100%" border="0">
+            <tr>                
+                <td style="width: 30%;">
+                    <button type="button" id="btnSave" name="Save" style="width: 120px;" onclick="return isValidEntry();" value="Draft" class="btn btn-mini btn-danger">Save</button>
+                    <button type="submit" id="btnSubmit" name="Command" style="width: 120px;display:none;" value="Submit" class="btn btn-mini btn-danger">Save</button>
+                     &nbsp;&nbsp;
+                    <a href="/MstSchoolView/Index" style="width: 120px;" class="btn btn-mini btn-danger">Cancel</a>
+                </td>
+                <td style="width: 70%;">&nbsp;</td>                
+            </tr>
+        </table>
+    </div>    
+}
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+            };
+    </script>
+}

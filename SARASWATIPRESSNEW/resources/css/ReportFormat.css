@@ -1,0 +1,27 @@
+﻿
+MyWrapper
+{
+	white-space:pre-wrap;
+	}
+body
+{
+	font-family:Verdana; BACKGROUND-COLOR:#ffffff;
+}
+td {
+	font-family:Verdana; font-size:11px; 
+}
+
+
+ table{
+	margin:2px;
+	border-collapse: collapse;
+	table-layout:auto;
+	width:100%;
+}
+
+td, th{
+	padding: 4px 2px 2px 2px; 
+} 
+thead{
+
+}

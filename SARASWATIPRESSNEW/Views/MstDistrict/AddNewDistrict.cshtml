@@ -1,0 +1,28 @@
+﻿@model SARASWATIPRESSNEW.Models.MstDistrictDtl
+@{
+    ViewBag.Title = "AddNewDistrict";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>District Master</strong></h3>
+</div>
+
+<div class="panel-body">
+    @using (Html.BeginForm("AddNewDistrict", "MstDistrict", FormMethod.Post))
+    {
+        <table width="100%" border="0" class="table basic">
+            <tr>
+                <td style="width: 20%;">District Name</td>
+                <td style="width: 20%;">@Html.TextBoxFor(a => a.districtName, new { @id = "txtDistrictName", @class = "form-control" })</td>
+                <td style="width: 60%;"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Save</button></td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    }
+</div>

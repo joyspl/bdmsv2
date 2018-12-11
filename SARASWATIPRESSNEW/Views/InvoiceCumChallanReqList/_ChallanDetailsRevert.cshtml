@@ -1,0 +1,65 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@try
+{
+    @Html.Hidden("hd_ChallanId", Model.ChallanId)
+    @Html.Hidden("hd_DistrictId", Model.DistrictId)
+    @Html.Hidden("hd_CircleId", Model.CircleId)
+    @Html.Hidden("hd_CategoryId", Model.CategoryId)
+    @Html.Hidden("hd_LanguageId", Model.LanguageId)
+    @Html.Hidden("hd_TransporterID", Model.TransporterID)
+  
+    
+}
+catch
+{
+    @Html.Hidden("hd_ChallanId", 0)
+    @Html.Hidden("hd_DistrictId", -1)
+    @Html.Hidden("hd_CircleId", -1)
+    @Html.Hidden("hd_CategoryId", -1)
+    @Html.Hidden("hd_LanguageId", -1)
+    @Html.Hidden("hd_TransporterID", -1)
+    
+}
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-3 control-label">District</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblDistrictName">@Model.DistrictName</label>
+            </strong>
+        </div>
+        <label class="col-md-2 col-xs-3 control-label">Circle</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblCircle">@Model.CircleName</label>
+            </strong>
+        </div>
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-6 control-label">Transporter Name</label>
+        <div class="col-md-3 col-xs-6">
+            <strong>
+                <label id="lblTrnsporterName" data-transid="@Model.TransporterID">@Model.Transporter</label>
+            </strong>
+        </div>
+    </div>
+</div>
+<div class="panel-body no-padding">
+    <div class="form-group">
+        <label class="col-md-2 col-xs-3 control-label">Vehicle No.</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblVehicleNo">@Model.VEHICLE_NO</label>
+            </strong>
+        </div>
+        <label class="col-md-2 col-xs-3 control-label">Consignee No.</label>
+        <div class="col-md-3 col-xs-3">
+            <strong>
+                <label id="lblConsigneeNo">@Model.CONSIGNEE_NO</label>
+            </strong>
+        </div>
+    </div>
+</div>

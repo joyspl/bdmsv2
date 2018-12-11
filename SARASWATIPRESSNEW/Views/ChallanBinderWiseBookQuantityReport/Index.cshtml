@@ -1,0 +1,162 @@
+﻿@model SARASWATIPRESSNEW.Models.ChallanBinderWiseBookQtyRpt
+@{
+    ViewBag.Title = "Challan List";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Challan View</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - 30)));
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            LoadAllDistrict();
+        });
+
+        $(document).off("change", "#ddlDistrict").on("change", "#ddlDistrict", function (e) {
+            LoadCircleByDistrict($("#ddlDistrict").val());
+        });
+
+        $(document).off("click", "#btnExport").on("click", "#btnExport", function (e) {
+            $.ajax({
+                url: '@(Url.Action("GenerateExcel", "ChallanBinderWiseBookQuantityReport", new { area = "" }))',
+                data: { bookcode: $("#ddlBookName").val(), districtid: $("#ddlDistrict").val(), circleid: $("#ddlCircle").val(), fromDate: $("#txtStartDate").val(), toDate: $("#txtEndDate").val() },
+                type: 'GET'
+            }).done(function (data) {
+
+            });
+        });
+
+        function LoadAllDistrict() {
+            $.ajax({
+                url: '@(Url.Action("GetDistrictDetails", "InvoiceCumChallan", new { area = "" }))',
+                type: 'POST'
+            }).done(function (data) {
+                var list = document.getElementById("ddlDistrict");
+                list.innerHTML = "";
+                list.add(new Option("All District", "-1"));
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        list.add(new Option(data[i].Text, data[i].Value));
+                    }
+                }
+            }).always(function (data) {
+                if ($("#ddlDistrict").val() == "-1") {
+                    var list = document.getElementById("ddlCircle");
+                    list.innerHTML = "";
+                    list.add(new Option("All Circle", "-1"));
+                }
+            });
+        }
+
+        function LoadCircleByDistrict(distid) {
+            if (distid == "-1") {
+                var list = document.getElementById("ddlCircle");
+                list.innerHTML = "";
+                list.add(new Option("All Circle", "-1"));
+            } else {
+                $.ajax({
+                    url: '@(Url.Action("GetCircleDetailsOfaDistrict", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { DistrictID: distid }
+                }).done(function (data) {
+                    var list = document.getElementById("ddlCircle");
+                    list.innerHTML = "";
+                    list.add(new Option("All Circle", "-1"));
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            list.add(new Option(data[i].Text, data[i].Value));
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function ExportToExcel() {
+            appendMsg("Please Wait..", "INFO");
+            // var itemId = $('#InvoiceCumChallanReport').attr('itemid');
+            var bookCode = $("#ddlBookName").val();
+            var bookName = $("#ddlBookName :selected").text();
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            //var NestId = $(this).data('id');
+            var url = "/ChallanBinderWiseBookQuantityReport/ExportChallanDataForTransporterAndBinder?startDate=" + fromDate + "&endDate=" + toDate + "&bookCode=" + bookCode + "&BookName=" + bookName;
+            window.location.href = url;
+            clearError();
+        }
+    </script>
+</head>
+<body>
+    <div class="panel-heading">
+        <table id="tablePost" style="width:100%" border="0">
+            <tr>
+                <td style="text-align:left; "><h3 class="panel-title"><strong>Challan Binder Wise Book Quantity Report</strong></h3></td>
+                <td style="text-align:right;">@Session["sp_name"] [@Session["sp_user_name"]]</td>
+            </tr>
+        </table>
+    </div>
+    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"> </div>
+
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-6 control-label">@Html.Label("Book")</label>
+            <div class="col-md-3 col-xs-12">
+                @Html.DropDownListFor(a => a.BinderID, new SelectList(Model.BookCollection, "BookCode", "BookName"), "<<--Select Book-->>", new { @id = "ddlBookName", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-2 control-label">District</label>
+            <div class="col-md-3 col-xs-6">
+                <select id="ddlDistrict" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-2 control-label">Circle</label>
+            <div class="col-md-3 col-xs-6">
+                <select id="ddlCircle" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-6 control-label">@Html.Label("From Date")</label>
+            <div class="col-md-3 col-xs-12">
+                @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+            </div>
+            <label class="col-md-1 col-xs-6 control-label">@Html.Label("To Date")</label>
+            <div class="col-md-3 col-xs-12">
+                @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+            </div>
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="tblBtn" cellpadding="0" cellspacing="0" border="0" style=" width:500px;">
+            <tr>
+                <td><input type="button" id="btnExport" value="Export To Excel" style="width: 120px" class="btn btn-info btn-block" /></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+

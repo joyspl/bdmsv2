@@ -1,0 +1,103 @@
+﻿@model SARASWATIPRESSNEW.Models.UserLogin
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <!-- META SECTION -->
+    <title>SPL Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+@using (Html.BeginForm("Index", "CircleLogin", FormMethod.Post))
+{
+    <body>
+        <div class="login-container">
+            <div class="login-box animated fadeInDown">
+                <div>SSEI</div>
+                <div class="login-body">
+                    <div class="login-title"><strong>Welcome User</strong>, Please login</div>
+                    <form action="login" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <select class="form-control" style="color: red; font-weight: bold; font-size: 16px;">
+                                    <option value="2018-2019" selected>2018-2019</option>
+                                </select>
+                                @* @Html.DropDownListFor(a => a.AccadmicYear, ViewData["AccadmicYearList"] as List<SelectListItem>, new { @class = "form-control",style="color:red; font-weight:bold; font-size:16px;", @placeholder = "Username" })
+                            @Html.ValidationMessageFor(a => a.AccadmicYear, null, new {style="color:red" })*@
+                                <br />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control", @placeholder = "Username" })
+                                @Html.ValidationMessageFor(a => a.UserName, null, new { style = "color:red" })
+                                <br />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.PasswordFor(a => a.UserPassword, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(a => a.UserPassword, null, new { style = "color:red" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <br />
+                                <button class="btn btn-info btn-block">Log In</button>
+                            </div>
+                            @* <div class="col-md-6">  
+                            <br />                                                     
+                            <a href="/Login/Index" class="btn btn-info btn-block">Back</a>
+                        </div>*@
+                            <div class="col-md-6 text-center">
+                                <br />
+                                @Html.ActionLink("Forgot Password", "ForgotPassword", null, new { @class = "btn btn-info btn-block" });
+                           
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <a href="@System.Configuration.ConfigurationManager.AppSettings["PrevYearLink"]" target="_blank">Previous Year Link</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="login-footer">
+                    <div class="pull-left">
+                        &copy; WB TEXT BOOK CORPORATION
+                    </div>
+                    <br />
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <small style="font-size:18px;color:white;">Requisition closing date for Pre-primary to Class-X AY 2019 is 10/07/18</small>
+                            <br />
+                            <br />
+                            <small style="font-size:18px;color:white;">Server Maintenance time 9 AM - 10 AM</small>
+                            <br />
+                            <br />
+                            <small style="font-size:16px;color:white;">Email: books@wbtextbookcorporation.com</small>
+                            <br />
+                            <small style="font-size:16px;color:white;">Helpline No: 8017331530 / 8420289888 (10 AM - 7 PM)</small>
+                            <br />
+                            <small style="font-size:16px;color:white;">For delivery related any queries, please contact: 9331083861 / 7685037001 (10 AM - 7 PM)</small>
+                            </h3>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </body>
+   
+}
+@if (TempData["AppMessage"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["AppMessage"] as string)");
+        };
+    </script>
+}

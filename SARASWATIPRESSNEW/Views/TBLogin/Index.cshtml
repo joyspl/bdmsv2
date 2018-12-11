@@ -1,0 +1,59 @@
+﻿@model SARASWATIPRESSNEW.Models.TBLogin
+    @{
+        ViewBag.Title = "Saraswati Press Login";
+    }
+    <head>
+        <!-- META SECTION -->
+        <title>Saraswati Press Login</title>
+        <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+        <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    </head>
+    @using (Html.BeginForm("Index", "TBLogin", FormMethod.Post))
+    {
+        <body>
+            <div class="login-container">
+                <div class="login-box animated fadeInDown">
+                    <div>SSEI</div>
+                    <div class="login-body">
+                        <div class="login-title"><strong>Welcome Saraswati Press User</strong>, Please login</div>
+                        <form action="login" class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(a => a.sp_user_name, new { @class = "form-control", @placeholder = "Username" })
+                                    @Html.ValidationMessageFor(a => a.sp_user_name, null, new { style = "color:red" })
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.PasswordFor(a => a.sp_password, new { @class = "form-control", @placeholder = "Password" })
+                                    @Html.ValidationMessageFor(a => a.sp_password, null, new { style = "color:red" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <div class="col-md-6">
+                                     <br />
+                                     <a href="#" class="btn btn-link btn-block">Forgot your password?</a>
+                                 </div> -->
+                                <div class="col-md-5">
+                                    <br />
+                                    <button class="btn btn-info btn-block">SP Log In</button>
+                                </div>
+                                <div class="col-md-5">
+                                    <br />
+                                    <a href="/Login/Index" class="btn btn-info btn-block">Back</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="login-footer">
+                        <div class="pull-left">
+                            &copy; WB TEXT BOOK CORPORATION
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    }

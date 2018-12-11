@@ -1,0 +1,124 @@
+﻿@model SARASWATIPRESSNEW.Models.Invoice
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<head>
+    <!-- META SECTION -->
+    <title>Invoice</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/Invoice.js"></script>
+</head>
+<script>
+    $(document).ready(function () {
+      //  appendMsg("Please Wait..", "INFO");
+        LoadCategory();
+       
+
+        //$("#txtInvoiceDate").datepicker({
+        //    dateFormat: 'dd-M-yy'
+        //}).datepicker('setDate', new Date());
+
+        $("#txtInvoiceDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker();
+
+        var InvoiceId = $("#txtInvoiceId").val();
+       
+        //alert(CategoryId);
+        if (InvoiceId > 0) {
+            LoadInvoiceDataForEdit();
+        }
+
+       
+     //   clearError();
+        //setTimeout(function () { alert("Hello"); }, 3000);
+    });
+</script>
+
+@*<div class="page-container">*@
+    
+    
+    @using (Html.BeginForm("Index", "Invoice", FormMethod.Post))
+    {
+        @*<div class="page-content">*@
+            @*<div style="width: auto; text-align:left; background-color: white;">
+                <img src="/resources/img/reports/header.jpg" />
+            </div>*@
+            @*<div class="panel panel-default" style="margin-top:30px;">*@
+                <div class="panel-heading">
+                    <h3 class="panel-title">Invoice</h3>
+                </div>
+                <div id="ErrorMsgContainer" style="width: 100%; vertical-align: text-top;"> </div>
+                @*<div class="container">
+                    <div class="panel panel-default">*@
+                        <div class="panel-body">
+                            <table cellpadding="10" cellspacing="10" width="100%" border="0" align="center" class="table">
+                                <tr>
+                                    <td style="width:25%">Invoice No:</td>
+                                    <td style="width:25%">@Html.TextBoxFor(a => a.InvoiceNo, new { @id = "txtInvoiceNo", @class = "form-control", @style = "width:180px" })</td>
+                                    <td style="width:25%">Invoice Date :</td>
+                                    <td style="width:25%">@Html.TextBoxFor(a => a.InvoiceDate, new { @id = "txtInvoiceDate", @class = "form-control", @style = "width:180px", })</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Category</td>
+                                    <td style="width:25%" >@Html.DropDownListFor(a => a.CategoryId, new SelectList(Enumerable.Empty<SelectListItem>(), "CategoryId", "Category_name"), "Select", new { @id = "ddlCategory", @class = "form-control", @style = "width:180px" })</td>
+                                    <td style="width:25%">Manual Invoice No:</td>
+                                    <td style="width:25%">@Html.TextBoxFor(a => a.ManualInvoiceNo, new { @id = "txtManualInvoiceNo", @class = "form-control", @style = "width:180px" })</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Challan No</td>
+                                    <td style="width:25%">@Html.TextBoxFor(a => a.ChallanNo, new { @id = "txtChallanNo", @class = "form-control",  @style = "width:180px" })</td>
+                                    <td style="width:25%" colspan="2"><button type="button" id="btnAdd" name="Add" value="Add" class="btn btn-mini btn-danger">Add</button></td>
+                                </tr>
+                            </table>
+
+                            <div class="panel-heading">
+                                <strong>Challan Entry</strong>
+                            </div>
+                            <div style="width: 100%; height: 350px; overflow: scroll;">
+                                <table id="tblInvCumChal" cellpadding="0" cellspacing="0" border="1" class="table basic" style="table-layout: fixed; width:1500px;">
+                                    <tr>
+                                        <th style="text-align:left;width:200px;">Challan No.</th>
+                                        <th style="text-align:center;width:150px;">Date</th>
+                                        <th style="text-align:left;width:200px;">District Name</th>
+                                        <th style="text-align:left;width:200px;">Circle Name</th>
+                                        <th style="text-align:left;width:200px;">Category</th>
+                                        <th style="text-align:left;width:100px;">Language</th>
+                                        <th style="text-align:left;width:200px;">Transporter</th>
+                                        <th style="text-align:left;width:150px;">Consignee No</th>
+                                        <th style="text-align:left;width:150px;">Vehicle No</th>
+
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div>
+                                <table border="0" class="table" style="width:300px;">
+                                    <tr>
+                                        <td><button type="button" id="btnSaveAsDraft" style="width:100px;" onclick="return UpdatedInInvoice(0);" name="Command" value="Draft" class="btn btn-info btn-block">Save As Draft</button></td>
+                                        <td><button type="button" id="btnConfirm" style="width:100px;" onclick="return UpdatedInInvoice(1);" name="Command" value="Confirm" class="btn btn-info btn-block">Confirm</button></td>
+                                        <td>@Html.TextBoxFor(a => a.InvoiceId, new { @id = "txtInvoiceId", @readonly = "readonly", @style = "width:50px;visibility:hidden;", })</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    @*</div>
+                </div>*@
+            @*</div>*@
+
+        @*</div>*@
+    }
+
+@*</div>*@
+

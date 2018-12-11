@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.BinderAllotQuantity>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script>
+    function ExportToExcel() {
+        var url = "/BinderAllotQty/ExportBinderAllotQuantityData";
+        window.location.href = url;
+    }
+</script>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Binder Quantity Allotment</strong></h3>
+</div>
+<div class="panel-body">
+    <table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style="width: 100%;">
+        <tr>
+            <td><a href="/BinderAllotQty/AddBinderAllotQuantity" style="width: 120px;" class="btn btn-info btn-block">Add New</a></td>
+            <td>
+                <input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+        </tr>
+    </table>
+    <div style="width: 100%; height: 450px; overflow: scroll;">
+       <table border="0" style="width:1500px;" class="table">
+    <tr>
+        <th style="text-align: left; ">Allotment Date</th>
+        <th style="text-align: left; ">Binder Name</th>
+        <th style="text-align: left; ">Book Category Name</th>
+        <th style="text-align: left; ">Language Name</th>
+        <th style="text-align: left; ">Book Name</th>
+        <th style="text-align: left; ">Total Quantity</th>
+        <th style="text-align: left; ">Quantity Per Lot</th>
+        <th style="text-align: left; ">Lot No From</th>
+        <th style="text-align: left; ">Lot No To</th>
+
+    </tr>
+        @try
+        {
+            foreach (var objModel in Model)
+            {
+            <tr>
+                <td style="text-align: left">
+                    <input id="hdId" value="@objModel.ID" type="hidden" />
+                    @objModel.AllotmentDate
+                </td>
+                <td style="text-align: left">
+                    @objModel.BinderName
+                </td>
+                <td style="text-align: left">
+                    @objModel.BookCategoryName
+                </td>
+                <td style="text-align: left">
+                    @objModel.LanguageName
+                </td>
+                <td style="text-align: left">
+                    @objModel.BookName
+                </td>
+                <td style="text-align: left">
+                    @objModel.TotQty
+                </td>
+                <td style="text-align: left">
+                    @objModel.Lot
+                </td>
+                
+            </tr>
+            }
+        }
+        catch (Exception ex)
+        {
+            <tr>
+                <td style="text-align: center" colspan="3"></td>
+            </tr>
+        }
+        </table>
+    </div>
+</div>

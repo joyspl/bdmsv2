@@ -1,0 +1,221 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallanList
+@{
+    ViewBag.Title = "Challan";
+}
+
+<head>
+    <!-- META SECTION -->
+    <title>Challan</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+
+<script>
+    $(document).ready(function () {
+        $(".numeric").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                alert("Only numerics are allowed");
+                return false;
+            }
+        });
+    });
+</script>
+
+@Html.Hidden("h_InvoiceCumChallanListCount", ViewData["vd_InvoiceCumChallanListCount"])
+ @try
+ {
+     @Html.Hidden("h_InvCumChalCount", Model.InvoiceCumChallanCollection.Count)
+ }
+ catch { 
+     @Html.Hidden("h_InvCumChalCount", 0)
+ }
+
+<body onload="page_load()">
+    <div class="page-container">
+        <!--Start Menu Section -->
+        <div class='page-sidebar'>
+            <ul class='x-navigation'>
+                <li class='xn-logo'>
+                    <a href='index.html'>WB Text Book</a>
+                    <a href='#' class='x-navigation-control'></a>
+                </li>
+                <li class='xn-profile'>
+                    <div class='profile'>
+                        <div class='profile-data'>
+                            <div class='profile-data-name'>SP Admin</div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href='/InvoiceCumChallanReqList/Index'><span class='fa fa-image'></span>Challan View</a></li>
+                <li><a href='/InvoiceCumChallan/Index'><span class='fa fa-image'></span>Challan</a></li>
+                <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+                <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+                <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+        </div>
+        <!-- End Menu Section -->
+
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("Index", "InvoiceCumChallanList", FormMethod.Post, new { @id = "frmInvoiceCumChallanList" }))
+        {
+            <div class="page-content">
+                <div style="width: auto; text-align:left; background-color: white;">
+                     <img src="/resources/img/reports/header.jpg" />
+                </div>
+                <!--End Notification -->
+                <br />
+                <div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <table id="tablePost" style="width:100%" border="0">
+                                            <tr>
+                                                <td style="text-align:left;" colspan="2"><h3 class="panel-title"><strong>Challan List</strong></h3></td>
+                                                <td style="text-align:right;">@Session["sp_name"] [@Session["sp_user_name"]]</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">InvoiceCumChallanNo: @Session["InvoiceCumChallanNo"]</td>
+                                                <td>District:@Session["DistrictName"]</td>
+                                                <td>Circle: @Session["CircleName"]</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Language: @Session["LanguageName"]</td>
+                                                <td colspan="2">Category:@Session["SchoolCategoryName"] </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <table id="tblInvCumChal" cellpadding="0" cellspacing="0" width="100%" border="1" class="table basic">
+                                        <tr>
+                                            <th style="text-align:center">Class</th>
+                                            @*<th style="text-align:center">Book ID</th>*@
+                                            <th style="text-align:center">Book Code</th>
+                                            <th style="text-align:center">Book Name</th>
+                                            <th style="text-align:center">Net Requisition Quantity</th>
+                                            <th style="text-align:center">Already Shipped Quantity</th>
+                                            <th style="text-align:center">Quantity for Shipping</th>
+                                            <th style="text-align:center">Rate</th>
+                                            <th style="text-align:center">Amount</th>
+                                        </tr>
+                                        @try
+                                        {
+
+                                            for (int i = 0; i < Model.InvoiceCumChallanCollection.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td style="text-align:left;">
+                                                        @Html.DisplayFor(a => a.InvoiceCumChallanCollection[i].ClassName, new { @class = "form-control", @id = "ClassName1_" + i, @style = "color:black;", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].ClassName, new { @class = "form-control", @id = "ClassName_" + i, @style = "width:90px;color:black;visibility:hidden;", @readonly = "readonly" })
+                                                    </td>
+                                                    @*<td style="text-align:center;">
+                                                        @Html.DisplayFor(a => a.InvoiceCumChallanCollection[i].Book_Id, new { @class = "form-control", @id = "Book_Id1_" + i, @style = "color:black;", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].Book_Id, new { @class = "form-control", @id = "Book_Id_" + i, @style = "width:90px;color:black;visibility:hidden;", @readonly = "readonly" })*@
+                                                    <td style="text-align:left">@Model.InvoiceCumChallanCollection[i].Book_Code</td>
+                                                    <td style="text-align:left">@Model.InvoiceCumChallanCollection[i].Book_Name</td>
+                                                    <td style="text-align:center">
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].NetReqQty, new { @class = "form-control", @id = "NetReqQty_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].AlreadyShippedQty, new { @class = "form-control", @id = "AlreadyShippedQty_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].AlreadyShippedQty, new { @class = "form-control", @id = "AlreadyShippedQty1_" + i, @style = "width:90px;color:black;visibility:hidden;", @readonly = "readonly" })
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].QtyShipped, new { @class = "form-control numeric", @id = "QtyShipped_" + i, @onchange = "CalcAmount(" + i + ")", @style = "width:90px;color:black;", @title = "enter quantity for shipping and press TAB to calculate amount..." })
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].Rate, new { @class = "form-control", @id = "Rate_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        @Html.TextBoxFor(a => a.InvoiceCumChallanCollection[i].Amount, new { @class = "form-control", @id = "Amount_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            <tr>
+                                                <td colspan="8">&nbsp;</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td style="text-align:right" colspan="6">&nbsp;</td>
+                                            <td style="text-align:right;vertical-align:middle;"><b>Total: </b></td>
+                                            <td style="text-align:right">
+                                                @Html.TextBoxFor(a => a.TotalAmount, new { @class = "form-control", @id = "txtTotalAmount", @style = "width:90px;color:black;", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right" colspan="8">
+                                                <table border="0">
+                                                    <tr>
+                                                        <td>
+                                                            <button type="submit" id="btnSaveAsDraft" name="Command" value="Draft" class="btn btn-info btn-block">Save As Draft</button>
+                                                        </td>
+                                                        <td>&nbsp;</td>
+                                                        <td>
+                                                            <button type="submit" id="btnConfirm" name="Command" value="Confirm" class="btn btn-info btn-block">Confirm</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script>
+        function page_load() {
+            if (Number($('#h_InvoiceCumChallanListCount').val()) == 0) {
+                $("#btnSaveAsDraft").attr('disabled', 'disabled');
+                $("#btnConfirm").attr('disabled', 'disabled');
+            }
+        }
+
+        function CalcAmount(i) {
+            //Validation for NetReqQty_ >= AlreadyShippedQty_
+            if (Number($('#NetReqQty_' + i).val()) < Number($('#AlreadyShippedQty1_' + i).val()) + Number($('#QtyShipped_' + i).val())) {
+                alert("Net Requisition Quantity cannot be less then Quantity For Shipped...");
+                $('#QtyShipped_' + i).val(0);
+            }
+            else {
+                $('#AlreadyShippedQty_' + i).val(Number($('#AlreadyShippedQty1_' + i).val()) + Number($('#QtyShipped_' + i).val()));
+            }
+
+            //Calc  Amount = Rate * QtyShipped
+            $('#Amount_' + i).val($('#QtyShipped_' + i).val() * $('#Rate_' + i).val());
+
+            //Running Total of Amount Column
+            var vatTotalAmount = 0;
+            for (var j = 0; j < $('#h_InvCumChalCount').val() ; j++) {
+                vatTotalAmount = vatTotalAmount + $('#QtyShipped_' + j).val() * $('#Rate_' + j).val();
+            }
+            $('#txtTotalAmount').val(vatTotalAmount);
+            return false;
+        }
+    </script>
+</body>

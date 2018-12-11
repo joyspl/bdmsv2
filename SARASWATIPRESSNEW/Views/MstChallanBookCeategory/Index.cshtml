@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.Category>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<script>
+    function ExportToExcel() {
+        var url = "/MstChallanBookCeategory/ExportCategoryData";
+        window.location.href = url;
+    }
+</script>
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Category Master</strong></h3>
+</div>
+<div class="panel-body">
+<table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style=" width:100%;">
+    <tr>
+        <td><a href="/MstChallanBookCeategory/AddCategory" style="width: 120px;" class="btn btn-info btn-block">Add New</a></td>
+        <td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+    </tr>
+</table>
+<table width="50%" border="0" align="center" class="table">
+    <tr>
+        <th style="text-align: left; width: 20%;">Category Name</th>
+        
+    </tr>
+    @try
+    {
+        foreach (var objModel in Model)
+        {
+            <tr>
+                <td style="text-align: left">
+                    <input id="hdId" value="@objModel.CategoryID" type="hidden" />
+                    @objModel.Category_name
+                </td>
+               
+            </tr>
+        }
+    }
+    catch (Exception ex)
+    {
+        <tr>
+            <td style="text-align: center" colspan="3"></td>
+        </tr>
+    }
+</table>
+</div>

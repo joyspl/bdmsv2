@@ -1,0 +1,17 @@
+﻿@model SARASWATIPRESSNEW.Models.BinderAllotQuantity
+@{var str = new HtmlString(Model.barcodeDPL.ToString());}
+<script type="text/javascript">
+    function print1() {
+        if (confirm("Do you want to print?")) {
+            window.print();
+            setTimeout(function () { window.close() }, 5000);
+        }
+    }
+</script>
+
+<html>
+<body onload="print1()">
+    @Html.Raw(str)
+</body>
+</html>
+

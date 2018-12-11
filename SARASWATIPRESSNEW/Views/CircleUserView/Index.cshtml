@@ -1,0 +1,162 @@
+﻿@model IEnumerable<SARASWATIPRESSNEW.Models.CircleUser>
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>        
+        <!-- META SECTION -->
+        <title>Admin</title>      
+           <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        @*<! <link rel="icon" href="favicon.ico" type="image/x-icon" />*@  
+     
+        <script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+        <script type="text/javascript" src="/resources/js/demo_tables.js"></script> 
+      <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+        <!-- EOF CSS INCLUDE -->                                    
+     <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css"/>
+   
+    </head>
+
+<!-- Start Css Link -->
+<script type='text/javascript' src='/resources/js/plugins/jquery/jquery.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jquery/jquery-ui.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap.min.js'></script>
+			<!-- END PLUGINS -->
+		
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/scrolltotop/scrolltopcontrol.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/morris/raphael-min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/morris/morris.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/d3.v3.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/rickshaw/rickshaw.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/owl/owl.carousel.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/moment.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/daterangepicker/daterangepicker.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tagsinput/jquery.tagsinput.min.js'></script>
+			
+			<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-select.js'></script>
+			<!-- END THIS PAGE PLUGINS-->
+			
+			<script type='text/javascript' src='/resources/js/plugins/jquery-validation/jquery.validate.js'></script>
+			<!-- START TEMPLATE -->
+			<script type='text/javascript' src='/resources/js/settings.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins.js'></script>
+			<script type='text/javascript' src='/resources/js/actions.js'></script>
+			<script type='text/javascript' src='/resources/js/demo_dashboard.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<!-- START THIS PAGE PLUGINS-->
+			<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/sprintf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/jspdf.js'></script>
+			<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/base64.js'></script>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+<div class="page-container" >  
+             <!--Start Menu Section -->
+
+    <div class='page-sidebar'>  	 
+			<ul class='x-navigation'>  
+			<li class='xn-logo'>  
+			<a href='index.html'>WB Text Book</a>  
+			<a href='#' class='x-navigation-control'></a>  
+			</li>  
+			<li class='xn-profile'>  
+			<div class='profile'>  
+			
+			<div class='profile-data'>  
+			<div class='profile-data-name'>System Admin</div>  
+			  
+			</div>  
+			</div>  
+			</li>  
+
+			     <li><a href='/CircleUser/Index'><span class='fa fa-image'></span>Create New Circle</a></li>
+                <li><a href='/CircleUserView/Index'><span class='fa fa-image'></span>Circle user List</a></li>
+                @*<li><a href='/BookWiseStockReportCircle/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>*@
+                <li><a href='/CircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>
+                <li><a href='/CircleSingleLogin/Index'><span class='fa fa-image'></span>Circle User Login Permission</a></li>
+                <li><a href='/Logout/Index'><span class='fa fa-image'></span>Log out</a></li>
+		     </ul>
+			</div>
+
+<!-- End Menu Section -->
+                <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container" >
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>                    
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="page-content">
+           <div style="width: auto; text-align:left; background-color: white;">
+              <img src="/resources/img/reports/header.jpg" />
+                  </div>
+
+    <div class="panel panel-default" style="margin-top:30px;">
+        
+                                    <div>&nbsp;&nbsp;</div>
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Circle User List </h3>
+                                </div>
+        <div class="panel-heading">
+                                    <a class="btn btn-mini btn-danger" href="#" onClick ="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+                                </div> 
+        <div class="panel-body">
+                                    <table id="tableID" class="table basic" style="margin-left:0px;" width="100%">
+
+   
+        <tr>
+            <td style="text-align:center;display:none;">Circle Id</td> 
+            <td style="text-align:center">Name</td> 
+            <td style="text-align:center">Address</td> 
+            <td style="text-align:center">Mobile No</td> 
+            <td style="text-align:center">Email Id</td> 
+            <td style="text-align:center">User Name</td> 
+            <td style="text-align:center">Password</td>           
+        </tr>
+        @foreach(var req in Model)
+        {
+        <tr>
+            <td style="text-align:center;display:none;">@req.CircleID</td>      
+            <td style="text-align:center">@req.CircleOfficerName</td>      
+            <td style="text-align:center">@req.Address</td>      
+            <td style="text-align:center">@req.MobileNo</td>      
+            <td style="text-align:center">@req.EmailId</td>      
+            <td style="text-align:center">@req.Userid</td>      
+            <td style="text-align:center">@req.Password</td>           
+        </tr>
+        }
+    </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+

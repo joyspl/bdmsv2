@@ -1,0 +1,99 @@
+﻿@model SARASWATIPRESSNEW.Models.Book
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+
+<h2>Book Master</h2>
+
+@using (Html.BeginForm("Index", "BookMaster", FormMethod.Post))
+
+{    
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.Label("Book Code")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.BookCode)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.BookCode, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Language")
+            </td>
+        </tr>       
+        <tr>
+            <td>
+                @Html.DropDownListFor(a=>a.LanguageID,new SelectList(Model.languageCollection,"LanguageID","language_name"),"Select")
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.LanguageID, null, new {style="color:red" })</td>
+        </tr>                            
+        <tr>
+            <td>
+                @Html.Label("Category")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownListFor(a=>a.CategoryID,new SelectList(Model.categoryCollection,"CategoryID","Category_name"),"Select")
+            </td>           
+            <td>@Html.ValidationMessageFor(a => a.CategoryID, null, new { style = "color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Book Name")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.BookName)               
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.BookName, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Rate")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.rate)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.rate, null, new {style="color:red" })</td>
+        </tr>     
+        <tr>
+            <td>
+                @Html.Label("Quantity")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.quantity)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.quantity, null, new {style="color:red" })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Unit Price")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(a=>a.unitprice)
+            </td>
+            <td>@Html.ValidationMessageFor(a => a.unitprice, null, new {style="color:red" })</td>
+        </tr> 
+        <tr>
+            <td>
+                <input type="submit" id="btnsubmit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+    
+    
+
+}

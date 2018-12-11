@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- META SECTION -->
+    <title>New Requisition</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+    <script type="text/javascript" src="/resources/js/demo_tables.js"></script>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <!-- EOF CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+</head>
+
+
+<body>
+    <div class="page-container">
+        <div class='page-sidebar'>
+            <ul class='x-navigation'>
+                <li class='xn-logo'>
+                    <a href='index.html'>WB Text Book</a>
+                    <a href='#' class='x-navigation-control'></a>
+                </li>
+                <li class='xn-profile'>
+                    <div class='profile'>
+                        <div class='profile-data'>
+                            <div class='profile-data-name'>Circle User</div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href='/CircleSchoolUpdate/Index'><span class='fa fa-image'></span>School Update</a></li>
+                <li class="active"><a href='/Home/Requisition'><span class='fa fa-image'></span>New Requisition</a></li>
+                <li><a href='/RequisionView/Index'><span class='fa fa-image'></span>Requisition List</a></li>
+                <li><a href='/StockUpdate/index'><span class='fa fa-image'></span>Stock Details</a></li>
+                <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+                <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+                <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>
+                <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+            </ul>
+        </div>
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div style="width: auto; text-align:left; background-color: white;">
+                 <img src="/resources/img/reports/header.jpg" />
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

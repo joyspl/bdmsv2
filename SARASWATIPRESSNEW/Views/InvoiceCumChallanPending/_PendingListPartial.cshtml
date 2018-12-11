@@ -1,0 +1,59 @@
+﻿@model Tuple<IEnumerable<SARASWATIPRESSNEW.Models.InvoiceCumChallan>, bool>
+@{
+    bool isConfrmImplemented = Model.Item2;
+}
+@if (Model != null && Model.Item1.Count() > default(int))
+{
+    foreach (var item in Model.Item1)
+    {
+        <tr class="cb" data-challanid="@item.ChallanId" data-crclinsp-name="@item.InspectorName" data-crclinsp-phone="@item.InspectorPhoneNo" data-crclinsp-email="@item.InspectorEmailId">
+            @if (isConfrmImplemented)
+            {
+                <td>
+                    @*@if (item.IsInvoiceCreated == "0")
+                        @if (item.ConfirmStatus == 0)
+                        {*@
+                    <input type="checkbox" class="chkchild" data-challannum="@item.InvoiceCumChallanNo" data-challanid="@item.ChallanId" data-crclinsp-name="@item.InspectorName" data-crclinsp-phone="@item.InspectorPhoneNo" data-crclinsp-email="@item.InspectorEmailId" />
+                    @* }*@
+                </td>
+            }
+            <td>
+                <a href="javascript:void(0);" class="challancancel" data-challanid="@item.ChallanId" style="display: none;"> Cancel</a>&nbsp;
+                @*@if (item.IsInvoiceCreated == "0")*@
+                @if (item.ConfirmStatus == 0)
+                {
+                    if (isConfrmImplemented)
+                    {
+                        @*<a href="@(string.Format("{0}{1}?Command=Edit", Url.Content("~/InvoiceCumChallanReqList/EditOperation/"), item.ChallanId))">Edit</a>*@
+                        <a href="javascript:void(0);" class="aEdit" data-challanid="@item.ChallanId">Edit</a>
+                        @Html.Raw("&nbsp;|&nbsp");
+                    <a href="@(string.Format("{0}{1}?Command=Print&isdemoprint=1", Url.Content("~/InvoiceCumChallanReqList/PrintOperation/"), item.ChallanId))" target="_blank">Print</a>
+                    }
+                }
+                else
+                {
+                    <a href="@(string.Format("{0}{1}?Command=Print&isdemoprint=0", Url.Content("~/InvoiceCumChallanReqList/PrintOperation/"), item.ChallanId))" target="_blank">Print</a>
+                }
+            </td>
+            <td>@item.DayDifference</td>
+            <td>@item.InvoiceCumChallanNo</td>
+            <td>@item.InvoiceCumChallanDate</td>
+            <td>@item.DistrictName</td>
+            <td>@item.CircleName</td>
+            <td>@item.InspectorPhoneNo</td>
+            <td>@item.InspectorEmailId</td>
+            @*<td>@string.Format("{0} ({1})", item.InspectorPhoneNo, item.InspectorEmailId)</td>*@
+            <td>@item.CategoryName</td>
+            <td>@item.Language</td>
+            <td>@item.Transporter</td>
+            <td>@item.CONSIGNEE_NO</td>
+            <td>@item.VEHICLE_NO</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="11" style="text-align: center; color: #f00; height: 100px;">No record found</td>
+    </tr>
+}

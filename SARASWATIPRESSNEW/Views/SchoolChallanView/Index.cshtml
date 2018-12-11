@@ -1,0 +1,137 @@
+﻿@model SARASWATIPRESSNEW.Models.SchoolChallan
+@{
+    ViewBag.Title = "School Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>School Challan</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/SchoolChallanView.js"></script>
+
+    @*<script type="text/javascript">
+        $(document).ready(function () {
+            appendMsg("Please Wait..", "INFO");
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+            LoadSchoolDetails();
+            clearError();
+        });
+    </script>*@ @*Date function modified on 01-12-18 dola*@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            appendMsg("Please Wait..", "INFO");
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - 365))); 
+
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+        LoadSchoolDetails();
+    });
+    </script>
+
+</head>
+
+<body>
+    @*<div class="page-container">*@
+        
+
+        
+        @using (Html.BeginForm("Index", "SchoolChallanView", FormMethod.Post, new { @id = "frmSchoolChallanView" }))
+        {
+            @*<div class="page-content">*@
+                
+                <!--End Notification -->
+                <br />
+                @*<div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">*@
+                                    <div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><strong>School Challan View</strong></h3>
+                                    </div>
+                                    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"> </div>
+                                   @* <div class="container">*@
+                                        @*<div class="panel panel-default">
+                                            <div class="panel-body">*@
+                                                <div class="panel-body">
+                                                    <table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style=" width:100%;">
+                                                        <tr>
+                                                            <td>School Name</td>
+                                                            <td colspan="3">@Html.DropDownListFor(a => a.SchoolID, new SelectList(Enumerable.Empty<SelectListItem>(), "SchoolID", "School_name"), "Select", new { @id = "ddlSchool", @style = "width:380px", @class = "form-control" })</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>From Date</td>
+                                                            <td>@Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+                                                            <td>To Date</td>
+                                                            <td>@Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input type="button" id="btnView" value="View" style="width: 100px" class="btn btn-info btn-block" /></td>
+                                                            <td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>
+                                                            <td colspan="2">&nbsp;</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div style="width: 100%; height: 450px; overflow: scroll;">
+                                                    <table id="tblInvCumChal" cellpadding="0" cellspacing="0" border="1" class="table basic" style="table-layout: fixed; width: 1750px;">
+                                                        <tr>                                                            
+                                                            <th style='text-align:Center;width:150px;'>Create/View</th>
+                                                            <th style='text-align:Left;width:180px;'>Challan Code</th>
+                                                            <th style='text-align:Center;width:150px;'>Challan Date</th>
+                                                            <th style='text-align:Left;width:180px;'>Requisition Code</th>
+                                                            <th style='text-align:Center;width:180px;'>Requisition Date</th>
+                                                            <th style='text-align:left;width:180px;'>School Name</th>
+                                                            <th style='text-align:left;width:180px;'>School Code</th>
+                                                            <th style='text-align:left;width:180px;'>Challan Updated By</th>
+                                                            <th style='text-align:left;width:200px;'>Challan Updated On</th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            @*</div>
+                                        </div>*@
+                                   @* </div>*@
+                               @* </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+            @*</div>*@
+        }
+   @* </div>*@
+</body>
+
+

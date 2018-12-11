@@ -1,0 +1,245 @@
+﻿@model SARASWATIPRESSNEW.Models.MisReport
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Circle Wise MIS Report</title>
+    @*<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />*@
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+    <script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+
+
+</head>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+@using (Html.BeginForm("Index", "MisReportByCircle", FormMethod.Post))
+{  
+    <input type="hidden" name="CircleID" id="CircleID" value="-1" />
+    <div class="panel-heading">
+        @*<h3 class="panel-title"><strong>Circlewise School Enrollrd Report</strong>*@
+        <h3 class="panel-title"><strong>Circle Wise MIS Report</strong> <!-- Modified on 8.12.18 Pomeli-->
+        
+            <br />
+            <small style="font-size: 14px; color: red;">School wise book requisition can be viewed.</small>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-md-1 col-xs-2 control-label">Circle</label>
+            <div class="col-md-3 col-xs-6">
+                <select id="ddlCircle" class="form-control select2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <table width="100%" class="table basic">
+                <tr>
+                    <td>
+                        <table width="100%" class="table basic" style="display: none;">
+                            <tr>
+                                <td>Type 	
+                                 <select class="firechange" id="ddlType" name="ddlType">
+                                     <option value="ALL" selected>All</option>
+                                     <option value="Books">Books</option>
+                                     <option value="Bags">Bags</option>
+                                 </select>
+                                </td>
+                                <td>Class Category
+                                 <select class="firechange" id="ddlClassCategory" name="ddlClassCategory">
+
+                                     <option value='ALL'>ALL</option>
+                                 </select>
+                                </td>
+                                <td>Language 
+                                <select class="firechange" id="ddlLanguageName" name="ddlLanguageName">
+                                    <option value='ALL'>ALL</option>
+
+                                </select>
+
+                                </td>
+
+                                <td>Book Name 
+                                 <select id="ddlBookName" name="ddlBookName">
+                                     <option value='ALL'>ALL</option>
+                                 </select>
+                                </td>
+                                <td>Start Date: 
+                                 <input id="txtStartDate" name="txtStartDate" />
+                                    End Date: 
+                                 <input id="txtEndDate" name="txtEndDate" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <input type="hidden" id="BookName" name="BookName" />
+                        <input type="hidden" id="LanguageName" name="LanguageName" />
+                        <input type="hidden" id="ClassCategory" name="ClassCategory" />
+                        <button type="button" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Export to Excel</button>
+                        @*<a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>       
+}
+<script>
+    var distId = @(Session["UserSec"] != null ? (string.IsNullOrWhiteSpace(((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) ? "0" : ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) : "0");
+    $(function () {
+        $.ajax({
+            url: '@(Url.Action("GetCircleDetailsOfaDistrict", "InvoiceCumChallan", new { area = "" }))',
+            type: 'POST',
+            data: { DistrictID: distId }
+        }).done(function (data) {
+            var list = document.getElementById("ddlCircle");
+            list.innerHTML = "";
+            list.add(new Option("Select Circle", "-1"));
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    list.add(new Option(data[i].Text, data[i].Value));
+                }
+            }
+        });
+    });
+
+    function LoadLanguageMasterDetails() {
+        $.ajax({
+            url: "/TrxSchRequisition/GetLanguageMasterDtl",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='ALL'>ALL</option>";
+                var itemCount = 0;
+
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                });
+                $('#ddlLanguageName').html(HtmlItems);
+                //var LanguageID = $("#hdLanguageID").val()
+                //if (LanguageID > 0) {
+                //    $("#ddlLanguageName").val($("#hdLanguageID").val());
+                //    $('#ddlLanguageName').change();
+                //    document.getElementById("ddlLanguageName").disabled = true;
+                //}
+
+            },
+            error: function (data) {
+                //alert(data);
+            }
+        });
+    }
+    function LoadCategoryMasterDetails() {
+        $.ajax({
+            url: "/TrxBinderAllotmentQuantity/GetChallanCategoryDetails",//"/TrxSchRequisition/GetCategoryMasterDtl",
+            type: 'POST',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var HtmlItems = "<option value='ALL'>ALL</option>";
+                var itemCount = 0;
+                debugger;
+                $.each(data, function (i, item) {
+                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $('#ddlClassCategory').html(HtmlItems);
+                //var CategoryId = $("#hdCategoryID").val()
+                //if (CategoryId > 0) {
+                //    $("#ddlCategory").val($("#hdCategoryID").val());
+                //    $('#ddlCategory').change();
+                //    document.getElementById("ddlCategory").disabled = true;
+                //}
+            },
+            error: function (data) {
+                //alert(data);
+            }
+        });
+    }
+
+
+    $(function () {
+        $(".firechange").change(function () {
+
+
+            var categoryId = $("#ddlClassCategory").val();
+            var LanguageId = $("#ddlLanguageName").val();
+
+
+            if (categoryId != "ALL" && LanguageId != "ALL") {
+                $.ajax({
+                    url: "/TrxBinderAllotmentQuantity/GetBookDtlByChallanCatIdAndLanguageId",
+                    type: 'POST',
+                    data: { InChallanCatId: categoryId, InLanguageId: LanguageId },
+                    cache: false,
+                    success: function (data) {
+                        debugger;
+                        var HtmlItems = "<option value='ALL'>ALL</option>";
+
+
+                        var bagbook = $("#ddlType").val()
+                        if (bagbook === 'ALL') {
+
+                            $.each(data, function (i, item) {
+
+                                HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                            });
+                        } else {
+                            $.each(data, function (i, item) {
+                                // debugger;
+                                if (item.BookType === bagbook)
+                                    HtmlItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                            });
+                        }
+
+                        $('#ddlBookName').html(HtmlItems);
+                        //var CategoryId = $("#hdCategoryID").val()
+                        //if (CategoryId > 0) {
+                        //    $("#ddlCategory").val($("#hdCategoryID").val());
+                        //    $('#ddlCategory').change();
+                        //    document.getElementById("ddlCategory").disabled = true;
+                        //}
+                    },
+                    error: function (data) {
+                        //alert(data);
+                    }
+                });
+            }
+            else {
+                var HtmlItems = "<option value='ALL'>ALL</option>";
+                $('#ddlBookName').html(HtmlItems);
+            }
+        });
+    });
+    $(document).ready(function () {
+
+        //$("#txtStartDate").datepicker({
+        //    dateFormat: 'dd-M-yy'
+        //}).datepicker('setDate', new Date());
+
+        //$("#txtEndDate").datepicker({
+        //    dateFormat: 'dd-M-yy'
+        //}).datepicker('setDate', new Date());
+
+
+        LoadLanguageMasterDetails();
+        LoadCategoryMasterDetails();
+
+        $("#btnSubmit").click(function () {
+            debugger;
+            $("#BookName").val($("#ddlBookName option:selected").text());
+            $("#LanguageName").val($("#ddlLanguageName option:selected").text());
+            $("#ClassCategory").val($("#ddlClassCategory option:selected").text());
+            $("#CircleID").val($("#ddlCircle").val());
+            $("form:first").submit();
+        });
+
+    });
+</script>

@@ -1,0 +1,24 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@if (Model != null)
+{
+    if (Model.InvoiceCumChallanCollection != null && Model.InvoiceCumChallanCollection.Count() > default(int))
+    {
+        foreach (var obj in Model.InvoiceCumChallanCollection)
+        {
+            <tr data-bookcode="@obj.Common_Book_Code" data-originalbookcode="@obj.Book_Code" class="dta" data-cartoon="@obj.TotalLot" data-cartoon-new="@(string.IsNullOrWhiteSpace(obj.TotalLotDelimited) ? "0" : obj.TotalLotDelimited)">
+                <td data-bookcode="@obj.Common_Book_Code" data-originalbookcode="@obj.Book_Code">@obj.Common_Book_Code</td>
+                <td>@obj.Book_Name</td>
+                <td class="tdqty">@obj.AlreadyShippedQty</td>
+                <td><input type="text" id="txt_@(obj.Book_Code)" onblur="CheckAndSetValueOnBlur(this);" onfocus="CheckAndRemoveExistingValue(this);" onchange="CheckForRevertQty(this);" class="form-control txtrevicedqty number" value="@obj.RevicedQty" /></td>
+                <td class="tdrqty"><strong style="color: #2d702f;">@obj.AlreadyShippedQty</strong></td>
+            </tr>
+        }
+    }
+}
+else
+{
+    <tr>
+        <td colspan="4" style="text-align: center">No record found</td>
+    </tr>   
+}

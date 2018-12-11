@@ -1,0 +1,132 @@
+﻿@model SARASWATIPRESSNEW.Models.BinderWiseBookQtyRpt
+@{
+    ViewBag.Title = "Challan List";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <!-- META SECTION -->
+    <title>Challan View</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            $("#txtStartDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+
+            $("#txtEndDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker('setDate', new Date());
+        });
+    </script>
+    <script type="text/javascript">
+        function ExportToExcel() {
+            appendMsg("Please Wait..", "INFO");
+            // var itemId = $('#InvoiceCumChallanReport').attr('itemid');
+            var RemId = $("#ddlBinder").val();
+            var fromDate = $("#txtStartDate").val();
+            var toDate = $("#txtEndDate").val();
+            //var NestId = $(this).data('id');
+            var url = "/BinderWiseBookQuantityReport/ExportChallanData?startDate=" + fromDate + "&endDate=" + toDate + "&RemId=" + RemId;
+            window.location.href = url;
+            clearError();
+        }
+
+        //For MVC Report Export to Excel using Crystal Report - Start
+        $(document).off("click", "#btnExportToExcel").on("click", "#btnExportToExcel", function (e) {
+            @*var a = "@(Url.Action("BinderBookDtlExportToExcel", "BinderWiseBookQuantityReport", new { area = "" }))?startDate=" + $("#txtStartDate").val() + "&endDate=" + $("#txtEndDate").val() + "&BinderId=" + $("#ddlBinder").val();
+            console.log(a);*@
+            try {
+                window.open("@(Url.Action("BinderBookDtlExportToExcel", "BinderWiseBookQuantityReport", new { area = "" }))?startDate=" + $("#txtStartDate").val() + "&endDate=" + $("#txtEndDate").val() + "&BinderId=" + $("#ddlBinder").val());
+            } catch (ex) { }
+        });
+        //For MVC Report Export to Excel using Crystal Report - End
+    </script>
+</head>
+<body>
+    @*<div class="page-container">*@
+        
+
+        
+        @*@using (Html.BeginForm("Index", "BinderWiseBookQuantityReport", FormMethod.Post, new { @id = "frmBinderWiseBookQuantityReport" }))
+        {*@
+            @*<div class="page-content">*@
+                @*<div style="width: auto; text-align:left; background-color: white;">
+                    <img src="/resources/img/reports/header.jpg" />
+                </div>*@
+                <!--End Notification -->
+                <br />
+                @*<div class="page-content-wrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">*@
+                                    <div class="panel-heading">
+                                        <table id="tablePost" style="width:100%" border="0">
+                                            <tr>
+                                                <td style="text-align:left; "><h3 class="panel-title"><strong>Binder Wise Book Quantity Report</strong></h3></td>
+                                                <td style="text-align:right;">@Session["sp_name"] [@Session["sp_user_name"]]</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"> </div>
+
+                                    @*<div class="container">*@
+                                        @*<div class="panel panel-default">*@
+                                            <div class="panel-body">
+
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("Binder")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.DropDownListFor(a => a.BinderID, new SelectList(Model.ChallanRemarksCollection, "RemId", "Remarks"), "<<--All-->>", new { @id = "ddlBinder", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("From Date")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.TextBoxFor(a => a.startDate, new { @id = "txtStartDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                        </div>
+                                                        <label class="col-md-1 col-xs-6 control-label">@Html.Label("To Date")</label>
+                                                        <div class="col-md-3 col-xs-12">
+                                                            @Html.TextBoxFor(a => a.endDate, new { @id = "txtEndDate", @style = "width:180px", @maxlength = "15", @class = "form-control" })
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <table id="tblBtn" cellpadding="0" cellspacing="0" border="0" style=" width:500px;">
+                                                        <tr>
+                                                            @*<td><input type="button" id="btnEmail" value="Export To Excel" onclick="ExportToExcel();" style="width: 120px" class="btn btn-info btn-block" /></td>*@
+                                                            <td>
+                                                                <button id="btnExportToExcel" style="width: 120px" class="btn btn-info btn-block">Export To Excel</button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        @*</div>*@
+                                    @*</div>*@
+                                @*</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+            @*</div>*@
+        @*}*@
+    @*</div>*@
+</body>
+
+

@@ -1,0 +1,182 @@
+﻿@model SARASWATIPRESSNEW.Models.CircleWiseSchool
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+
+<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+<script type="text/javascript" src="/resources/js/demo_tables.js"></script>
+<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<!-- EOF CSS INCLUDE -->
+<link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+
+<!-- Start Css Link -->
+<script type='text/javascript' src='/resources/js/plugins/jquery/jquery.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/jquery/jquery-ui.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap.min.js'></script>
+<!-- END PLUGINS -->
+
+<!-- START THIS PAGE PLUGINS-->
+<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/scrolltotop/scrolltopcontrol.js'></script>
+
+<script type='text/javascript' src='/resources/js/plugins/morris/raphael-min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/morris/morris.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/rickshaw/d3.v3.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/rickshaw/rickshaw.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/owl/owl.carousel.min.js'></script>
+
+<script type='text/javascript' src='/resources/js/plugins/moment.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/daterangepicker/daterangepicker.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tagsinput/jquery.tagsinput.min.js'></script>
+
+<script type='text/javascript' src='/resources/js/plugins/bootstrap/bootstrap-select.js'></script>
+<!-- END THIS PAGE PLUGINS-->
+
+<script type='text/javascript' src='/resources/js/plugins/jquery-validation/jquery.validate.js'></script>
+<!-- START TEMPLATE -->
+<script type='text/javascript' src='/resources/js/settings.js'></script>
+<script type='text/javascript' src='/resources/js/plugins.js'></script>
+<script type='text/javascript' src='/resources/js/actions.js'></script>
+<script type='text/javascript' src='/resources/js/demo_dashboard.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+<!-- START THIS PAGE PLUGINS-->
+<script type='text/javascript' src='/resources/js/plugins/icheck/icheck.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/datatables/jquery.dataTables.min.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/tableExport.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/jquery.base64.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/html2canvas.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/sprintf.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/jspdf.js'></script>
+<script type='text/javascript' src='/resources/js/plugins/tableexport/jspdf/libs/base64.js'></script>
+
+<!-- End Css Link -->
+<!-- Start Notification Section -->
+
+@using (Html.BeginForm("Index", "CircleWiseSchoolReport", FormMethod.Post))
+{
+    @*<div style="width: auto; text-align: left; background-color: white;">
+        <img src="/resources/img/reports/header.jpg" />
+    </div>*@
+
+    @*<div class="panel panel-default" style="margin-top: 30px;">*@
+
+        <div class="panel-heading">
+            <h3 class="panel-title">CircleWise School Requisition Report</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-1 col-xs-6 control-label">@Html.Label("District")</label>
+                <div class="col-md-3 col-xs-12">
+                    @Html.DropDownListFor(a => a.DistrictID, new SelectList(Model.lst_district, "DistrictID", "District_name"), "Select", new { @id = "districtid", @onchange = "loadDoc(this.value)", @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.DistrictID, null, new { style = "color:red" })
+
+
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle")</label>
+                <div class="col-md-3 col-xs-12">
+                    @Html.DropDownListFor(a => a.CircleID, new SelectList(Model.lst_circle, "CircleID", "Circle_name"), "Select", new { @id = "circle_id", @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.CircleID, null, new { style = "color:red" })
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        @*<div class="panel-body">*@
+
+            <table width="100%" class="table basic">
+
+
+                <tr>
+                    <td>
+                        <button type="submit" id="btnSubmit" name="Command" value="Draft" class="btn btn-mini btn-danger">Show</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-mini btn-danger" href="#" onclick="$('#tableID').tableExport({type:'excel',escape:'false'});">Export to Excel</a>
+                    </td>
+                </tr>
+
+
+            </table>
+        @*</div>*@
+
+    @*</div>*@
+
+    <div class="panel-body">
+
+        <table id="tableID" class="table datatable" style="margin-left: 0px;" width="100%">
+
+            <tr>
+                <td>Book Name</td>
+                <td>No. of Books Required</td>
+                <td>Previous Year Stock</td>
+                <td>Net Requisition</td>
+                <td>Last Updated On</td>
+                <td>No. of Books Received</td>
+                <td>Stock After Receipt</td>
+                <td>Stock After Distribution</td>
+                @*<td style="visibility:hidden">Book Id</td>*@
+            </tr>
+            @try
+            {
+
+                for (int i = 0; i < Model.req_wise_collection.Count; i++)
+                {
+                <tr>
+                    <td style="text-align: left">@Model.req_wise_collection[i].book_name</td>
+                    <td style="text-align: center">@Model.req_wise_collection[i].tot</td>
+                    <td style="text-align: center">@Model.req_wise_collection[i].stock_update_quantity</td>
+                    <td style="text-align: center">@Model.req_wise_collection[i].balance</td>
+                    <td style="text-align: center">@Model.req_wise_collection[i].time_stamp</td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    @*<td style="text-align:center;visibility:hidden">@Html.TextBoxFor(a => a.req_wise_collection[i].BookID)</td>*@
+                </tr>
+                }
+            }
+            catch (Exception ex)
+            {
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center; visibility: hidden"></td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+}
+
+
+<script>
+    function loadDoc(x) {
+        //alert(x + document.getElementById('languageid').value);
+        //window.location.href += "";
+        window.location.href = "?a=" + x;
+        location.reload(a);
+    }
+
+</script>
+

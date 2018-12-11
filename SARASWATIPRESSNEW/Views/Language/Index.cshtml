@@ -1,0 +1,28 @@
+﻿@model SARASWATIPRESSNEW.Models.Language
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Language</h2>
+
+@using (Html.BeginForm("Index", "Language", FormMethod.Post))
+{
+   <table width="100%">
+       <tr>
+           <td>
+               @Html.Label("Language")
+           </td>
+       </tr>
+       <tr>
+           <td>
+               @Html.TextBoxFor(a=>a.language_name)
+           </td>
+           <td>@Html.ValidationMessageFor(a => a.language_name, null, new {style="color:red" })</td>
+       </tr>
+       <tr>
+            <td>
+                <input type="submit" id="btnsubmit" value="Submit" />
+            </td>
+        </tr>
+   </table> 
+}

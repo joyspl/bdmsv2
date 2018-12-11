@@ -1,0 +1,133 @@
+﻿@model SARASWATIPRESSNEW.Models.BinderAllotQuantity
+
+@{
+    ViewBag.Title = "PrintBinderLot";
+        //Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<head>
+    <link href="~/resources/css/BarCode/BarCode.css" rel="stylesheet" />
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        table.LotNoGen td, th {
+            padding: 18px 18px 18px 18px;
+            vertical-align: middle;
+        }
+        .binderdetails {
+    display: inline-block;
+    margin-right: 10px;
+}
+        
+        .col-3 {
+    width: 33%;
+    height: 3.4cm;
+    display: inline-block;
+    text-align: center;
+    margin:0;
+}
+         span.barcode {
+    font-size: 10px;
+}
+
+
+@@page {
+  size: A4;
+  margin: 0.7cm .5cm;
+}
+        @@media print {
+            .tblBinderAllotMent {
+                page-break-before:always;
+                margin-bottom:10px;
+            }
+            html, body {
+                width: 21cm;
+                max-height: 29.7cm;
+                margin:0!important;
+            }
+            span.barcode {
+    font-size: 10px;
+    padding-top: 30px;
+    display: inline-block;
+}
+             span.barcodetitle{
+    font-size: 10px;
+}
+            .inline {
+                font-size: 10px;
+            }
+        }
+
+
+    </style>
+    <script>
+        function printDiv(divName) {
+            var NottoPrintDiv = document.getElementById('dvNotToPrint');
+            NottoPrintDiv.setAttribute('class', 'hidden');
+            window.print();
+            NottoPrintDiv.setAttribute('class', 'visible');
+        }
+    </script>
+</head>
+<body>
+  
+    @using (Html.BeginForm("PrintBinderLot", "BinderAllotmentQuantityView", FormMethod.Post, new { @id = "frmBinderAllotmentQuantityView" }))
+    {
+        <div style="margin: 0 auto; text-align: left; width: 100%; font-family: Calibri,Arial; border-bottom: solid 2px;" id="dvNotToPrint">
+            @if (!string.IsNullOrWhiteSpace(Model.PrintDtl))
+            {
+                <input type="button" width="150px" onclick="printDiv('printableArea')" value="Print" class="button" />
+            }
+        </div>
+        <div style="margin: 0 auto; text-align: left; width: 100%; font-family: Calibri,Arial;" id="printableArea">
+            @*<div id='tblBinderAllotMent' class="inline" cellpadding='0' cellspacing='0' border="0" width='100%'>
+                
+                    <div class="binderdetails" >Binder Name.: <b>@Html.DisplayFor(a => a.BinderName),</b></div>
+                    <div class="binderdetails" >Language: <b>@Html.DisplayFor(a => a.LanguageName),</b></div>
+                    
+              
+                    <div class="binderdetails">Allotment Date: <b>@Html.DisplayFor(a => a.AllotmentDate),</b></div>
+                    <div class="binderdetails">Allotment Qty: <b>@Html.DisplayFor(a => a.TotQty),</b></div>
+                                 
+                     <div class="binderdetails">Book Name.: <b>@Html.DisplayFor(a => a.BookName),</b></div>
+                    <div class="binderdetails">Book Code: <b>@Html.DisplayFor(a => a.BookCode),</b></div>
+               
+                    <div class="binderdetails" >Lot: <b>@Html.DisplayFor(a => a.Lot),</b></div>
+                    <div class="binderdetails">No of Sticker : <b>@Html.DisplayFor(a => a.ReqQty)</b></div>
+               
+            </div>*@
+            <div border="0" width='100%' class="LotNoGen">
+                @if (!string.IsNullOrWhiteSpace(Model.PrintDtl))
+                {
+                    @Html.Raw(Model.PrintDtl)
+                }
+                else
+                {
+                    <div style="padding-top: 15%; text-align: center;">
+                        
+                            <h1>Generating stickers. Please check after some time...</h1>
+                        
+                    </div>   
+                }
+            </div>
+        </div>
+    }
+</body>

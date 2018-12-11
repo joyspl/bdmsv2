@@ -1,0 +1,162 @@
+﻿@model SARASWATIPRESSNEW.Models.School
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>School Update</strong></h3>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("Index", "CircleSchoolUpdate", FormMethod.Post))
+    {
+
+        <div class="panel-heading">
+
+                                    <div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                                <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                </div>
+                                                <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.DropDownListFor(a => a.SchoolID, new SelectList(Model.school_collection, "SchoolID", "School_name"), "Select", new { @id = "school_id", @onchange = "loadDoc();", @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.SchoolID, null, new { style = "color:red" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School U-dise Code", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_Code, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.School_Code, null, new { style = "color:red" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School Name", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.School_name, null, new { style = "color:red" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School Address", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_Adrees, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.School_Adrees, null, new { style = "color:red" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School Contact No", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_Mobile, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.School_Mobile, null, new { style = "color:red" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School Alternative Contact No", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_alt_Mobile, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(a => a.School_alt_Mobile, null, new { style = "color:red" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        @Html.Label("School Email ID", new { @class = "col-md-1 col-xs-6 control-label" })
+                                        <div class="col-md-3 col-xs-12">
+
+                                            @Html.TextBoxFor(a => a.School_Emailid, new { @class = "form-control" })
+                                            @* @Html.ValidationMessageFor(a => a.School_Emailid, null, new {style="color:red" })*@
+                                            <br />
+                                            <button type="submit" id="btnSave" name="Command" class="btn btn-mini btn-danger" value="Add School" onclick="Submit();">Save</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td style="visibility:hidden">
+                                                @Html.TextBoxFor(a => a.stat, new { @id = "mystat" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+    }
+</div>
+
+
+<script>
+
+    function loadDoc() {
+        window.location.href = "?e=" + document.getElementById('school_id').value;
+        location.reload(a, b, e);
+    }
+
+    function Submit() {
+        if (confirm("Are you sure you want to submit ?")) {
+            document.getElementById('mystat').value = true;
+        } else {
+            document.getElementById('mystat').value = false;
+        }
+    }
+</script>
+
+@* </body>*@
+
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@(TempData["Message"] as string)");
+        };
+    </script>
+}
+

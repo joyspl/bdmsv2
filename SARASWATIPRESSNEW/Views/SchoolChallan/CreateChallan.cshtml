@@ -1,0 +1,193 @@
+﻿@model SARASWATIPRESSNEW.Models.SchoolChallan
+
+@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+<head>
+    <!-- META SECTION -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Challan</title>
+    <script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/SchoolChallan.js"></script>
+    @*<script src="~/Scripts/AppJs/ChallanEntry.js"></script>*@
+
+</head>
+<script>
+    $(document).ready(function () {
+        appendMsg("Please Wait..", "INFO");
+        $("#txtSchoolChallanDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker();
+        clearError();
+        //setTimeout(function () { alert("Hello"); }, 3000);
+    });
+</script>
+@try
+{
+    @Html.Hidden("hf_RequisitionId", Model.RequisitionId)
+}
+catch
+{
+    @Html.Hidden("hf_RequisitionId", 0)
+}
+<body>
+
+    @*<div class="page-container">*@
+        
+
+       
+        @using (Html.BeginForm("CreateChallan", "SchoolChallan", FormMethod.Post))
+        {
+
+            @*<div class="page-content">*@
+                @*<div style="width: auto; text-align:left; background-color: white;">
+                    <img src="/resources/img/reports/header.jpg" />
+                </div>*@
+                <!--End Notification -->
+                <br />
+                @*<div class="page-content-wrap">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">*@
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
+                                            <div class="col-md-3 col-xs-12">
+                                                @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                            </div>
+                                            <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
+                                                @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                            </div>
+                                            <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
+                                                @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"> </div>
+                                    @*<div class="container">*@
+                                        @*<div class="panel panel-default">*@
+                                            <div class="panel-body">
+                                                <table cellpadding="10" cellspacing="10" width="100%" border="0" align="center" class="table">
+                                                    <tr>
+                                                        <td>Requisition No :</td>
+                                                        <td>@Html.TextBoxFor(a => a.ReqCode, new { @id = "txtReqCode",  @disabled = "disabled", @style = "width:180px" })</td>
+                                                        <td>Requisition Date :</td>
+                                                        <td>@Html.TextBoxFor(a => a.RequisitionDate, new { @id = "txtRequisitionDate",  @disabled = "disabled", @style = "width:180px" })</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Language :</td>
+                                                        <td>@Html.TextBoxFor(a => a.Language, new { @id = "txtLanguage",  @disabled = "disabled", @style = "width:180px" })</td>
+                                                        <td>Category :</td>
+                                                        <td>@Html.TextBoxFor(a => a.Category, new { @id = "txtCategory",  @disabled = "disabled", @style = "width:180px" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>School Name :</td>
+                                                        <td>@Html.TextBoxFor(a => a.SchoolName, new { @id = "txtSchoolName", @disabled = "disabled", @style = "width:280px" })</td>
+                                                        <td>School Code :</td>
+                                                        <td>@Html.TextBoxFor(a => a.SchoolCode, new { @id = "txtSchoolCode", @disabled = "disabled", @style = "width:180px" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>School Address :</td>
+                                                        <td>@Html.TextAreaFor(a => a.SchoolAddress,5,10, new { @id = "txtSchoolAddress", @disabled = "disabled", @style = "width:280px" })</td>
+                                                        <td>School Contact No :</td>
+                                                        <td>@Html.TextBoxFor(a => a.SchoolContactNo, new { @id = "txtSchoolContactNo", @disabled = "disabled", @style = "width:180px" }) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:25%">Challan Number :</td>
+                                                        <td style="width:25%">@Html.TextBoxFor(a => a.SchoolChallanCode, new { @id = "txtSchoolChallanCode", @readonly = "readonly", @style = "width:180px" })</td>
+                                                        <td style="width:25%">Challan Date :</td>
+                                                        <td style="width:25%">@Html.TextBoxFor(a => a.SchoolChallanDate, new { @id = "txtSchoolChallanDate", @style = "width:180px",  })</td>
+                                                    </tr>                                        
+                                                </table>
+                                                <div class="panel-heading">
+                                                    <strong>Books Entry</strong>
+                                                </div>
+                                                <div style="width: 100%; height: 450px; overflow: scroll;">
+                                                    <table id="tblInvCumChal" cellpadding="0" cellspacing="0" width="100%" border="1" class="table basic">
+                                                        <tr>
+                                                            <th style="text-align:center">Class</th>
+                                                            <th style="text-align:center">Book Code</th>
+                                                            <th style="text-align:center">Book Name</th>
+                                                            <th style="text-align:center">Requisition <br /> Quantity</th>
+                                                            <th style="text-align:center">Available Stock <br /> Quantity</th>
+                                                            <th style="text-align:center">Already Shipped <br />Quantity</th>                                                            
+                                                            <th style="text-align:center">Quantity for Shipping</th>
+                                                            
+                                                        </tr>
+                                                        @try
+                                                        {
+                                                            for (int i = 0; i < Model.trxSchoolChallanBookReqDtl.Count; i++)
+                                                            {
+                                                                <tr class="trdta">
+                                                                    <td style="text-align:left;">
+                                                                        @Html.DisplayFor(a => a.trxSchoolChallanBookReqDtl[i].Class, new { @class = "form-control", @id = "ClassName1_" + i, @style = "color:black;", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].ReqDtlId, new { @class = "form-control", @id = "ReqDtlId_" + i, @style = "color:black; visibility: hidden;", @readonly = "readonly" })
+                                                                    </td>                                                                    
+                                                                    <td style="text-align:left">@Model.trxSchoolChallanBookReqDtl[i].BookCode</td>
+                                                                    <td style="text-align:left">@Model.trxSchoolChallanBookReqDtl[i].BookName</td>
+                                                                    <td style="text-align:center">
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].RequisitionQuantity, new { @class = "form-control reqqty", @id = "RequisitionQuantity_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].BookID, new { @class = "form-control", @id = "BookID1_" + i, @style = "color:black; visibility: hidden;", @readonly = "readonly" })
+                                                                     </td>
+                                                                    <td style="text-align:left">
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].AvailableStockQuantity, new { @class = "form-control", @id = "AvailableStockQuantity_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                                        <p style='font-size:10px;color:red;'>Qty. Received: @Model.trxSchoolChallanBookReqDtl[i].QtyReceived <br/>Stock Qty: @Model.trxSchoolChallanBookReqDtl[i].StockQty </p>
+                                                                    </td>
+                                                                    <td style="text-align:right">
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].AlreadyShippedQuantity, new { @class = "form-control", @id = "AlreadyShippedQuantity_" + i, @style = "width:90px;color:black;", @readonly = "readonly" })
+                                                                    </td>
+                                                                    <td style="text-align:right">
+                                                                        @Html.TextBoxFor(a => a.trxSchoolChallanBookReqDtl[i].QuantityForShipping, new { @class = "form-control qtyforsh", @id = "QuantityForShipping_" + i, @style = "width:90px;color:black;", @onchange="CalcAmount("+ i +");" })
+                                                                    </td>                                                                    
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            <tr>
+                                                                <td colspan="8">&nbsp;</td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                </div>
+                                                <div>
+                                                    <table border="0" class="table">
+                                                        <tr>
+                                                            <td>
+                                                                @Html.TextBoxFor(a => a.RequisitionId, new { @id = "txtRequisitionId", @readonly = "readonly", @style = "width:180px;visibility:hidden;", @maxlength = "50" })
+                                                                @Html.TextBoxFor(a => a.SchoolChallanUniqueId, new { @id = "txtSchoolChallanUniqueId", @readonly = "readonly", @style = "width:180px;visibility:hidden;", @maxlength = "50" })
+                                                                <button type="submit" id="btnSaveAsDraft" style="width:100px;" onclick="return fun_validation();" name="Command" value="Draft" class="btn btn-info btn-block">Save Challan</button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        @*</div>*@
+
+                                    @*</div>*@
+                                @*</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+            @*</div>*@
+        }
+    @*</div>*@
+
+</body>

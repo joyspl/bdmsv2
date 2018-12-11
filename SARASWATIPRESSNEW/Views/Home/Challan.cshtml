@@ -1,0 +1,116 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@{
+    ViewBag.Title = "Challan";
+}
+
+<head>
+    <!-- META SECTION -->
+    <title>Challan</title>
+    
+</head>
+<script type="text/javascript" src="/resources/js/plugins/bootstrap/bootstrap-select.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" id="theme" href="/resources/css/theme-default.css" />
+
+<!-- End Css Link -->
+
+<body onload="setDropDown()">
+    <!-- <div><a href="/RequisionView/Index">Requisition List</a></div>
+     <p></p>
+     <div><a href="/CircleUser/Index">Circle User Edit Profile</a></div>
+        -->
+    <div class="page-container">
+        <!--Start Menu Section -->
+        <div class='page-sidebar'>
+            <ul class='x-navigation'>
+                <li class='xn-logo'>
+                    <a href='index.html'>WB Text Book</a>
+                    <a href='#' class='x-navigation-control'></a>
+                </li>
+                <li class='xn-profile'>
+                    <div class='profile'>
+
+                        <div class='profile-data'>
+                            <div class='profile-data-name'>SP Admin</div>
+                        </div>
+                    </div>
+                </li>
+                  <li><a href='/InvoiceCumChallanReqList/Index'><span class='fa fa-image'></span>Challan View</a></li>
+                <li ><a href='/InvoiceCumChallan/Index'><span class='fa fa-image'></span>Challan</a></li>
+                <li ><a href='/CircleWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>Circle Wise Challan Delivery  Report</a></li>
+                <li ><a href='/DistrictWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>District Wise Challan Delivery Report</a></li>
+                <li ><a href='/BinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Binder Wise Book Quantity Report</a></li>
+                <li ><a href='/ChallanBinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Binder Wise Book Quantity Report</a></li>
+                <li ><a href='/InvoiceView/Index'><span class='fa fa-image'></span>Invoice View</a></li>
+                <li ><a href='/Invoice/Index'><span class='fa fa-image'></span>Invoice</a></li>
+                <li><a href='/TbLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+                </ul>
+        </div>
+        <!-- End Menu Section -->
+
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-content">
+                        <p>Are you sure you want to log out?</p>
+                        <p>Press No if you want to continue work. Press Yes to logout current user.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="logout" class="btn btn-success btn-lg">Yes</a>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("Requisition", "Home", FormMethod.Post))
+        {
+            <div class="page-content">
+                <div style="width: auto; text-align:left; background-color: white;">
+                     <img src="/resources/img/reports/header.jpg" />
+                </div>
+                <!--End Notification -->
+                <br />
+            </div>
+
+        }
+    </div>
+
+    <script>
+        function loadDoc(x) {
+            alert(x);
+            window.location.href = "?District=" + x;
+            location.reload(a);
+        }
+        function school_details(s) {
+            //alert(x + document.getElementById('languageid').value);
+            //window.location.href += "";
+            window.location.href = "?a=" + document.getElementById('categoryid').value + "&b=" + document.getElementById('languageid').value + "&e=" + s;
+            location.reload(a, b, e);
+        }
+        function setDropDown() {
+
+            var lan_id = document.getElementById('mylanid').value;
+            var cat_id = document.getElementById('mycatid').value;
+            var school_code = document.getElementById('myschoolcode').value;
+
+            document.getElementById('categoryid').value = cat_id;
+            document.getElementById('languageid').value = lan_id;
+            document.getElementById('schoolid').value = school_code;
+        }
+        function autoFill(val) {
+            document.getElementById('cur_' + val).value = document.getElementById('prev_' + val).value;
+        }
+
+        function compare(val) {
+            if (parseInt(document.getElementById('cur_' + val).value) > parseInt(document.getElementById('prev_' + val).value)) {
+                document.getElementById('cur_' + val).value = document.getElementById('prev_' + val).value;
+            }
+        }
+
+    </script>
+
+</body>

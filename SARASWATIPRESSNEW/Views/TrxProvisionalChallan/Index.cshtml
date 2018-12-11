@@ -1,0 +1,231 @@
+﻿@model SARASWATIPRESSNEW.Models.InvoiceCumChallan
+
+@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+}
+
+@section scripts {
+    <link href="~/resources/css/jquery-ui.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="/resources/demos/style.css" />
+    <script src="~/Scripts/jquery-1.12.4.js"></script>*@
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/AppJs/MainAppJs.js"></script>
+    <script src="~/Scripts/AppJs/ProbChallanEntry.js"></script>
+    <script>
+        var hideColumn = @(ViewBag.ProvChallanView != null ? ViewBag.ProvChallanView : 0);
+
+        $(document).ready(function () {
+            appendMsg("Please Wait..", "INFO");
+            //called when key is pressed in textbox
+            $("#txtInspectorPhoneNo").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    alert("Only numerics are allowed");
+                    return false;
+                }
+            });
+
+            $("#txtCirclePinCode").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    alert("Only numerics are allowed");
+                    return false;
+                }
+            });
+
+            $("#InvoiceCumChallanDate").datepicker({
+                dateFormat: 'dd-M-yy'
+            }).datepicker();
+            LoadMasterDetails();
+            clearError();
+            //setTimeout(function () { alert("Hello"); }, 3000);
+
+            if ($("#hd_ChallanId").val() != "0" && $("#hd_DistrictId").val() != "0"
+            && $("#hd_CircleId").val() != "0" && $("#hd_CategoryId").val() != "0"
+            && $("#hd_LanguageId").val() != "0" && $("#hd_TransporterID").val() != "0") {
+                GetReqBookDtlNew($("#hd_DistrictId").val(), $("#hd_CircleId").val(), $("#hd_CategoryId").val(), $("#hd_LanguageId").val(), $("#hd_ChallanId").val());
+            }
+        });
+        // $(document).off("change", ".ddlObservable").on("change", ".ddlObservable", function (e) {
+        $(".ddlObservable").on("click", function (e) {
+
+           // debugger;
+            //if ($("#hd_ChallanId").val() == "0" || $("#hd_DistrictId").val() == "0"
+            //|| $("#hd_CircleId").val() == "0" || $("#hd_CategoryId").val() == "0"
+            //|| $("#hd_LanguageId").val() == "0" || $("#hd_TransporterID").val() == "0") {
+
+                if ($("#ddlDistrict").val() == "-1" || $("#ddlCircle").val() == "-1"
+                    || $("#ddlTransporterID").val() == "-1" || $("#ddlLanguageId").val() == "-1"
+                    || $("#ddlCategoryID").val() == "-1") {
+
+                    console.log("Select all mandatory fields");
+
+                } else {
+                    GetReqBookDtlNew($("#ddlDistrict").val(), $("#ddlCircle").val(), $("#ddlCategoryID").val(), $("#ddlLanguageId").val(), $("#hd_ChallanId").val());
+                }
+           // }
+        });
+
+        function GetReqBookDtlNew(disId, cirId, catId, langId, challanId) {
+          
+           // setTimeout(function() {
+
+                console.log("GetReqBookDtlNew");
+                $.ajax({
+                    url: '@(Url.Action("GetBooksReqDetails", "InvoiceCumChallan", new { area = "" }))',
+                    type: 'POST',
+                    data: { District: disId, CircleId: cirId, categoryId: catId, languageId: langId, ChallanId: challanId, isPartialViewRequest: true }
+                }).done(function (data) {
+                    //alert(JSON.stringify(data));
+                  
+                    $("tbody#tbdyInvCumChalNew").empty().append(data);
+                }).always(function (data) {
+                    try {
+                        if (hideColumn == 1) {
+                            $("#tblInvCumChalNew th.qts").removeAttr("style").attr("style", "display: none;");
+                            $("#tbdyInvCumChalNew td.qtysh").removeAttr("style").attr("style", "display: none;");
+                            $("#tblInvCumChalNew th.rmc").removeAttr("style").attr("style", "display: none;");
+                            $("#tbdyInvCumChalNew td.qtyrmn").removeAttr("style").attr("style", "display: none;");
+                            //$("#tbdyInvCumChalNew td.qtyrmn").removeAttr("style").attr("style", "display: none;");
+                        } else {
+                            $("#tblInvCumChalNew th.qts").removeAttr("style");
+                            $("#tbdyInvCumChalNew td.qtysh").removeAttr("style");
+                            $("#tblInvCumChalNew th.rmc").removeAttr("style");
+                            $("#tbdyInvCumChalNew td.qtyrmn").removeAttr("style");
+                            //$("#tbdyInvCumChalNew td.qtyrmn").removeAttr("style");
+                        }
+                    } catch (ex) { }
+                });
+        //}                , 2000);
+
+        }
+    </script>
+}
+@try
+{
+    @Html.Hidden("hd_ChallanId", Model.ChallanId)
+    @Html.Hidden("hd_DistrictId", Model.DistrictId)
+    @Html.Hidden("hd_CircleId", Model.CircleId)
+    @Html.Hidden("hd_CategoryId", Model.CategoryId)
+    @Html.Hidden("hd_LanguageId", Model.LanguageId)
+    @Html.Hidden("hd_TransporterID", Model.TransporterID)
+    
+}
+catch
+{
+    @Html.Hidden("hd_ChallanId", 0)
+    @Html.Hidden("hd_DistrictId", -1)
+    @Html.Hidden("hd_CircleId", -1)
+    @Html.Hidden("hd_CategoryId", -1)
+    @Html.Hidden("hd_LanguageId", -1)
+    @Html.Hidden("hd_TransporterID", -1)
+}
+<div class="panel-heading">
+    <h3 class="panel-title"><strong>Provisional Challan Entry Form</strong></h3>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("Index", "TrxProvisionalChallan", FormMethod.Post))
+    {           
+        <div id="ErrorMsgContainer" style="width: 750px; vertical-align: text-top;"></div>
+        <div class="panel-body">
+            <table cellpadding="10" cellspacing="10" width="100%" border="0" align="center" class="table">
+                <tr>
+                    <td style="width: 25%">Challan Number :</td>
+                    <td style="width: 25%">
+                        @Html.TextBoxFor(a => a.InvoiceCumChallanNo, new { @id = "txtInvoiceCumChallanNo", @readonly = "readonly", @style = "width:180px",  @class = "form-control",@maxlength = "15" })
+                    </td>
+                    <td style="width: 25%">Challan Date :</td>
+                    <td style="width: 25%">@Html.TextBoxFor(a => a.InvoiceCumChallanDate, new { @id = "InvoiceCumChallanDate", @style = "width:180px", @class = "form-control", @maxlength = "15" })</td>
+                </tr>
+                <tr>
+                    <td>District :</td>
+                    <td>@Html.DropDownListFor(a => a.DistrictId, new SelectList(Enumerable.Empty<SelectListItem>(), "DistrictID", "District_name"), "Select", new { @id = "ddlDistrict", @class = "form-control select2 ", @style = "width:180px" })</td>
+                    <td>Circle Name :</td>
+                    <td>@Html.DropDownListFor(a => a.CircleId, new SelectList(Enumerable.Empty<SelectListItem>(), "CircleID", "Circle_name"), "Select", new { @id = "ddlCircle", @class = "form-control select2 ", @style = "width:180px" })</td>
+                </tr>
+                <tr>
+                    <td>Circle Address :</td>
+                    <td colspan="2">@Html.TextAreaFor(a => a.CircleAddress, new { @id = "txtCircleAddress", @class = "form-control", @maxlength = 300, @size = 500, rows = "2", cols = "75" }) </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Pin Code : </td>
+                    <td>@Html.TextBoxFor(a => a.CirclePinCode, new { @id = "txtCirclePinCode", @class = "form-control", @maxlength = 6, @style = "width:180px" })</td>
+                    <td>Inspector Name :</td>
+                    <td>@Html.TextBoxFor(a => a.InspectorName, new { @id = "txtInspectorName", @class = "form-control", @maxlength = 150, @style = "width:180px" })</td>
+                </tr>
+                <tr>
+                    <td>Inspector Phone No :</td>
+                    <td>@Html.TextBoxFor(a => a.InspectorPhoneNo, new { @id = "txtInspectorPhoneNo", @class = "form-control", @maxlength = 11, @style = "width:180px" })</td>
+                    <td>Inspector Email Id :</td>
+                    <td>@Html.TextBoxFor(a => a.InspectorEmailId, new { @id = "txtInspectorEmailId", @class = "form-control", @maxlength = 100, @style = "width:180px" }) </td>
+
+                </tr>
+                <tr>
+                    <td>Transporter Name :</td>
+                    <td>@Html.DropDownListFor(a => a.TransporterID, new SelectList(Enumerable.Empty<SelectListItem>(), "TransporterID", "Transporter_name"), "Select", new { @id = "ddlTransporterID", @class = "form-control select2 ddlObservable", @style = "width:180px" }) </td>
+                    <td colspan="2" align="left"><a href="#" onclick="return SaveAddress();" style="width: 250px;" class="btn btn-info btn-block">Update Address Details</a></td>
+                </tr>
+                <tr>
+                    <td>Vehicle No :</td>
+                    <td>@Html.TextBoxFor(a => a.VEHICLE_NO, new { @id = "txtVehicleNo", @class = "form-control", @maxlength = 35, @style = "width:180px" })</td>
+                    <td>Consignee No :</td>
+                    <td>@Html.TextBoxFor(a => a.CONSIGNEE_NO, new { @id = "txtConsigneeNo", @class = "form-control", @maxlength = 20, @style = "width:180px" }) </td>
+                </tr>
+                <tr>
+                    <td>Language :</td>
+                    <td>@Html.DropDownListFor(a => a.LanguageId, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "Language_name"), "Select", new { @id = "ddlLanguageId", @class = "form-control select2 ", @style = "width:180px" })  </td>
+                    <td>Category :</td>
+                    <td>@Html.DropDownListFor(a => a.CategoryId, new SelectList(Enumerable.Empty<SelectListItem>(), "CategoryID", "Category_name"), "Select", new { @id = "ddlCategoryID", @class = "form-control select2 ", @style = "width:180px" }) </td>
+                </tr>
+                 <tr>
+                     <td>Manual Challan No :</td>
+                    <td>@Html.TextBoxFor(a => a.ManualChallanNo, new { @id = "ManualChallanNo", @class = "form-control", @maxlength = 35, @style = "width:180px" })</td>
+               <td></td>
+                     <td></td>
+                      </tr>
+            </table>
+            <div>
+                <table border="0" style="width:300px;" class="table">
+                    <tr>
+                        <td style="width:130px;">
+                              <button type="button" id="btnGetDetail" style="width: 100px;" class="btn btn-info btn-block ddlObservable ">Get Detail</button>
+                             @if (Model.Status == 0)
+                             {
+                                <button type="submit" id="btnSaveAsDraft" style="width: 100px;" onclick="return fun_validation();" name="Command" value="Draft" class="btn btn-info btn-block">Save Challan</button>
+                             }
+                        </td>
+                        <td style="width:120px;"><a href="/TrxProvisionalChallanView/Index" style="width: 120px;" class="btn btn-info btn-block">Cancel</a></td>
+                        <td  style="width:10px;">
+                            @Html.TextBoxFor(a => a.ChallanId, new { @id = "txtChallanId", @readonly = "readonly", @style = "width:180px;visibility:hidden;", @maxlength = "15" })
+                        </td>                        
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel-body">
+    <div class="form-group" style="max-height: 300px; overflow-y: auto;">
+        <table id="tblInvCumChalNew" style="width: 100%;" class="table table-bordered table-hover table-condensed table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Book Code</th>
+                    <th>Book Name</th>
+                    <th>Net Requisition Qty.</th>
+                    <th>Already Shipped Qty.</th>
+                    <th class="rmc">Remaining</th>
+                    <th class="qts">Qty. for Shipping</th>
+                    <th style="display: none;">No. of Box bundle/cartoon/pack</th>
+                </tr>
+            </thead>
+            <tbody id="tbdyInvCumChalNew">
+            </tbody>
+        </table>
+    </div>
+</div>
