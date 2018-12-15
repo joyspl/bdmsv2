@@ -142,10 +142,12 @@ function CalcAmount(i) {
     if (document.getElementById('QuantityForShipping_' + i).value == "") {
         document.getElementById('QuantityForShipping_' + i).value = 0;
     }
-    if (Number(document.getElementById('QuantityForShipping_' + i).value) > (Number(document.getElementById('AvailableStockQuantity_' + i).value) - Number(document.getElementById('AlreadyShippedQuantity_' + i).value))) {
-        alert("Quantity for Shipping more then Remaining Stock Quantity (Available Stock Quantity - Already Shipped Quantity) can not be allowed...");
-        document.getElementById('QuantityForShipping_' + i).value = 0;
-    }
+
+    //--- This part for more than School challan qty not allowed against requisition qty modified on 14.12.18 --//
+    //if (Number(document.getElementById('QuantityForShipping_' + i).value) > (Number(document.getElementById('AvailableStockQuantity_' + i).value) - Number(document.getElementById('AlreadyShippedQuantity_' + i).value))) {
+    //    alert("Quantity for Shipping more then Remaining Stock Quantity (Available Stock Quantity - Already Shipped Quantity) can not be allowed...");
+    //    document.getElementById('QuantityForShipping_' + i).value = 0;
+    //}
     
     return false;
 }
