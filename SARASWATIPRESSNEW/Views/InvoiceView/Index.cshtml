@@ -17,7 +17,7 @@
     <script src="~/Scripts/AppJs/MainAppJs.js"></script>
     <script src="~/Scripts/AppJs/InvoiceView.js"></script>
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         $(document).ready(function () {
            
             $("#txtStartDate").datepicker({
@@ -28,7 +28,22 @@
                 dateFormat: 'dd-M-yy'
             }).datepicker('setDate', new Date());
         });
+    </script>*@
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtStartDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - 60)));
+
+        $("#txtEndDate").datepicker({
+            dateFormat: 'dd-M-yy'
+        }).datepicker('setDate', new Date());
+        LoadSchoolDetails();
+        // $('#btnView').click();  // previous 2 month modified on 20-12-18
+    });
     </script>
+
 </head>
 <body>
     @*<div class="page-container">*@

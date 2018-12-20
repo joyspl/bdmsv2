@@ -121,24 +121,24 @@
                     <li><a href='/CircleUserView/Index'><span class='fa fa-image'></span>Circle user List</a></li>
                     <li><a href='/AdminCircleLock/Index'><span class='fa fa-image'></span>Circle Lock</a></li>
                     <li><a href='/CircleSingleLogin/Index'><span class='fa fa-image'></span>Circle User Login Permission</a></li>
-                    <li><a href='/CircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>
-                    <li class="@(ViewBag.Active == "AdminSummaryReport" ? "active" : "")"><a href='/AdminSummaryReport/Index'><span class='fa fa-image'></span>Summary Report</a></li>
-                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
-                }
-                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
-                {
-                    <li class='xn-profile'>
-                        <div class='profile'>
-                            <div class='profile-data'>
-                                <div class='profile-data-name'>Circle User</div>
-                            </div>
-                        </div>
-                    </li>   
-                    <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
-                    <li class="@(ViewBag.Active == "MstSchoolView" ? "active" : "")"><a href='/MstSchoolView/Index'><span class='fa fa-edit'></span>School Master</a></li>              
-                    <li class="@(ViewBag.Active == "TrxSchRequisition" ? "active" : "")"><a href='/TrxSchRequisition/Index'><span class='fa fa-edit'></span>New Requisition</a></li>
-                    <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
-                    @*<li><a href='/StockUpdate/Index'><span class='fa fa-image'></span>Stock Update</a></li>*@
+                    @*<li><a href='/CircleWiseSchoolReport/Index'><span class='fa fa-image'></span>Circle Wise School Report</a></li>*@
+        <li class="@(ViewBag.Active == "AdminSummaryReport" ? "active" : "")"><a href='/AdminSummaryReport/Index'><span class='fa fa-image'></span>Summary Report</a></li>
+        <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
+    }
+    else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
+    {
+        <li class='xn-profile'>
+            <div class='profile'>
+                <div class='profile-data'>
+                    <div class='profile-data-name'>Circle User</div>
+                </div>
+            </div>
+        </li>
+        <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+        <li class="@(ViewBag.Active == "MstSchoolView" ? "active" : "")"><a href='/MstSchoolView/Index'><span class='fa fa-edit'></span>School Master</a></li>
+        <li class="@(ViewBag.Active == "TrxSchRequisition" ? "active" : "")"><a href='/TrxSchRequisition/Index'><span class='fa fa-edit'></span>New Requisition</a></li>
+        <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
+        @*<li><a href='/StockUpdate/Index'><span class='fa fa-image'></span>Stock Update</a></li>*@
                     <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requsition Report</a></li>
                     <li><a href='/MisReport/Index'><span class='fa fa-image'></span>MIS Report</a></li>
                     @*<li><a href='/InterCircleTrnf/Index'><span class='fa fa-image'></span>Inter Circle Transfer</a></li>*@
@@ -172,7 +172,7 @@
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/CircleWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>Circle Wise Challan Delivery Report</a></li>
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/DistrictWiseChallanDelivaryReport/Index'><span class='fa fa-image'></span>District Wise Challan Delivery Report</a></li>
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")" ><a href='/BinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Binder Wise Book Quantity Report</a></li>
-                    <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")" ><a href='/ChallanBinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Challan Wise Binder Wise Book Quantity Report</a></li>
+                    @*<li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")" ><a href='/ChallanBinderWiseBookQuantityReport/Index'><span class='fa fa-image'></span>Challan Wise Binder Wise Book Quantity Report</a></li>*@
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/Invoice/Index'><span class='fa fa-image'></span>Invoice</a></li>
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href='/InvoiceView/Index'><span class='fa fa-image'></span>Invoice View</a></li>
                     <li class="@(ViewBag.Active == "BinderAllotmentQuantityView" ? "active" : "")"><a href="/UnBilledChallanDtlByDistrict/Index"><span class='fa fa-image'></span>Un-Billed Challan Details</a></li> 

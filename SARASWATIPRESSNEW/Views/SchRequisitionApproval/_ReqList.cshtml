@@ -32,7 +32,7 @@
 
             @if (objUser.UserType == "3")
             {
-                <td style="text-align: center; width: 12%;">
+                <td style="text-align: center; width: 8%;">
                     @if (item.ISAPPROVED_ADMIN == 0)
                     {
                         <input type="checkbox" class="chkApprove" value="@(item.RequisitionID)" />
@@ -44,7 +44,19 @@
                     }
                 </td>
 
-               
+                <td style="text-align: center; width: 8%;">
+                    @if (item.ISAPPROVED == 0)
+                    {
+
+                    }
+
+                 else
+                 {
+                     <label class="badge badge-success">Approved</label>
+                 }
+                </td>
+
+
             }
 
 @if (objUser.UserType == "2")
@@ -63,7 +75,7 @@
     <td style="text-align: center; width: 8%;">
         @if (item.ISAPPROVED == 0)
         {
-            
+            <label class="badge badge-success">Pending</label>
         }
 
         else
