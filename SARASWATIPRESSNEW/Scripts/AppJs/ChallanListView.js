@@ -78,7 +78,7 @@ $(function () {
                 var HtmlItems = "";
                 HtmlItems += "<tr>";
                 HtmlItems += "  <th style='text-align:Center;width:150px;'>Print/Edit</th>";
-                HtmlItems += "  <th style='text-align:left;width:200px;'><input type='checkbox' onClick='selectall(this)' /> Chalaan No.</th>";
+                HtmlItems += "  <th style='text-align:left;width:200px;'><input type='checkbox' onClick='selectall(this)' /> Challan No.</th>";
                 HtmlItems += "  <th style='text-align:Center;width:150px;'>Date</th>";
                 HtmlItems += "  <th style='text-align:left;width:200px;'>District Name</th>";
                 HtmlItems += "  <th style='text-align:left;width:200px;'>Circle Name</th>";
