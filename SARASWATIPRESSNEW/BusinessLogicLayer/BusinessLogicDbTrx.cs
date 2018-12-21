@@ -14,7 +14,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 {
     public class BusinessLogicDbTrx
     {
-        DataBaseUtility objDbUlility = new DataBaseUtility();
+        DataBaseUtilityUpdated objDbUlility = new DataBaseUtilityUpdated();
 
         public DataTable GetRequestYear()
         {
@@ -3154,6 +3154,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
+                DataSet ds = new DataSet();
                 SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqId");
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@in_ReqId", ReqId);
