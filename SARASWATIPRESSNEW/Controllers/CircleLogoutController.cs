@@ -18,8 +18,8 @@ namespace SARASWATIPRESSNEW.Controllers
 
         public ActionResult Index()
         {
-            Session.Clear();
-            Session.Abandon();
+            System.Web.HttpContext.Current.Session.Clear();
+            System.Web.HttpContext.Current.Session.Abandon();
             return View();
             //return View("~/Views/CircleLogin/Index.cshtml");
         }

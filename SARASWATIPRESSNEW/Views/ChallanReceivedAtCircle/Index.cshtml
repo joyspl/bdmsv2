@@ -68,13 +68,16 @@ catch
                                             <div class="form-group">
                                                 <label class="col-md-1 col-xs-6 control-label">@Html.Label("District Name")</label>
                                                 <div class="col-md-3 col-xs-12">
-                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)
+                                                    @*@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)*@
+                                                    @Html.Label(GlobalSettings.oUserData.DistrictNname)
                                                 </div>
                                                 <label class="col-md-1 col-xs-6 control-label">@Html.Label("Circle Name")</label>   <div class="col-md-3 col-xs-12">
-                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)
+                                                    @*@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)*@
+                                                    @Html.Label(GlobalSettings.oUserData.CircleName)
                                                 </div>
                                                 <label class="col-md-1 col-xs-6 control-label">@Html.Label("User Name")</label>   <div class="col-md-3 col-xs-12">
-                                                    @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)
+                                                    @*@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)*@
+                                                    @Html.Label(GlobalSettings.oUserData.UserId)
                                                 </div>
                                             </div>
                                         </div>

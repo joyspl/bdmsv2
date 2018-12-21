@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class SchoolChallanController : Controller
     {       
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -79,7 +80,8 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string ChallanNo = "";
-                objSchoolChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                //objSchoolChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objSchoolChallan.UserId = GlobalSettings.oUserData.UserId;
 
                 if (objSchoolChallan.SchoolChallanUniqueId == 0)
                 {
@@ -107,7 +109,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string CircleId = "-1";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; }
                 catch { CircleId = "-1"; }
                 DataTable dtReqView = objDbTrx.GetRequisitionBySchoolId(Convert.ToInt64(SchoolId), (startDate + " 00:00:00.000"), (endDate + " 23:59:59.999"));
                 if (dtReqView.Rows.Count > 0)
@@ -138,7 +140,7 @@ namespace SARASWATIPRESSNEW.Controllers
         public JsonResult GetSchoolDetails()
         {
             string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
             List<School> ObjLstSchool = new List<School>();
             try

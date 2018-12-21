@@ -125,6 +125,7 @@ namespace SARASWATIPRESSNEW.Controllers
                             }
                         }
                         Session["UserSec"] = objUser;
+                        GlobalSettings.oUserData = objUser;
                         if (objUser.UserType == "1")//Circle User
                         {
                             Session["BDMSLoginType"] = "CIRCLE";

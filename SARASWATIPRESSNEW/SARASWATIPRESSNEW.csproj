@@ -250,6 +250,8 @@
     <Compile Include="Controllers\TrxSchRequisitionController.cs" />
     <Compile Include="Controllers\UnBilledChallanDtlByDistrictController.cs" />
     <Compile Include="Controllers\WelcomeLandingPageController.cs" />
+    <Compile Include="Filters\GlobalSettings.cs" />
+    <Compile Include="Filters\SessionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1040,8 +1042,6 @@
     <Content Include="resources\js\plugins\nvd3\src\interactiveLayer.js" />
     <Content Include="resources\js\plugins\nvd3\src\intro.js" />
     <Content Include="resources\js\plugins\nvd3\src\models\axis.js" />
-    <Content Include="resources\js\plugins\nvd3\src\models\backup\bullet.js" />
-    <Content Include="resources\js\plugins\nvd3\src\models\backup\bulletChart.js" />
     <Content Include="resources\js\plugins\nvd3\src\models\boilerplate.js" />
     <Content Include="resources\js\plugins\nvd3\src\models\bullet.js" />
     <Content Include="resources\js\plugins\nvd3\src\models\bulletChart.js" />
@@ -1224,6 +1224,7 @@
     </Content>
     <Content Include="Help\DirectorateHelp\DirectorateHelp.pdf" />
     <Content Include="Help\DistrictHelp\DistrictHelp.PDF" />
+    <None Include="Properties\PublishProfiles\bd.pubxml" />
     <None Include="Properties\PublishProfiles\BDMS_V2.pubxml" />
     <None Include="Properties\PublishProfiles\WB_Pub.pubxml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
@@ -1394,6 +1395,7 @@
     <Folder Include="resources\assets\uploads\Welcome\folder 4\" />
     <Folder Include="resources\assets\uploads\Welcome\folder 5\" />
     <Folder Include="resources\js\plugins\fileinput\fileinput\" />
+    <Folder Include="resources\js\plugins\nvd3\src\models\backup\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

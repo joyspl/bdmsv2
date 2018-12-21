@@ -102,6 +102,7 @@ function gridTojson() {
     return json;
 }
 function fun_validation() {
+    //$("#btnSaveAsDraft").prop("disabled", true);
     var iCnt = 0;
     $("[id^=QuantityForShipping_]").each(function () {
         if ($(this).val() > 0) {
@@ -123,16 +124,19 @@ function fun_validation() {
 
     if (iCnt == 0) {
         alert("Please enter atleast one Quantity for Shipping..");
+        //$("#btnSaveAsDraft").prop("disabled", false);
         return false;
     }
     
     if ($('#txtSchoolChallanDate').val() == "") {
         alert("Enter Challan Date..");
         $('#txtSchoolChallanDate').focus();
+        //$("#btnSaveAsDraft").prop("disabled", false);
         return false;
     }
    
     if (confirm("Are you sure to Save the records?") == false) {
+        //$("#btnSaveAsDraft").prop("disabled", false);
         return false;
     }
 }

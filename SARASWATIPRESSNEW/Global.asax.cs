@@ -36,6 +36,14 @@ namespace SARASWATIPRESSNEW
         //    catch { }
 
         //}
+
+        protected void Application_BeginRequest()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.Now.AddHours(-1));
+            Response.Cache.SetNoStore();
+        }
+
         protected void Session_Start()
         {
             HttpContext.Current.Session.Add("UserSec", "");       

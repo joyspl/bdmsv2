@@ -10,8 +10,9 @@ namespace SARASWATIPRESSNEW.Controllers
     {        
         public ActionResult Index()
         {
+            System.Web.HttpContext.Current.Session.Clear();
+            System.Web.HttpContext.Current.Session.Abandon();   
             return View();
         }
-
     }
 }
