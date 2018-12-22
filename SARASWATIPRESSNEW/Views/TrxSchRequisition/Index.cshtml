@@ -104,13 +104,13 @@
                 data: {},
                 cache: false,
                 success: function (data) {
-                    var HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                    var HtmlItems = "<option value='-1'><<----Select Medium----->></option>";
                     var itemCount = 0;
                     if (data.length == 0) {
-                        HtmlItems = '<option>No Language Aailable</option>';
+                        HtmlItems = '<option>No Medium Aailable</option>';
                     }
                     else {
-                        HtmlItems = "<option value='-1'><<----Select Language----->></option>";
+                        HtmlItems = "<option value='-1'><<----Select Medium----->></option>";
                     }
                     $.each(data, function (i, item) {
                         HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
@@ -418,7 +418,7 @@ catch
 <div class="panel-heading">
     <h3 class="panel-title"><strong>Book Requisition Entry Form</strong>
         <br />
-        <small style="font-size:14px;color:red;">Select the school name, school category and language, enter the quantity in total requirement column and save the requisition. Amar Boi I and II, are now divided into three parts for different languages Amar Boi –(KA), Amar Boi –(KHA), Amar Boi –(GA). Requirement for Amar Boi will be same for all. New Books for Academic Session 2019 for Classes III and IV are Word Book. Requisition for Academic Session 2019 to be given in 'Requirement For Academic Year 2019' column.</small>
+        <small style="font-size:14px;color:red;">Select the school name, school category and medium, enter the quantity in total requirement column and save the requisition. Amar Boi I and II, are now divided into three parts for different medium Amar Boi –(KA), Amar Boi –(KHA), Amar Boi –(GA). Requirement for Amar Boi will be same for all. New Books for Academic Session 2019 for Classes III and IV are Word Book. Requisition for Academic Session 2019 to be given in 'Requirement For Academic Year 2019' column. Black Coloured School Shoes for BOYS & GIRLS.</small>
     </h3>
 </div>
 
@@ -503,13 +503,13 @@ catch
                     }
                     @Html.DropDownListFor(a => a.MstCategory.CategoryID, new SelectList(Enumerable.Empty<SelectListItem>(), "CategoryID", "Category"), "<<--Select School Category-->>", new { @id = "ddlCategory", @style = "width:60%", @class = "form-control select2" })
                 </td>
-                <td>Language<font color="red">*</font></td>
+                <td>Medium<font color="red">*</font></td>
                 <td>
                     @if (Model.SchoolID > default(int))
                     {
                         @Html.HiddenFor(a => a.MstLanguage.LanguageID, new { @id = "hdnLanguage" })
                     }
-                    @Html.DropDownListFor(a => a.MstLanguage.LanguageID, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Language-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control select2" })
+                    @Html.DropDownListFor(a => a.MstLanguage.LanguageID, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Medium-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control select2" })
                 </td>
             </tr>
         </table>
@@ -519,7 +519,7 @@ catch
                 <tr>
                     <th style="width: 10%;">Class</th>
                     @*<th style="width: 10%;">Book Code</th>*@
-                    <th style="width: 20%;">Book Name</th>
+                    <th style="width: 20%;">Item Name</th>
                     <th style="width: 10%;">Previous year Requirement</th>
                     <th style="width: 20%; color:Tomato;">Requirement For Academic Year 2019@*No of Student Enrolled*@</th>
                     <th style="width: 15%; display: none;">Stock</th>
