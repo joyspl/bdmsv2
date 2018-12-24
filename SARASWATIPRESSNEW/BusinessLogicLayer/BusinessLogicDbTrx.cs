@@ -3137,13 +3137,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolChallanViewBySchooldId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolChallanViewBySchooldId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3154,12 +3158,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                DataSet ds = new DataSet();
-                SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ReqId", ReqId);
-                cmd.Parameters.AddWithValue("@in_challanId", challanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using ( SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ReqId", ReqId);
+                    cmd.Parameters.AddWithValue("@in_challanId", challanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3169,10 +3175,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolChallanPrintDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inChallanId", challanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolChallanPrintDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inChallanId", challanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3577,12 +3586,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_ChallanBinderDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InBookCode", InRemId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_ChallanBinderDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InBookCode", InRemId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3593,6 +3605,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
+                DataTable ObjDataTable;
                 if (!string.IsNullOrEmpty(allotmentcode))
                 {
                     strCondition = " AND A.BINDER_ALLOT_CODE LIKE '" + allotmentcode + "%'";
@@ -3602,16 +3615,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                      strCondition = "";
                 }
 
-                SqlCommand cmd = new SqlCommand("usp_GetBinderAllotmentQtyViewNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                cmd.Parameters.AddWithValue("@RowStartIndex", RowStartIndex);
-                cmd.Parameters.AddWithValue("@RowEndIndex", RowEndIndex);
-                cmd.Parameters.AddWithValue("@strSortFields", strSortFields);
-                cmd.Parameters.AddWithValue("@strCondition", strCondition);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                using (SqlCommand cmd = new SqlCommand("usp_GetBinderAllotmentQtyViewNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    cmd.Parameters.AddWithValue("@RowStartIndex", RowStartIndex);
+                    cmd.Parameters.AddWithValue("@RowEndIndex", RowEndIndex);
+                    cmd.Parameters.AddWithValue("@strSortFields", strSortFields);
+                    cmd.Parameters.AddWithValue("@strCondition", strCondition);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
