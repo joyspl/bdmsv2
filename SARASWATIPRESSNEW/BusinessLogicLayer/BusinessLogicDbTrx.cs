@@ -16,26 +16,35 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
     {
         DataBaseUtilityUpdated objDbUlility = new DataBaseUtilityUpdated();
 
-        public DataTable GetRequestYear()
+        #region Academic Year Master
+        public DataTable GetAcademicYearDtl()
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_GetReqYear");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetAcademicYearDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
+        #endregion
+
         #region District Master
         public DataTable GetDistrictDetails()
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_GetDistrictDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_GetDistrictDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -49,11 +58,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-
-                SqlCommand cmd = new SqlCommand("Sp_CircleUserMasterDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CercleId", DataUniqueId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleUserMasterDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CercleId", DataUniqueId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -98,18 +109,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             finally { }
         }
 
-
-
-
         public DataTable GetCircleLoginDtl(string circle_user_name, string circle_password)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleLoginDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", circle_user_name);
-                cmd.Parameters.AddWithValue("@UsrPassword", circle_password);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleLoginDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", circle_user_name);
+                    cmd.Parameters.AddWithValue("@UsrPassword", circle_password);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -164,9 +175,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleUserDetails");
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleUserDetails"))
+                {
                 cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -218,21 +232,6 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             finally { }
         }
 
-        #endregion
-
-        #region Academic Year Master
-        public DataTable GetAcademicYearDtl()
-        {
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Sp_GetAcademicYearDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
-                return ObjDataTable;
-            }
-            catch (Exception ex) { throw new Exception(ex.Message); }
-            finally { }
-        }
         #endregion
 
         #region Circle Master
@@ -325,9 +324,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -337,10 +339,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleMasterDetailsForDistrict");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DistrictId", DistrictId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleMasterDetailsForDistrict"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DistrictId", DistrictId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -350,10 +355,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_IsCircleRecordExistInRefTable");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", DataUniqueId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_IsCircleRecordExistInRefTable"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", DataUniqueId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -364,10 +372,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleMasterDetailsByCircleIdNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleMasterDetailsByCircleIdNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -378,11 +389,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                //SqlCommand cmd = new SqlCommand("Sp_GetCircleMasterDetailsByCircleId");
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleMasterDetailsByCircleIdNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleMasterDetailsByCircleIdNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -392,10 +405,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleDtilById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleDtilById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -405,10 +421,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleDtilByIdNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_DistId", DistId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleDtilByIdNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_DistId", DistId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -418,25 +437,30 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_isDuplicateRecordExistInCircle");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_CircleId", CircleID);
-                cmd.Parameters.AddWithValue("@In_circleCode", CircleCode);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_isDuplicateRecordExistInCircle"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_CircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@In_circleCode", CircleCode);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-
         public DataTable GetCircleLockByCircleId(int CircleId)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCircleLockByCircleId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@circleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCircleLockByCircleId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@circleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex)
@@ -453,11 +477,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetCustomerOrderNo");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inLanguageId", LanguageId);
-                cmd.Parameters.AddWithValue("@inChallanCategoryId", ChallanCategoryId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetCustomerOrderNo"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inLanguageId", LanguageId);
+                    cmd.Parameters.AddWithValue("@inChallanCategoryId", ChallanCategoryId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -470,9 +497,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_GetTransportDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_GetTransportDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -503,11 +533,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CategoryId", CategoryId);
-                cmd.Parameters.AddWithValue("@LanguageId", LanguageId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CategoryId", CategoryId);
+                    cmd.Parameters.AddWithValue("@LanguageId", LanguageId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -518,12 +551,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsByIdNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
-                cmd.Parameters.AddWithValue("@CategoryId", CategoryId);
-                cmd.Parameters.AddWithValue("@LanguageId", LanguageId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsByIdNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
+                    cmd.Parameters.AddWithValue("@CategoryId", CategoryId);
+                    cmd.Parameters.AddWithValue("@LanguageId", LanguageId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -534,10 +570,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsByLanguageId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InLanguageId", LanguageId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetailsByLanguageId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InLanguageId", LanguageId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -547,9 +586,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -559,11 +601,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookDtlByChallanCatIdAndLanguageId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InLanguageId", InLanguageId);
-                cmd.Parameters.AddWithValue("@InChallanCatId", InChallanCatId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookDtlByChallanCatIdAndLanguageId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InLanguageId", InLanguageId);
+                    cmd.Parameters.AddWithValue("@InChallanCatId", InChallanCatId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -574,9 +619,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_BookMaster");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_BookMaster"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -671,13 +719,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BinderAllotCode", BinderAllotCode);
-                cmd.Parameters.AddWithValue("@ScnStatus", ScnStatus);
-                cmd.Parameters.AddWithValue("@BinderAllotId", BinderAllotId);
-                cmd.Parameters.AddWithValue("@Opmode", 1);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BinderAllotCode", BinderAllotCode);
+                    cmd.Parameters.AddWithValue("@ScnStatus", ScnStatus);
+                    cmd.Parameters.AddWithValue("@BinderAllotId", BinderAllotId);
+                    cmd.Parameters.AddWithValue("@Opmode", 1);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -688,14 +739,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail_Filter");
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail_Filter"))
+                {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@From_BinderAllotCode", From);
                 cmd.Parameters.AddWithValue("@To_BinderAllotCode", To);
                 cmd.Parameters.AddWithValue("@ScnStatus", ScnStatus);
                 cmd.Parameters.AddWithValue("@BinderAllotId", BinderAllotId);
                 cmd.Parameters.AddWithValue("@Opmode", 1);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -705,12 +759,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BinderAllotCode", BinderAllotCode);
-                cmd.Parameters.AddWithValue("@ScnStatus", ScnStatus);
-                cmd.Parameters.AddWithValue("@Opmode", 0);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderQtyDetail"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BinderAllotCode", BinderAllotCode);
+                    cmd.Parameters.AddWithValue("@ScnStatus", ScnStatus);
+                    cmd.Parameters.AddWithValue("@Opmode", 0);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -721,9 +778,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotQty");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotQty"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -778,10 +838,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
-                return ObjDataTable;
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                    return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -791,12 +854,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentQtyView");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentQtyView"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -806,10 +872,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentQtyByID");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_AllotmentId", In_AllotmentId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentQtyByID"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_AllotmentId", In_AllotmentId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -819,11 +888,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentDtlByCode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InBinderAllotmentCode", InBinderAllotmentCode);
-                cmd.Parameters.AddWithValue("@InChallanId", ChallanId);
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotmentDtlByCode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InBinderAllotmentCode", InBinderAllotmentCode);
+                    cmd.Parameters.AddWithValue("@InChallanId", ChallanId);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -855,9 +927,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -880,11 +955,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@circleID", CircleID);
-                cmd.Parameters.AddWithValue("@schoolID", SchoolID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@circleID", CircleID);
+                    cmd.Parameters.AddWithValue("@schoolID", SchoolID);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -894,10 +972,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsByCircleId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@circleID", CircleID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsByCircleId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@circleID", CircleID);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -907,10 +988,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsBySchoolId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsBySchoolId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -920,11 +1004,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CheckSchoolMasterDetailsBySchoolCode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolCode", SchoolCode);
-                cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CheckSchoolMasterDetailsBySchoolCode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolCode", SchoolCode);
+                    cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -934,10 +1021,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_IsSchoolRecordExistInRefTable");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inDataUniqueId", DataUniqueId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_IsSchoolRecordExistInRefTable"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inDataUniqueId", DataUniqueId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -947,10 +1037,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsBySchoolCode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolCode", SchoolCode);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchoolMasterDetailsBySchoolCode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolCode", SchoolCode);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -960,11 +1053,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_isDuplicateRecordExistInSchool");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InDataUniqueId", InDataUniqueId);
-                cmd.Parameters.AddWithValue("@InSchoolCode", InSchoolCode);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_isDuplicateRecordExistInSchool"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InDataUniqueId", InDataUniqueId);
+                    cmd.Parameters.AddWithValue("@InSchoolCode", InSchoolCode);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1041,9 +1137,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetLanguageMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetLanguageMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1070,9 +1169,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanBookCeategory");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanBookCeategory"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1099,9 +1201,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookCategoryMasterDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookCategoryMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1126,6 +1231,21 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 
         #region Requisition
 
+        public DataTable GetRequestYear()
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_GetReqYear"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
         public bool InsertInSchRequisition(SchRequisition objSchRequisition, out string reqGenCode)
         {
             try
@@ -1156,13 +1276,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_View");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_View"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1172,13 +1295,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchRequisitionForProbChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                cmd.Parameters.AddWithValue("@In_LanguageId", LanguageId);
-                cmd.Parameters.AddWithValue("@In_BookCode", InBookCode);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchRequisitionForProbChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    cmd.Parameters.AddWithValue("@In_LanguageId", LanguageId);
+                    cmd.Parameters.AddWithValue("@In_BookCode", InBookCode);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1188,10 +1314,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchRequisitionForProbChallanById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchRequisitionForProbChallanById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1202,12 +1331,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchBookRequisitionCalculatedDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InRequisitionIds", InRequisitionIds);
-                cmd.Parameters.AddWithValue("@InBookCodeIds", InBookCodeIds);
-                cmd.Parameters.AddWithValue("@InLanguageId", InLanguageId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchBookRequisitionCalculatedDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InRequisitionIds", InRequisitionIds);
+                    cmd.Parameters.AddWithValue("@InBookCodeIds", InBookCodeIds);
+                    cmd.Parameters.AddWithValue("@InLanguageId", InLanguageId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1217,10 +1349,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSchBookDtlByChallanId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSchBookDtlByChallanId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1262,10 +1397,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchRequisitionDtlByReqId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchRequisitionDtlByReqId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1276,10 +1414,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqIdNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqIdNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1290,10 +1431,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetRequisitionByReqIDNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetRequisitionByReqIDNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1305,10 +1449,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqIdSimplifiedNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetRequisitionDtlByReqIdSimplifiedNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1319,10 +1466,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchRequisitionByReqId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchRequisitionByReqId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_ReqId", ReqId);
+                     ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1463,11 +1613,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_Requisition_View");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@topLimit", topLimit);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_Requisition_View"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@topLimit", topLimit);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1478,13 +1631,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_View_New");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_View_New"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1495,28 +1651,31 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", StartDate);
-                cmd.Parameters.AddWithValue("@In_ToDate", EndDate);
-                cmd.Parameters.AddWithValue("@In_DistrictID", DistrictID);
-                cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@ApprovalStatus", ApprovalStatus);//0
-                cmd.Parameters.AddWithValue("@DistApprovalstatus", DistApprovalstatus);//0
-                cmd.Parameters.AddWithValue("@IsForDistApproval", IsForDistApproval);//1
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", StartDate);
+                    cmd.Parameters.AddWithValue("@In_ToDate", EndDate);
+                    cmd.Parameters.AddWithValue("@In_DistrictID", DistrictID);
+                    cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@ApprovalStatus", ApprovalStatus);//0
+                    cmd.Parameters.AddWithValue("@DistApprovalstatus", DistApprovalstatus);//0
+                    cmd.Parameters.AddWithValue("@IsForDistApproval", IsForDistApproval);//1
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
 
-                if (IsForAdminApproval == 1) // in case of admin login
-                {
-                    cmd.Parameters.AddWithValue("@AdminApprovalstatus", AdminApprovalstatus);
-                    cmd.Parameters.AddWithValue("@Opmode", 6);
+                    if (IsForAdminApproval == 1) // in case of admin login
+                    {
+                        cmd.Parameters.AddWithValue("@AdminApprovalstatus", AdminApprovalstatus);
+                        cmd.Parameters.AddWithValue("@Opmode", 6);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@Opmode", default(int));
+                    }
+
+                     ObjDataTable = objDbUlility.GetDataTable(cmd);
                 }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@Opmode", default(int));
-                }
-                
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1581,12 +1740,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetRequisitionBySchoolId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetRequisitionBySchoolId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SchoolId", SchoolId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1596,10 +1758,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_Requisition_View_ByReqId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_Requisition_View_ByReqId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1609,14 +1774,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Chk_DuplicateReq_While_Update");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_Chk_DuplicateReq_While_Update"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                    cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1626,13 +1794,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Chk_DuplicateReq_While_Insert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_Chk_DuplicateReq_While_Insert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@SchoolID", SchoolID);
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                    cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
+                     ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1683,12 +1854,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchProvisionalChallanView");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchProvisionalChallanView"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1698,10 +1872,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchProbChallanByChallanId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchProbChallanByChallanId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1726,13 +1903,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchProvisionalChallanConfirmedView");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
-                cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
-                //cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_SchProvisionalChallanConfirmedView"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_FromDate", Convert.ToDateTime(StartDate));
+                    cmd.Parameters.AddWithValue("@In_ToDate", Convert.ToDateTime(EndDate));
+                    //cmd.Parameters.AddWithValue("@In_CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@In_AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1760,11 +1940,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_IsValidBinderAllotmentBookDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                cmd.Parameters.AddWithValue("@InBinderAllotmentId", InBinderAllotmentId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_IsValidBinderAllotmentBookDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    cmd.Parameters.AddWithValue("@InBinderAllotmentId", InBinderAllotmentId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1774,10 +1957,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetProbChallanBookDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetProbChallanBookDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1787,10 +1973,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_BookAllotedQtyByChallaId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_BookAllotedQtyByChallaId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InChallanId", InChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1804,12 +1993,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetReqStokDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetReqStokDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                    cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1819,13 +2011,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetReqStokDetailsWithTrnf");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleID", CircleID);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
-                cmd.Parameters.AddWithValue("@DestCircleID", destCircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetReqStokDetailsWithTrnf"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleID", CircleID);
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                    cmd.Parameters.AddWithValue("@LanguageID", LanguageID);
+                    cmd.Parameters.AddWithValue("@DestCircleID", destCircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1835,10 +2030,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBookWiseReqStokDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBookWiseReqStokDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1848,10 +2046,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_DirectorateCircleWiseSchoolReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_DirectorateCircleWiseSchoolReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1862,9 +2063,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleWiseRequisitionStock");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleWiseRequisitionStock"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1875,10 +2079,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleWiseRequisitionStockByDistrictID");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_DistrictId", districtId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleWiseRequisitionStockByDistrictID"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_DistrictId", districtId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1892,26 +2099,29 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_MisReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-               // cmd.Parameters.AddWithValue("@ddlType", ddlType);
-                if(ddlBookName.Contains("ALL") )
-                  cmd.Parameters.AddWithValue("@ddlBookName", DBNull.Value);
-                else
-                     cmd.Parameters.AddWithValue("@ddlBookName", ddlBookName);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_MisReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    // cmd.Parameters.AddWithValue("@ddlType", ddlType);
+                    if (ddlBookName.Contains("ALL"))
+                        cmd.Parameters.AddWithValue("@ddlBookName", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@ddlBookName", ddlBookName);
 
-                 if(ddlLanguageName.Contains("ALL") )
-                  cmd.Parameters.AddWithValue("@ddlLanguageName", DBNull.Value);
-                else
-                     cmd.Parameters.AddWithValue("@ddlLanguageName", ddlLanguageName);
+                    if (ddlLanguageName.Contains("ALL"))
+                        cmd.Parameters.AddWithValue("@ddlLanguageName", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@ddlLanguageName", ddlLanguageName);
 
-                    if(ddlClassCategory.Contains("ALL") )
-                  cmd.Parameters.AddWithValue("@ddlClassCategory", DBNull.Value);
-                else
-                       cmd.Parameters.AddWithValue("@ddlClassCategory", ddlClassCategory);
-              
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                    if (ddlClassCategory.Contains("ALL"))
+                        cmd.Parameters.AddWithValue("@ddlClassCategory", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@ddlClassCategory", ddlClassCategory);
+
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1935,9 +2145,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DirectorMisReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_DirectorMisReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1947,9 +2160,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DirectorMisReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_DirectorMisReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1959,10 +2175,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DistrictCircleWiseMisReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictId);
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_DistrictCircleWiseMisReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictId);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1974,20 +2193,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 
             try
             {
+                DataSet ObjDataTable;
                 if(usertype=="7") // for SPL user. spl user can view effect only after admin approval
                 {
-                    SqlCommand cmd = new SqlCommand("Sp_CircleWiseChallanDelivaryReportSPLUser");
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@DistrictId", DistrictId);
-                    DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                    using (SqlCommand cmd = new SqlCommand("Sp_CircleWiseChallanDelivaryReportSPLUser"))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DistrictId", DistrictId);
+                        ObjDataTable = objDbUlility.GetDataSet(cmd);
+                    }
                     return ObjDataTable;
                 }
                 else
                 {
-                    SqlCommand cmd = new SqlCommand("Sp_CircleWiseChallanDelivaryReport");
+                    using (SqlCommand cmd = new SqlCommand("Sp_CircleWiseChallanDelivaryReport"))
+                    {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@DistrictId", DistrictId);
-                    DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                     return ObjDataTable;
                 }
                 
@@ -2004,20 +2228,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             
                  try
                 {
+                    DataSet ObjDataTable;
                      if (usertype == "7") // for SPL user. spl user can view effect only after admin approval
                      {
-                        SqlCommand cmd = new SqlCommand("Sp_DistrictWiseChallanDelivaryReportSPLUser");
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                         using (SqlCommand cmd = new SqlCommand("Sp_DistrictWiseChallanDelivaryReportSPLUser"))
+                         {
+                             cmd.CommandType = CommandType.StoredProcedure;
+                             ObjDataTable = objDbUlility.GetDataSet(cmd);
+                         }
                         return ObjDataTable;
                      }
 
                      else
                      {
 
-                         SqlCommand cmd = new SqlCommand("Sp_DistrictWiseChallanDelivaryReport");
-                         cmd.CommandType = CommandType.StoredProcedure;
-                         DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                         using (SqlCommand cmd = new SqlCommand("Sp_DistrictWiseChallanDelivaryReport"))
+                         {
+                             cmd.CommandType = CommandType.StoredProcedure;
+                             ObjDataTable = objDbUlility.GetDataSet(cmd);
+                         }
                          return ObjDataTable;
 
                      }
@@ -2057,10 +2286,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_DistrictCircleWiseRequisitionStock");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DistID", DistID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_DistrictCircleWiseRequisitionStock"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DistID", DistID);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2088,11 +2320,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSPLoginDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", sp_user_name);
-                cmd.Parameters.AddWithValue("@UsrPassword", sp_password);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSPLoginDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", sp_user_name);
+                    cmd.Parameters.AddWithValue("@UsrPassword", sp_password);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2103,29 +2338,32 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_mode", 1);
-                cmd.Parameters.AddWithValue("@in_DistrictId", null);
-                cmd.Parameters.AddWithValue("@in_CircleId", null);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
-                cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
-                cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircleId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
-                DataSet ObjDataSet = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataSet;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_mode", 1);
+                    cmd.Parameters.AddWithValue("@in_DistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_CircleId", null);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
+                    cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
+                    cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircleId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
+                    ObjDataSet = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataSet;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2136,29 +2374,32 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_mode", 2);
-                cmd.Parameters.AddWithValue("@in_DistrictId", DistrictId);
-                cmd.Parameters.AddWithValue("@in_CircleId", null);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
-                cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
-                cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircleId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_mode", 2);
+                    cmd.Parameters.AddWithValue("@in_DistrictId", DistrictId);
+                    cmd.Parameters.AddWithValue("@in_CircleId", null);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
+                    cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
+                    cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircleId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2169,29 +2410,32 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_mode", 3);
-                cmd.Parameters.AddWithValue("@in_DistrictId", DistrictId);
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
-                cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
-                cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircleId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_mode", 3);
+                    cmd.Parameters.AddWithValue("@in_DistrictId", DistrictId);
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
+                    cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
+                    cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircleId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2202,29 +2446,32 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_mode", 5);
-                cmd.Parameters.AddWithValue("@in_DistrictId", null);
-                cmd.Parameters.AddWithValue("@in_CircleId", null);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
-                cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
-                cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
-                cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
-                cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
-                cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
-                cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircleId", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
-                cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
-                DataSet ObjDataSet = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataSet;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetSpChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_mode", 5);
+                    cmd.Parameters.AddWithValue("@in_DistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_CircleId", null);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_NUMBER", null);
+                    cmd.Parameters.AddWithValue("@in_iccCHALLAN_DATE", null);
+                    cmd.Parameters.AddWithValue("@in_iccSCHOOL_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccBOOK_ID", null);
+                    cmd.Parameters.AddWithValue("@in_iccREQUISITION_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccDELIVERED_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccBALANCE_QTY", null);
+                    cmd.Parameters.AddWithValue("@in_iccTRANSPORTER_NAME", null);
+                    cmd.Parameters.AddWithValue("@in_iccCONSIGNEE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccVEHICLE_NO", null);
+                    cmd.Parameters.AddWithValue("@in_iccDistrictId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircleId", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_Address", null);
+                    cmd.Parameters.AddWithValue("@in_iccCircle_PinCode", null);
+                    ObjDataSet = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataSet;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2235,14 +2482,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
-                cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
-                cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
+                    cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
+                    cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2253,14 +2503,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtlForBarcode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
-                cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
-                cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtlForBarcode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
+                    cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
+                    cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2271,14 +2524,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtlForRevert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
-                cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
-                cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
-                cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanListDtlForRevert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@in_iccCATEGORY_ID", SchoolCategoryId);
+                    cmd.Parameters.AddWithValue("@in_iccLANGUAGE_ID", LanguageId);
+                    cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
+                    cmd.Parameters.AddWithValue("@AccadYear", AccadYear);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2289,11 +2545,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetLiveBinderBookStatusOnScan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
-                cmd.Parameters.AddWithValue("@categoryID", categoryId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetLiveBinderBookStatusOnScan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
+                    cmd.Parameters.AddWithValue("@categoryID", categoryId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2304,14 +2563,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanView");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@AccadYearId", AccadYearId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanView"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@AccadYearId", AccadYearId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2322,10 +2584,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDetailsByIdSimple");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                 DataTable ObjDataTable;
+                 using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDetailsByIdSimple"))
+                 {
+                     cmd.CommandType = CommandType.StoredProcedure;
+                     cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
+                     ObjDataTable = objDbUlility.GetDataTable(cmd);
+                 }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2336,14 +2601,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanViewModified");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@AccadYearId", AccadYearId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanViewModified"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@AccadYearId", AccadYearId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2354,12 +2622,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetPendingChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@DiffDays", DayDiff);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetPendingChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@DiffDays", DayDiff);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2370,12 +2641,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetPendingChallanDtlDDL");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@DiffDays", DayDiff);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetPendingChallanDtlDDL"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@DiffDays", DayDiff);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2394,16 +2668,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     strCondition = "";
                 }
-
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlModified");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inStatus", inStatus);
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@FromDate", startDate);
-                cmd.Parameters.AddWithValue("@toDate", endDate);
-                cmd.Parameters.AddWithValue("@strCondition", strCondition);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlModified"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inStatus", inStatus);
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@FromDate", startDate);
+                    cmd.Parameters.AddWithValue("@toDate", endDate);
+                    cmd.Parameters.AddWithValue("@strCondition", strCondition);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2414,12 +2690,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderBookQtyReport");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BinderId", BinderId);
-                cmd.Parameters.AddWithValue("@FromDate", startDate);
-                cmd.Parameters.AddWithValue("@toDate", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderBookQtyReport"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BinderId", BinderId);
+                    cmd.Parameters.AddWithValue("@FromDate", startDate);
+                    cmd.Parameters.AddWithValue("@toDate", endDate);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2430,14 +2709,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlModifiedMinimal");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inStatus", inStatus);
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@FromDate", startDate);
-                cmd.Parameters.AddWithValue("@toDate", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlModifiedMinimal"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inStatus", inStatus);
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@FromDate", startDate);
+                    cmd.Parameters.AddWithValue("@toDate", endDate);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2448,13 +2730,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
-                cmd.Parameters.AddWithValue("@FromDate", startDate);
-                cmd.Parameters.AddWithValue("@toDate", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@inDistrictId", DistrictID);
+                    cmd.Parameters.AddWithValue("@FromDate", startDate);
+                    cmd.Parameters.AddWithValue("@toDate", endDate);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2464,15 +2749,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlByCircleId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inCircleId", CircleID);
-                cmd.Parameters.AddWithValue("@PendingOnly", PendingOnly);
-                //cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate + " 00:00:00.000"));
-                //cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate + " 23:59:59.999"));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDtlByCircleId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inCircleId", CircleID);
+                    cmd.Parameters.AddWithValue("@PendingOnly", PendingOnly);
+                    //cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate + " 00:00:00.000"));
+                    //cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate + " 23:59:59.999"));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2483,13 +2771,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateCircleChallanReceived");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChannalID", ChannalID);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                cmd.Parameters.AddWithValue("@ReceiveDate", Convert.ToDateTime(ReceiveDate));
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateCircleChallanReceived"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChannalID", ChannalID);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@ReceiveDate", Convert.ToDateTime(ReceiveDate));
 
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2537,11 +2828,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_RcvChallanCommentUpdate");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChannalID);
-                cmd.Parameters.AddWithValue("@Opmode", default(int));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_RcvChallanCommentUpdate"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", ChannalID);
+                    cmd.Parameters.AddWithValue("@Opmode", default(int));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2575,11 +2869,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_MobileRcpt");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanBarcode", challan);
-                cmd.Parameters.AddWithValue("@Opmode", 0);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_MobileRcpt"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanBarcode", challan);
+                    cmd.Parameters.AddWithValue("@Opmode", 0);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2590,12 +2887,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_MobileRcpt");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanBarcode", challan);
-                cmd.Parameters.AddWithValue("@Opmode", 2);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
-                return ObjDataTable;
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("SP_MobileRcpt"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanBarcode", challan);
+                    cmd.Parameters.AddWithValue("@Opmode", 2);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                    return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2605,10 +2905,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2619,10 +2922,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetProvisionalChallanDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2635,10 +2941,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanPrintDetailsById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanPrintDetailsById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", ChallanId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2842,12 +3151,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetUnBilledChallanDtlByDistrict");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@districtId", districtId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetUnBilledChallanDtlByDistrict"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@districtId", districtId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2859,11 +3171,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetlotfromchallanID");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanID", challanID);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetlotfromchallanID"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanID", challanID);
 
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3043,10 +3358,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetConfirmedChallanInfoById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@fullstr", fullstr);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetConfirmedChallanInfoById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@fullstr", fullstr);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3057,11 +3375,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotDetailByChallanId");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@userId", userId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAllotDetailByChallanId"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3072,10 +3393,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderAlotDtlByAllotCode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderAlotDtlByAllotCode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3282,11 +3606,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetChallanCodeOfaCategoryDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ChallanNo", ChallanNo);
-                cmd.Parameters.AddWithValue("@in_CategoryId", CategoryId);
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetChallanCodeOfaCategoryDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ChallanNo", ChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CategoryId", CategoryId);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3297,10 +3624,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetInvoiceChallanDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_InvoiceId", InvoiceId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetInvoiceChallanDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_InvoiceId", InvoiceId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3311,10 +3641,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_InvoiceAnnexureI");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inInvoiceId", InvoiceId);
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_InvoiceAnnexureI"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inInvoiceId", InvoiceId);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3325,11 +3658,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetInvoiceViewDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetInvoiceViewDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3340,10 +3676,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetInvoiceDetailById");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inInvoiceId", InvoiceId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetInvoiceDetailById"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inInvoiceId", InvoiceId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3385,10 +3724,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_InvoiceAnnexureII");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@inInvoiceId", inInvoiceId);
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_InvoiceAnnexureII"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@inInvoiceId", inInvoiceId);
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3401,12 +3743,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBDMSLoginDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                cmd.Parameters.AddWithValue("@UsrPassword", SecurityController.Encrypt(Password));
-                cmd.Parameters.AddWithValue("@InAcadYearId", InAcadYearId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBDMSLoginDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    cmd.Parameters.AddWithValue("@UsrPassword", SecurityController.Encrypt(Password));
+                    cmd.Parameters.AddWithValue("@InAcadYearId", InAcadYearId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3417,11 +3762,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBDMSLoginDtlMobile");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                cmd.Parameters.AddWithValue("@UsrPassword", Password);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBDMSLoginDtlMobile"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    cmd.Parameters.AddWithValue("@UsrPassword", Password);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3433,10 +3781,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBDMSUserDtlByUsername");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBDMSUserDtlByUsername"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3541,10 +3892,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_AllUserDetailsPlain");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Opmode", default(int));
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_AllUserDetailsPlain"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Opmode", default(int));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3552,30 +3906,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         }
         #endregion
 
-        public DataSet GetBinderWiseBookQtyRpt(string startDate, string endDate, string InRemId)
-        {
-            try
-            {
-                SqlCommand cmd = new SqlCommand("Sp_BinderWiseBookQtyRpt");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InRemId", InRemId);
-                cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
-                cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
-                DataSet ObjDataTable = objDbUlility.GetDataSet(cmd);
-                return ObjDataTable;
-            }
-            catch (Exception ex) { throw new Exception(ex.Message); }
-            finally { }
-        }
-
+        #region Challan
         public DataTable GetBinderDtlListByChallanIdOnly(string ChallanID)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_GetBinderDtlListByChallanIDOnly");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetBinderDtlListByChallanIDOnly"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanID", ChallanID);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3646,16 +3988,39 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-       
+        #endregion
+
+        #region Report
+        public DataSet GetBinderWiseBookQtyRpt(string startDate, string endDate, string InRemId)
+        {
+            try
+            {
+                DataSet ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_BinderWiseBookQtyRpt"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InRemId", InRemId);
+                    cmd.Parameters.AddWithValue("@FromDate", Convert.ToDateTime(startDate));
+                    cmd.Parameters.AddWithValue("@toDate", Convert.ToDateTime(endDate));
+                    ObjDataTable = objDbUlility.GetDataSet(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
         public DataTable GetBookSummaryRpt(DateTime startDate, DateTime endDate)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforBooks");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
-                cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforBooks"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
+                    cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3666,11 +4031,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforKhatas");
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforKhatas"))
+                { 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
                 cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3680,12 +4048,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforBooksDistrictwise");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
-                cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
-                cmd.Parameters.AddWithValue("@DistId", DistrictId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforBooksDistrictwise"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
+                    cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
+                    cmd.Parameters.AddWithValue("@DistId", DistrictId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3695,12 +4066,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforKhatasDistrictwise");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
-                cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
-                cmd.Parameters.AddWithValue("@DistId", DistrictId);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("uspGetSummaryStatusforKhatasDistrictwise"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
+                    cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
+                    cmd.Parameters.AddWithValue("@DistId", DistrictId);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3712,15 +4086,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_GDBNB");
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_GDBNB"))
+                {
                 cmd.CommandType = CommandType.StoredProcedure;
-               // cmd.Parameters.AddWithValue("@FromDate", startDate);
-               // cmd.Parameters.AddWithValue("@toDate", endDate);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
                 return ObjDataTable;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
+        #endregion
     }
 }
