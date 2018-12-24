@@ -1,12 +1,19 @@
 ﻿/// <reference path="MainAppJs.js" />
 var dataCnt = 1;
 $(function () {
-    $('#btnView').click(function () {
-       // debugger;
+    // modified 24.12.18
+
+    //$('#btnView').click(function () { 
+
+        $(document).off("click", "#btnView").on("click", "#btnView", function (e) {
+        //debugger;
         var CirID = $("#hd_CircleId").val();
         var fromDate = $("#txtStartDate").val();
         var PendingOnly = document.getElementById('chkIsPendingRequire').checked;
         var toDate = $("#txtEndDate").val();
+
+        $("#btnView").prop("disabled", true);
+
         $.ajax({
             url: "/ChallanReceivedAtCircle/GetChallanViewData",
             type: 'POST',
@@ -75,10 +82,13 @@ $(function () {
                     dataCnt = 0;
                 }
                 //  clearError();
+                $("#btnView").prop("disabled", false);
             },
             error: function (data) {
                 alert("Some Error Occured");
+                $("#btnView").prop("disabled", false);
             }
+            
         });
     });
 });

@@ -22,10 +22,13 @@
 </style>
 <script type="text/javascript">
     $(function () {
-        $('#btnView').click(function () {
+        // modified on 24.12.18
+        //$('#btnView').click(function () {
+        $(document).off("click", "#btnView").on("click", "#btnView", function (e) {
             var distId = @(Session["UserSec"] != null ? (string.IsNullOrWhiteSpace(((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) ? "0" : ((SARASWATIPRESSNEW.UserSec)Session["UserSec"]).DistrictID) : "0");
             var fromDate = $("#txtStartDate").val();
             var toDate = $("#txtEndDate").val();
+            $("#btnView").prop("disabled", true);
             if(distId>0)
             {
                 var sendDistId= distId;
@@ -42,9 +45,11 @@
                 cache: false,
                 success: function (data) {
                     $('#tblBookDtl').empty().append(data);
+                    $("#btnView").prop("disabled", false);
                 },
                 error: function (data) {
                     alert("Some Error Occured");
+                    $("#btnView").prop("disabled", false);
                 }
             });
         });

@@ -36,12 +36,15 @@ function LoadSchoolDetails() {
 
 }
 $(function () {
-    $('#btnView').click(function () {
+    // modified 24.12.18
+    //$('#btnView').click(function () {
+    $(document).off("click", "#btnView").on("click", "#btnView", function (e) {
 
         var SchID = $("#ddlSchool").val();
         var fromDate = $("#txtStartDate").val();        
         var toDate = $("#txtEndDate").val();
-        
+        $("#btnView").prop("disabled", true);
+
         $.ajax({
             url: "/SchoolChallan/GetReqViewData",
             type: 'POST',
@@ -74,9 +77,11 @@ $(function () {
                     dataCnt = 0;
                 }
                 //  clearError();
+                $("#btnView").prop("disabled", false);
             },
             error: function (data) {
                 alert("Some Error Occured");
+                $("#btnView").prop("disabled", false);
             }
         });
     });

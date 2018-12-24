@@ -123,7 +123,8 @@
 @section scripts {
     <script>
         $(document).off("click", "#btnSubmit").on("click", "#btnSubmit", function (e) {
-            debugger;
+            //debugger;
+            $("#btnSubmit").prop("disabled", true);
             if ($("#CircleOfficerName").val() == "" || $("#EmailId").val() == ""
                 || $("#MobileNo").val() == "" || $("#PoliceStation").val() == "" || $("#CirclePinCode").val() == "") {
                 alert("Please do not leave blank all mandatory field(s).");
@@ -161,6 +162,8 @@
                             }
                         }).fail(function (jqXHR, textStatus) {
                             alert("Error detected");
+                        }).always(function (data) {
+                            $("#btnSubmit").prop("disabled", false);
                         });
                     }
                 }

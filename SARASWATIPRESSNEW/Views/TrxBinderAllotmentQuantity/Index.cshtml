@@ -105,14 +105,19 @@
     }
    
     $(function () {
-        $("#ddlLanguageName").change(function () {           
+        // modified on 24.12.18
+
+        //$("#ddlLanguageName").change(function () {
+        $(document).off("change", "#ddlLanguageName").on("change", "#ddlLanguageName", function (e) {
             if (document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
                 LoadBookDtlForBinderRequition();
             }        
         });
     });
     $(function () {
-        $("#ddlCategory").change(function () {
+        // modified on 24.12.18
+        //$("#ddlCategory").change(function () {
+        $(document).off("change", "#ddlCategory").on("change", "#ddlCategory", function (e) {
             if (document.getElementById("ddlLanguageName").selectedIndex > 0 && document.getElementById("ddlCategory").selectedIndex > 0) {
                 LoadBookDtlForBinderRequition();
             }

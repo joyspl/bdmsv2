@@ -62,6 +62,7 @@
     });
 
     $(document).off("click", "#btnView").on("click", "#btnView", function (e) {
+        $("#btnView").prop("disabled", true);
         if (dataGetFired == false) {
             var fromDate = $("#txtStartDate").val();
             var toDate = $("#txtEndDate").val();
@@ -83,6 +84,7 @@
             }).always(function (data) {
                 _grpPageNumber = 1;
                 dataGetFired = false;
+                $("#btnView").prop("disabled", false);
             });
         }
     });
@@ -246,7 +248,10 @@
 </script>
 
 <script type="text/javascript">
-    $(document).on("click", ".printbarcode", function () {
+    // modified on 24.12.18
+
+   // $(document).on("click", ".printbarcode", function () {
+        $(document).off("click", ".printbarcode").on("click", ".printbarcode", function (e) {
         var printername = $("#cmbip").val();
         var id = $(this).closest("tr").find("input[name=allotid]").val();
         var from = $(this).closest("tr").find("input[name=frombar]").val();
