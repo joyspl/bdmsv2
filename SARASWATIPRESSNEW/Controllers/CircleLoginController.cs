@@ -16,14 +16,26 @@ namespace SARASWATIPRESSNEW.Controllers
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index()
         {
+            //DataTable dtAccademicYear = new DataTable();
+            //dtAccademicYear = objDbTrx.GetAcademicYearDtl();
+            //List<SelectListItem> liAccademicYear = new List<SelectListItem>();
+            //for (int rows = 0; rows <= dtAccademicYear.Rows.Count - 1; rows++)
+            //{
+            //    liAccademicYear.Add(new SelectListItem { Text = dtAccademicYear.Rows[rows]["ACAD_YEAR"].ToString(), Value = dtAccademicYear.Rows[rows]["ID"].ToString() });
+            //    if (rows == 1) { break; }
+            //}
+           // ViewData["AccadmicYearList"] = liAccademicYear;
+
+            // modified 25.12.18
             DataTable dtAccademicYear = new DataTable();
-            dtAccademicYear = objDbTrx.GetAcademicYearDtl();
+            dtAccademicYear = objDbTrx.GetAllAcademicYear();
             List<SelectListItem> liAccademicYear = new List<SelectListItem>();
             for (int rows = 0; rows <= dtAccademicYear.Rows.Count - 1; rows++)
             {
                 liAccademicYear.Add(new SelectListItem { Text = dtAccademicYear.Rows[rows]["ACAD_YEAR"].ToString(), Value = dtAccademicYear.Rows[rows]["ID"].ToString() });
-                if (rows == 1) { break; }
+                //if (rows == 1) { break; }
             }
+
             ViewData["AccadmicYearList"] = liAccademicYear;
 
             /*try
