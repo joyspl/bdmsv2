@@ -30,10 +30,16 @@ namespace SARASWATIPRESSNEW.Controllers
             DataTable dtAccademicYear = new DataTable();
             dtAccademicYear = objDbTrx.GetAllAcademicYear();
             List<SelectListItem> liAccademicYear = new List<SelectListItem>();
+           
             for (int rows = 0; rows <= dtAccademicYear.Rows.Count - 1; rows++)
             {
-                liAccademicYear.Add(new SelectListItem { Text = dtAccademicYear.Rows[rows]["ACAD_YEAR"].ToString(), Value = dtAccademicYear.Rows[rows]["ID"].ToString() });
+                string pp = dtAccademicYear.Rows[rows]["ISACTIVE"].ToString();
+                
+                var SelectedView = (pp == "1") ? true : false;
+                liAccademicYear.Add(new SelectListItem { Text = dtAccademicYear.Rows[rows]["ACAD_YEAR"].ToString(), Value = dtAccademicYear.Rows[rows]["ID"].ToString(), Selected = SelectedView });
                 //if (rows == 1) { break; }
+                
+
             }
 
             ViewData["AccadmicYearList"] = liAccademicYear;
