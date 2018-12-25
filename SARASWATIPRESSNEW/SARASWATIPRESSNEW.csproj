@@ -191,6 +191,7 @@
     <Compile Include="Controllers\MisReportByCircleController.cs" />
     <Compile Include="Controllers\InterCircleTrnfController.cs" />
     <Compile Include="Controllers\MobileReceiptController.cs" />
+    <Compile Include="Controllers\MstFinYearController.cs" />
     <Compile Include="Controllers\SchRequisitionApprovalController.cs" />
     <Compile Include="Controllers\SummaryReportController.cs" />
     <Compile Include="Controllers\TrxProvisionalChallanViewController.cs" />
@@ -1382,6 +1383,7 @@
     <Content Include="Views\AdminSummaryReport\Index.cshtml" />
     <Content Include="Views\DirectorateHelp\Index.cshtml" />
     <Content Include="Views\DistrictHelp\Index.cshtml" />
+    <Content Include="Views\MstFinYear\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1478,7 +1480,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56238</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

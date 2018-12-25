@@ -3798,14 +3798,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
+                int result = default(int);
                 string otp = new Random().Next(10000, 99999).ToString();
-                SqlCommand cmd = new SqlCommand("Sp_CreatePasswordResetRequest");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                cmd.Parameters.AddWithValue("@Mobile", mobile);
-                cmd.Parameters.AddWithValue("@OTP", otp);
-                var result = objDbUlility.ExNonQuery(cmd);
-                //var result = cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand("Sp_CreatePasswordResetRequest"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    cmd.Parameters.AddWithValue("@Mobile", mobile);
+                    cmd.Parameters.AddWithValue("@OTP", otp);
+                    result = objDbUlility.ExNonQuery(cmd);
+                    //var result = cmd.ExecuteNonQuery();
+                }
 
                 if (result > 0)
                 {
@@ -3821,19 +3824,21 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-
-                SqlCommand cmd = new SqlCommand("Sp_GetPasswordResetRequest");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
-                if (ObjDataTable.Rows.Count == 1)
+                bool result = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_GetPasswordResetRequest"))
                 {
-                    if (ObjDataTable.Rows[0]["otp"].ToString() == otp && Convert.ToDateTime(ObjDataTable.Rows[0]["expires"]) >= DateTime.Now)
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    DataTable ObjDataTable = objDbUlility.GetDataTable(cmd);
+                    if (ObjDataTable.Rows.Count == 1)
                     {
-                        return true;
+                        if (ObjDataTable.Rows[0]["otp"].ToString() == otp && Convert.ToDateTime(ObjDataTable.Rows[0]["expires"]) >= DateTime.Now)
+                        {
+                            result = true;
+                        }
                     }
                 }
-                return false;
+                return result;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3843,17 +3848,19 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-
-                SqlCommand cmd = new SqlCommand("Sp_UpdateUserPassword");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserId", userName);
-                cmd.Parameters.AddWithValue("@Password", SecurityController.Encrypt(password));
-                var result = objDbUlility.ExNonQuery(cmd);
-                if (result > 0)
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateUserPassword"))
                 {
-                    return true;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userName);
+                    cmd.Parameters.AddWithValue("@Password", SecurityController.Encrypt(password));
+                    var result = objDbUlility.ExNonQuery(cmd);
+                    if (result > 0)
+                    {
+                        x = true;
+                    }
                 }
-                return false;
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3867,15 +3874,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     try
                     {
-                        SqlCommand cmd = new SqlCommand("usp_AllUserDetailsPlain");
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@ID", item.ID);
-                        cmd.Parameters.AddWithValue("@REF_ID", item.REF_ID);
-                        cmd.Parameters.AddWithValue("@USER_ID", item.USER_ID);
-                        cmd.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
-                        cmd.Parameters.AddWithValue("@IsPasswordEncrypted", item.IsPasswordEncrypted);
-                        cmd.Parameters.AddWithValue("@Opmode", 1);
-                        var result = objDbUlility.ExNonQuery(cmd);
+                        using (SqlCommand cmd = new SqlCommand("usp_AllUserDetailsPlain"))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@ID", item.ID);
+                            cmd.Parameters.AddWithValue("@REF_ID", item.REF_ID);
+                            cmd.Parameters.AddWithValue("@USER_ID", item.USER_ID);
+                            cmd.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
+                            cmd.Parameters.AddWithValue("@IsPasswordEncrypted", item.IsPasswordEncrypted);
+                            cmd.Parameters.AddWithValue("@Opmode", 1);
+                            var result = objDbUlility.ExNonQuery(cmd);
+                        }
                     }
                     catch
                     {
@@ -4098,5 +4107,42 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             finally { }
         }
         #endregion
+
+        #region [Academic Year]
+        public DataTable GetAllAcademicYear()
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_AcademicYear"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Opmode", default(int));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
+
+        public DataTable GetAcademicYearByID(int ID)
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_AcademicYear"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID", ID);
+                    cmd.Parameters.AddWithValue("@Opmode", 1);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                } 
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
+        #endregion [Academic Year]
     }
 }
