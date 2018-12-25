@@ -75,16 +75,19 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateCircleMasterAddressNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@SchooldAddress", SchooldAddress);
-                cmd.Parameters.AddWithValue("@Pincode", Pincode);
-                cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
-                cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
-                cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateCircleMasterAddressNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@SchooldAddress", SchooldAddress);
+                    cmd.Parameters.AddWithValue("@Pincode", Pincode);
+                    cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
+                    cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
+                    cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -94,16 +97,19 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateCircleUserMasterAddress");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@SchooldAddress", SchooldAddress);
-                cmd.Parameters.AddWithValue("@Pincode", Pincode);
-                cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
-                cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
-                cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateCircleUserMasterAddress"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@SchooldAddress", SchooldAddress);
+                    cmd.Parameters.AddWithValue("@Pincode", Pincode);
+                    cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
+                    cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
+                    cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -131,19 +137,22 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInCericleUserNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserUniqueid", objcust.CircleID);
-                cmd.Parameters.AddWithValue("@CircleOfficerName", objcust.CircleOfficerName);
-                cmd.Parameters.AddWithValue("@MobileNo", objcust.MobileNo);
-                cmd.Parameters.AddWithValue("@EmailId", objcust.EmailId);
-                cmd.Parameters.AddWithValue("@PoliceStn", objcust.PoliceStation);
-                cmd.Parameters.AddWithValue("@CircleAddress", objcust.Address);
-                cmd.Parameters.AddWithValue("@CirclePincode", objcust.CirclePinCode);
-                cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
-                cmd.Parameters.AddWithValue("@Active", objcust.Active);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInCericleUserNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserUniqueid", objcust.CircleID);
+                    cmd.Parameters.AddWithValue("@CircleOfficerName", objcust.CircleOfficerName);
+                    cmd.Parameters.AddWithValue("@MobileNo", objcust.MobileNo);
+                    cmd.Parameters.AddWithValue("@EmailId", objcust.EmailId);
+                    cmd.Parameters.AddWithValue("@PoliceStn", objcust.PoliceStation);
+                    cmd.Parameters.AddWithValue("@CircleAddress", objcust.Address);
+                    cmd.Parameters.AddWithValue("@CirclePincode", objcust.CirclePinCode);
+                    cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
+                    cmd.Parameters.AddWithValue("@Active", objcust.Active);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -153,19 +162,21 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInCericleUser");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleOfficerName", objcust.CircleOfficerName);
-                cmd.Parameters.AddWithValue("@MobileNo", objcust.MobileNo);
-                cmd.Parameters.AddWithValue("@EmailId", objcust.EmailId);
-                cmd.Parameters.AddWithValue("@CircleAddress", objcust.Address);
-                cmd.Parameters.AddWithValue("@CirclePincode", objcust.CirclePinCode);
-                cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
-                cmd.Parameters.AddWithValue("@Active", objcust.active);
-                cmd.Parameters.AddWithValue("@UserUniqueid", objcust.CircleUserID);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInCericleUser"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleOfficerName", objcust.CircleOfficerName);
+                    cmd.Parameters.AddWithValue("@MobileNo", objcust.MobileNo);
+                    cmd.Parameters.AddWithValue("@EmailId", objcust.EmailId);
+                    cmd.Parameters.AddWithValue("@CircleAddress", objcust.Address);
+                    cmd.Parameters.AddWithValue("@CirclePincode", objcust.CirclePinCode);
+                    cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
+                    cmd.Parameters.AddWithValue("@Active", objcust.active);
+                    cmd.Parameters.AddWithValue("@UserUniqueid", objcust.CircleUserID);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -190,18 +201,21 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleLock");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@district", district);
-                cmd.Parameters.AddWithValue("@circle", circle);
-                cmd.Parameters.AddWithValue("@reqyear", reqYear);
-                cmd.Parameters.AddWithValue("@lockdate", lockDate);
-                cmd.Parameters.AddWithValue("@reqlock", reqLock);
-                cmd.Parameters.AddWithValue("@stocklock", stockLock);
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleLock"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@district", district);
+                    cmd.Parameters.AddWithValue("@circle", circle);
+                    cmd.Parameters.AddWithValue("@reqyear", reqYear);
+                    cmd.Parameters.AddWithValue("@lockdate", lockDate);
+                    cmd.Parameters.AddWithValue("@reqlock", reqLock);
+                    cmd.Parameters.AddWithValue("@stocklock", stockLock);
 
 
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -210,23 +224,26 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstCircleUserInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_Circleid", objCircle.CircleID);
-                cmd.Parameters.AddWithValue("@in_Circleofficername", objCircle.CircleOfficerName);
-                cmd.Parameters.AddWithValue("@in_mobileno", objCircle.MobileNo);
-                cmd.Parameters.AddWithValue("@in_emailid", objCircle.EmailId);
-                cmd.Parameters.AddWithValue("@in_Circleaddress", objCircle.Address);
-                cmd.Parameters.AddWithValue("@in_userid", objCircle.Userid);
-                cmd.Parameters.AddWithValue("@in_password", objCircle.Password);
-                cmd.Parameters.AddWithValue("@in_active", objCircle.active);
-                cmd.Parameters.AddWithValue("@in_flag", objCircle.flag);
-                cmd.Parameters.AddWithValue("@in_circlepincode", objCircle.CirclePinCode);
-                cmd.Parameters.AddWithValue("@in_AlternateMobileno", objCircle.AlternateMobileNo);
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstCircleUserInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_Circleid", objCircle.CircleID);
+                    cmd.Parameters.AddWithValue("@in_Circleofficername", objCircle.CircleOfficerName);
+                    cmd.Parameters.AddWithValue("@in_mobileno", objCircle.MobileNo);
+                    cmd.Parameters.AddWithValue("@in_emailid", objCircle.EmailId);
+                    cmd.Parameters.AddWithValue("@in_Circleaddress", objCircle.Address);
+                    cmd.Parameters.AddWithValue("@in_userid", objCircle.Userid);
+                    cmd.Parameters.AddWithValue("@in_password", objCircle.Password);
+                    cmd.Parameters.AddWithValue("@in_active", objCircle.active);
+                    cmd.Parameters.AddWithValue("@in_flag", objCircle.flag);
+                    cmd.Parameters.AddWithValue("@in_circlepincode", objCircle.CirclePinCode);
+                    cmd.Parameters.AddWithValue("@in_AlternateMobileno", objCircle.AlternateMobileNo);
 
 
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -244,15 +261,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "LOAD XML LOCAL INFILE '" + filepath.Replace("\\", "\\\\") + "' INTO TABLE circle_stock_update ROWS IDENTIFIED BY '" + nodename + "' SET CREATED_TS = NOW();";
                 objDbUlility.ExNonQuery(cmd);*/
-
-                SqlCommand cmd = new SqlCommand("Sp_CircleStockInsertUpdateBatch");
-                cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@xData", xData);
-                cmd.Parameters.AddWithValue("@IsConfirmed", isConfirmed);
-                cmd.Parameters.Add("xData", SqlDbType.NVarChar);
-                cmd.Parameters["xData"].Value = xData;
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleStockInsertUpdateBatch"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@xData", xData);
+                    cmd.Parameters.AddWithValue("@IsConfirmed", isConfirmed);
+                    cmd.Parameters.Add("xData", SqlDbType.NVarChar);
+                    cmd.Parameters["xData"].Value = xData;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -262,12 +281,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleStockInsertUpdateBatchTrnf");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("xData", SqlDbType.NVarChar);
-                cmd.Parameters["xData"].Value = xData;
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleStockInsertUpdateBatchTrnf"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("xData", SqlDbType.NVarChar);
+                    cmd.Parameters["xData"].Value = xData;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -277,13 +299,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstCircleInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_DistrictId", objCircle.DistrictId);
-                cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
-                cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstCircleInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_DistrictId", objCircle.DistrictId);
+                    cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
+                    cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -292,13 +317,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstCircleUpdate");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", objCircle.CircleId);
-                cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
-                cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstCircleUpdate"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", objCircle.CircleId);
+                    cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
+                    cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -309,11 +337,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DeleteInCircle");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_DeleteInCircle"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -513,13 +544,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstTransporterInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_Transport_Name", objTransport.Transporter_name);
-                cmd.Parameters.AddWithValue("@in_Transport_address", objTransport.Transporter_address);
-                cmd.Parameters.AddWithValue("@in_Transport_Phone_no", objTransport.Transporter_phone_no);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstTransporterInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_Transport_Name", objTransport.Transporter_name);
+                    cmd.Parameters.AddWithValue("@in_Transport_address", objTransport.Transporter_address);
+                    cmd.Parameters.AddWithValue("@in_Transport_Phone_no", objTransport.Transporter_phone_no);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -635,12 +669,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_LockThisBook");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@bookId", bookId);
-                cmd.Parameters.AddWithValue("@val", val);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_LockThisBook"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@bookId", bookId);
+                    cmd.Parameters.AddWithValue("@val", val);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -654,11 +691,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DeleteBinderAllotment");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_DeleteBinderAllotment"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -667,13 +707,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_BinderAllotmentConfirm");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
-                cmd.Parameters.AddWithValue("@InStaus", objBinderAllotQuantity.SaveStatus);
-                cmd.Parameters.AddWithValue("@InUserId", objBinderAllotQuantity.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_BinderAllotmentConfirm"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
+                    cmd.Parameters.AddWithValue("@InStaus", objBinderAllotQuantity.SaveStatus);
+                    cmd.Parameters.AddWithValue("@InUserId", objBinderAllotQuantity.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -684,19 +727,22 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             try
             {
                 //SqlCommand cmd = new SqlCommand("Sp_InsertBinderAllotQtyDetail");
-                SqlCommand cmd = new SqlCommand("Sp_InsertBinderAllotQtyDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BinderAllotID", allotId);
-                cmd.Parameters.AddWithValue("@BinderShortCode", shortCode);
-                cmd.Parameters.AddWithValue("@ChallanID", challanId);
-                cmd.Parameters.AddWithValue("@BookCode", bookCode);
-                cmd.Parameters.AddWithValue("@ScannedStatus", scannedStatus);
-                cmd.Parameters.AddWithValue("@UserID", userId);
-                //cmd.Parameters.AddWithValue("@xData", xData);
-                cmd.Parameters.Add("xData", SqlDbType.NVarChar);
-                cmd.Parameters["xData"].Value = xData;
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertBinderAllotQtyDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BinderAllotID", allotId);
+                    cmd.Parameters.AddWithValue("@BinderShortCode", shortCode);
+                    cmd.Parameters.AddWithValue("@ChallanID", challanId);
+                    cmd.Parameters.AddWithValue("@BookCode", bookCode);
+                    cmd.Parameters.AddWithValue("@ScannedStatus", scannedStatus);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
+                    //cmd.Parameters.AddWithValue("@xData", xData);
+                    cmd.Parameters.Add("xData", SqlDbType.NVarChar);
+                    cmd.Parameters["xData"].Value = xData;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -706,6 +752,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
+
                 /*SqlCommand cmd = new SqlCommand("usp_AutoCorrectBinderDtlDuplicates");
                 cmd.CommandType = CommandType.StoredProcedure;
                 objDbUlility.ExNonQuery(cmd);*/
@@ -793,22 +840,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_BinderAllotQtyInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_BINDER_ID", objBookAllotQty.BinderId);
-                cmd.Parameters.AddWithValue("@in_BINDER_ALLOT_CODE", objBookAllotQty.AllotmentCode);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objBookAllotQty.LanguageId);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_CATEGORY_ID", objBookAllotQty.ChallanCategoryId);
-                cmd.Parameters.AddWithValue("@in_BOOK_CODE", objBookAllotQty.BookCode);
-                cmd.Parameters.AddWithValue("@in_TOT_QTY", objBookAllotQty.TotQty);
-                cmd.Parameters.AddWithValue("@in_LOT", objBookAllotQty.Lot);
-                cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
-                cmd.Parameters.AddWithValue("@in_ACAD_YEAR_ID", objBookAllotQty.AcademicYearID);
-                cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_BinderAllotQtyInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_BINDER_ID", objBookAllotQty.BinderId);
+                    cmd.Parameters.AddWithValue("@in_BINDER_ALLOT_CODE", objBookAllotQty.AllotmentCode);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objBookAllotQty.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_CATEGORY_ID", objBookAllotQty.ChallanCategoryId);
+                    cmd.Parameters.AddWithValue("@in_BOOK_CODE", objBookAllotQty.BookCode);
+                    cmd.Parameters.AddWithValue("@in_TOT_QTY", objBookAllotQty.TotQty);
+                    cmd.Parameters.AddWithValue("@in_LOT", objBookAllotQty.Lot);
+                    cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
+                    cmd.Parameters.AddWithValue("@in_ACAD_YEAR_ID", objBookAllotQty.AcademicYearID);
+                    cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
+                return x;
 
 
             }
@@ -820,15 +870,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_BinderAllotQtyUpdate");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ID", objBookAllotQty.ID);
-                cmd.Parameters.AddWithValue("@in_TOT_QTY", objBookAllotQty.TotQty);
-                cmd.Parameters.AddWithValue("@in_LOT", objBookAllotQty.Lot);
-                cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
-                cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_BinderAllotQtyUpdate"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ID", objBookAllotQty.ID);
+                    cmd.Parameters.AddWithValue("@in_TOT_QTY", objBookAllotQty.TotQty);
+                    cmd.Parameters.AddWithValue("@in_LOT", objBookAllotQty.Lot);
+                    cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
+                    cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -905,15 +958,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateSchConfirmChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objSchProvisionalChallan.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objSchProvisionalChallan.ConsigneeNo);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objSchProvisionalChallan.VehicleNo);
-                cmd.Parameters.AddWithValue("@InChallanId", objSchProvisionalChallan.ChallanId);
-                cmd.Parameters.AddWithValue("@InUserId", objSchProvisionalChallan.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateSchConfirmChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objSchProvisionalChallan.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objSchProvisionalChallan.ConsigneeNo);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objSchProvisionalChallan.VehicleNo);
+                    cmd.Parameters.AddWithValue("@InChallanId", objSchProvisionalChallan.ChallanId);
+                    cmd.Parameters.AddWithValue("@InUserId", objSchProvisionalChallan.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -942,11 +998,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DeleteInSchool");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_DeleteInSchool"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1070,31 +1129,34 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_InsertInSchool");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", objcust.CircleId);
-                cmd.Parameters.AddWithValue("@DistrictId", objcust.DistrictID);
-                cmd.Parameters.AddWithValue("@SchoolCode", objcust.SchoolCode);
-                cmd.Parameters.AddWithValue("@SchoolName", objcust.SchoolName);
-                cmd.Parameters.AddWithValue("@SchoolAdrees", objcust.SchoolAdrees);
-                cmd.Parameters.AddWithValue("@PostalCode", objcust.PostalCode);
-                if (!string.IsNullOrWhiteSpace(objcust.SchoolEmailid))
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInSchool"))
                 {
-                    cmd.Parameters.AddWithValue("@SchoolEmailid", objcust.SchoolEmailid);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", objcust.CircleId);
+                    cmd.Parameters.AddWithValue("@DistrictId", objcust.DistrictID);
+                    cmd.Parameters.AddWithValue("@SchoolCode", objcust.SchoolCode);
+                    cmd.Parameters.AddWithValue("@SchoolName", objcust.SchoolName);
+                    cmd.Parameters.AddWithValue("@SchoolAdrees", objcust.SchoolAdrees);
+                    cmd.Parameters.AddWithValue("@PostalCode", objcust.PostalCode);
+                    if (!string.IsNullOrWhiteSpace(objcust.SchoolEmailid))
+                    {
+                        cmd.Parameters.AddWithValue("@SchoolEmailid", objcust.SchoolEmailid);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@SchoolEmailid", DBNull.Value);
+                    }
+                    cmd.Parameters.AddWithValue("@SchoolMobile", objcust.SchoolMobile);
+                    cmd.Parameters.AddWithValue("@SchoolAltMobile", objcust.SchoolAlternateMobile);
+                    cmd.Parameters.AddWithValue("@DeleivaryAddress", objcust.DeleivaryAddress);
+                    cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
+                    cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    cmd.Parameters.Add("@SchoolId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    objDbUlility.ExNonQuery(cmd);
+                    SchoolId = cmd.Parameters["@SchoolId"].Value.ToString();
                 }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@SchoolEmailid", DBNull.Value);
-                }
-                cmd.Parameters.AddWithValue("@SchoolMobile", objcust.SchoolMobile);
-                cmd.Parameters.AddWithValue("@SchoolAltMobile", objcust.SchoolAlternateMobile);
-                cmd.Parameters.AddWithValue("@DeleivaryAddress", objcust.DeleivaryAddress);
-                cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
-                cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                cmd.Parameters.Add("@SchoolId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                objDbUlility.ExNonQuery(cmd);
-                SchoolId = cmd.Parameters["@SchoolId"].Value.ToString();
-                return true;
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1103,28 +1165,31 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInSchool");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
-                cmd.Parameters.AddWithValue("@SchoolCode", objcust.SchoolCode);
-                cmd.Parameters.AddWithValue("@SchoolName", objcust.SchoolName);
-                cmd.Parameters.AddWithValue("@SchoolAdrees", objcust.SchoolAdrees);
-                cmd.Parameters.AddWithValue("@PostalCode", objcust.PostalCode);
-                if (!string.IsNullOrWhiteSpace(objcust.SchoolEmailid))
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInSchool"))
                 {
-                    cmd.Parameters.AddWithValue("@SchoolEmailid", objcust.SchoolEmailid);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
+                    cmd.Parameters.AddWithValue("@SchoolCode", objcust.SchoolCode);
+                    cmd.Parameters.AddWithValue("@SchoolName", objcust.SchoolName);
+                    cmd.Parameters.AddWithValue("@SchoolAdrees", objcust.SchoolAdrees);
+                    cmd.Parameters.AddWithValue("@PostalCode", objcust.PostalCode);
+                    if (!string.IsNullOrWhiteSpace(objcust.SchoolEmailid))
+                    {
+                        cmd.Parameters.AddWithValue("@SchoolEmailid", objcust.SchoolEmailid);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@SchoolEmailid", DBNull.Value);
+                    }
+                    cmd.Parameters.AddWithValue("@SchoolMobile", objcust.SchoolMobile);
+                    cmd.Parameters.AddWithValue("@SchoolAltMobile", objcust.SchoolAlternateMobile);
+                    cmd.Parameters.AddWithValue("@DeleivaryAddress", objcust.DeleivaryAddress);
+                    cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
+                    cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    objDbUlility.ExNonQuery(cmd);
                 }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@SchoolEmailid", DBNull.Value);
-                }
-                cmd.Parameters.AddWithValue("@SchoolMobile", objcust.SchoolMobile);
-                cmd.Parameters.AddWithValue("@SchoolAltMobile", objcust.SchoolAlternateMobile);
-                cmd.Parameters.AddWithValue("@DeleivaryAddress", objcust.DeleivaryAddress);
-                cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
-                cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1153,11 +1218,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstLanguageInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_Language_Name", objLanguage.language_name);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstLanguageInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_Language_Name", objLanguage.language_name);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1184,12 +1252,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstChallanBookCategoryInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_Category_Name", objCategory.Category_name);
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstChallanBookCategoryInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_Category_Name", objCategory.Category_name);
 
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1216,12 +1287,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_MstBookCategoryInsert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_Book_Category_Name", objCategory.Category_name);
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_MstBookCategoryInsert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_Book_Category_Name", objCategory.Category_name);
 
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1253,20 +1327,22 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objSchRequisition.reqTrxCollection.RemoveAll(r => removeList.Any(a => a == r.StudentEnrolled));
 
-                SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Insert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InSchoolID", objSchRequisition.SchoolID);
-                cmd.Parameters.AddWithValue("@InCategoryID", objSchRequisition.MstCategory.CategoryID);
-                cmd.Parameters.AddWithValue("@InLanguageID", objSchRequisition.MstLanguage.LanguageID);
-                cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
-                cmd.Parameters.AddWithValue("@InAcademicYearID", objSchRequisition.AcademicYearID);
-                cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
-                cmd.Parameters.Add("InTrx_Sch_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
-                cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                using (SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Insert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InSchoolID", objSchRequisition.SchoolID);
+                    cmd.Parameters.AddWithValue("@InCategoryID", objSchRequisition.MstCategory.CategoryID);
+                    cmd.Parameters.AddWithValue("@InLanguageID", objSchRequisition.MstLanguage.LanguageID);
+                    cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
+                    cmd.Parameters.AddWithValue("@InAcademicYearID", objSchRequisition.AcademicYearID);
+                    cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
+                    cmd.Parameters.Add("InTrx_Sch_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
+                    cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1368,11 +1444,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Delete");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Delete"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1383,11 +1462,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_SchProbChallanDelete");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_SchProbChallanDelete"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1486,15 +1568,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objSchRequisition.reqTrxCollection.RemoveAll(r => removeList.Any(a => a == r.StudentEnrolled));
 
-                SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Update");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InRequisitionId", objSchRequisition.RequisitionID);
-                cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
-                cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
-                cmd.Parameters.Add("InTrx_Sch_requisition_dtl_xml", SqlDbType.NVarChar);
-                //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
-                cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
+                using (SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Update"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InRequisitionId", objSchRequisition.RequisitionID);
+                    cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
+                    cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
+                    cmd.Parameters.Add("InTrx_Sch_requisition_dtl_xml", SqlDbType.NVarChar);
+                    //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
+                    cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1504,13 +1588,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Confirm");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
-                cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
-                cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_Sch_Requisition_Confirm"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
+                    cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
+                    cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1519,13 +1606,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_Confirm");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
-                cmd.Parameters.AddWithValue("@InStaus", Convert.ToInt32(!string.IsNullOrEmpty(objRequisition.SaveStatus) ? objRequisition.SaveStatus : default(int).ToString()));
-                cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_Confirm"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
+                    cmd.Parameters.AddWithValue("@InStaus", Convert.ToInt32(!string.IsNullOrEmpty(objRequisition.SaveStatus) ? objRequisition.SaveStatus : default(int).ToString()));
+                    cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1537,18 +1627,20 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objcust.reqTrxCollection.RemoveAll(r => removeList.Any(a => a == r.StudentEnrolled));
 
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_Insert");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
-                cmd.Parameters.AddWithValue("@CircleId", objcust.CircleID);
-                cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
-                cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
-                cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_Insert"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
+                    cmd.Parameters.AddWithValue("@CircleId", objcust.CircleID);
+                    cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
+                    cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
+                    cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1562,19 +1654,21 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 //objcust.reqTrxCollection.RemoveAll(r => removeList.Any(a => a == r.StudentEnrolled));
 
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_Update");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", objcust.RequisitionID);
-                cmd.Parameters.AddWithValue("@CircleId", objcust.CircleID);
-                cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
-                cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
-                cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
-                cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                cmd.Parameters.AddWithValue("@SavedStatus", Convert.ToInt32(!string.IsNullOrEmpty(objcust.SaveStatus) ? objcust.SaveStatus : default(int).ToString()));
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_Update"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", objcust.RequisitionID);
+                    cmd.Parameters.AddWithValue("@CircleId", objcust.CircleID);
+                    cmd.Parameters.AddWithValue("@schoolID", objcust.SchoolID);
+                    cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
+                    cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
+                    cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    cmd.Parameters.AddWithValue("@SavedStatus", Convert.ToInt32(!string.IsNullOrEmpty(objcust.SaveStatus) ? objcust.SaveStatus : default(int).ToString()));
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
 
-                objDbUlility.ExNonQuery(cmd);
+                    objDbUlility.ExNonQuery(cmd);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -1585,11 +1679,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_Delete");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_Delete"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1599,11 +1696,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_Requisition_Delete_New");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_Requisition_Delete_New"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReqId", ReqId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1686,14 +1786,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
-                cmd.Parameters.AddWithValue("@InStaus", IsForDistApproval <= 0 ? (objRequisition.ISAPPROVED > default(int) ? objRequisition.ISAPPROVED : default(int)) : (objRequisition.ISAPPROVED_DIST > default(int) ? objRequisition.ISAPPROVED_DIST : default(int)));
-                cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
-                cmd.Parameters.AddWithValue("@Opmode", IsForDistApproval <= 0 ? 1 : 3);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
+                    cmd.Parameters.AddWithValue("@InStaus", IsForDistApproval <= 0 ? (objRequisition.ISAPPROVED > default(int) ? objRequisition.ISAPPROVED : default(int)) : (objRequisition.ISAPPROVED_DIST > default(int) ? objRequisition.ISAPPROVED_DIST : default(int)));
+                    cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
+                    cmd.Parameters.AddWithValue("@Opmode", IsForDistApproval <= 0 ? 1 : 3);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1709,25 +1812,27 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     sbnch = RequisitionIdsInCommaSeparated.Trim().Split(',').ToList();
                     foreach (var s in sbnch)
                     {
-                        SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval");
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlCommand cmd = new SqlCommand("SP_Requisition_View_New_ForApproval"))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
 
-                        if(objRequisition.ISAPPROVED_ADMIN > 0) // admin section
-                        {
-                            cmd.Parameters.AddWithValue("@InStaus", objRequisition.ISAPPROVED_ADMIN);
-                            cmd.Parameters.AddWithValue("@Opmode", 5);
+                            if (objRequisition.ISAPPROVED_ADMIN > 0) // admin section
+                            {
+                                cmd.Parameters.AddWithValue("@InStaus", objRequisition.ISAPPROVED_ADMIN);
+                                cmd.Parameters.AddWithValue("@Opmode", 5);
+                            }
+                            else // district & director section
+                            {
+                                cmd.Parameters.AddWithValue("@InStaus", IsForDistApproval <= 0 ? (objRequisition.ISAPPROVED > default(int) ? objRequisition.ISAPPROVED : default(int)) : (objRequisition.ISAPPROVED_DIST > default(int) ? objRequisition.ISAPPROVED_DIST : default(int)));
+                                cmd.Parameters.AddWithValue("@Opmode", IsForDistApproval <= 0 ? 2 : 4);
+
+                            }
+                            cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
+
+                            cmd.Parameters.AddWithValue("@ReqID", Convert.ToInt32(s.Trim()));
+
+                            objDbUlility.ExNonQuery(cmd);
                         }
-                        else // district & director section
-                        {
-                            cmd.Parameters.AddWithValue("@InStaus", IsForDistApproval <= 0 ? (objRequisition.ISAPPROVED > default(int) ? objRequisition.ISAPPROVED : default(int)) : (objRequisition.ISAPPROVED_DIST > default(int) ? objRequisition.ISAPPROVED_DIST : default(int)));
-                            cmd.Parameters.AddWithValue("@Opmode", IsForDistApproval <= 0 ? 2 : 4);
-                            
-                        }
-                        cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
-                        
-                        cmd.Parameters.AddWithValue("@ReqID", Convert.ToInt32(s.Trim()));
-                        
-                        objDbUlility.ExNonQuery(cmd);
                     }
                 }
                 return true;
@@ -2265,18 +2370,20 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             {
                 // var removeList = new List<int>() { 0 };
                 // objcust.reqStockCollection.RemoveAll(r => removeList.Any(a => a == r.StockUpdateQuantity));
-                SqlCommand cmd = new SqlCommand("Sp_InsertInReqStokDetails");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CircleId", CircleId);
-                cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
-                cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
-                cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objcust.reqStockCollection);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<StockTrxDtl>(objcust.reqStockCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInReqStokDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CircleId", CircleId);
+                    cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
+                    cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
+                    cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objcust.reqStockCollection);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<StockTrxDtl>(objcust.reqStockCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2303,12 +2410,15 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_CircleStockDamageInsertUpdateBatch");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("xData", SqlDbType.NVarChar);
-                cmd.Parameters["xData"].Value = xData;
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_CircleStockDamageInsertUpdateBatch"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("xData", SqlDbType.NVarChar);
+                    cmd.Parameters["xData"].Value = xData;
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2791,13 +2901,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_UpdateCircleChallanComment");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChannalID", ChannalID);
-                cmd.Parameters.AddWithValue("@Comment", comment);
-                cmd.Parameters.AddWithValue("@CREATED_By", createdby);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("usp_UpdateCircleChallanComment"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChannalID", ChannalID);
+                    cmd.Parameters.AddWithValue("@Comment", comment);
+                    cmd.Parameters.AddWithValue("@CREATED_By", createdby);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2809,14 +2922,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_RcvChallanCommentUpdate");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", ChannalID);
-                cmd.Parameters.AddWithValue("@ChallanComment", comment);
-                cmd.Parameters.AddWithValue("@CREATED_By", createdby);
-                cmd.Parameters.AddWithValue("@Opmode", 1);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("usp_RcvChallanCommentUpdate"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", ChannalID);
+                    cmd.Parameters.AddWithValue("@ChallanComment", comment);
+                    cmd.Parameters.AddWithValue("@CREATED_By", createdby);
+                    cmd.Parameters.AddWithValue("@Opmode", 1);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2847,19 +2963,22 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SP_MobileRcpt");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanBarcode", mobileReceipt.ChallanBarcode);
-                cmd.Parameters.AddWithValue("@PhoneNo", mobileReceipt.PhoneNo);
-                cmd.Parameters.AddWithValue("@ReceiverCode", mobileReceipt.ReceiverCode);
-                cmd.Parameters.AddWithValue("@ReceiverPic", mobileReceipt.ReceiverPic);
-                cmd.Parameters.AddWithValue("@SendersIP", mobileReceipt.SendersIP);
-                cmd.Parameters.AddWithValue("@Place", mobileReceipt.Place);
-                cmd.Parameters.AddWithValue("@UserID", mobileReceipt.UserID);
-                cmd.Parameters.AddWithValue("@DeviceUUID", mobileReceipt.DeviceUUID);
-                cmd.Parameters.AddWithValue("@Opmode", 1);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("SP_MobileRcpt"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanBarcode", mobileReceipt.ChallanBarcode);
+                    cmd.Parameters.AddWithValue("@PhoneNo", mobileReceipt.PhoneNo);
+                    cmd.Parameters.AddWithValue("@ReceiverCode", mobileReceipt.ReceiverCode);
+                    cmd.Parameters.AddWithValue("@ReceiverPic", mobileReceipt.ReceiverPic);
+                    cmd.Parameters.AddWithValue("@SendersIP", mobileReceipt.SendersIP);
+                    cmd.Parameters.AddWithValue("@Place", mobileReceipt.Place);
+                    cmd.Parameters.AddWithValue("@UserID", mobileReceipt.UserID);
+                    cmd.Parameters.AddWithValue("@DeviceUUID", mobileReceipt.DeviceUUID);
+                    cmd.Parameters.AddWithValue("@Opmode", 1);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -2960,23 +3079,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objInvCumChal.InvoiceCumChallanCollection.RemoveAll(r => removeList.Any(a => a == r.QtyShipped));
 
-                SqlCommand cmd = new SqlCommand("Sp_InsertInChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2986,23 +3107,26 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_InsertInProvisionalChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.AddWithValue("@InAcadYearId", objInvCumChal.AcadYearId);
-                cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInProvisionalChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.AddWithValue("@InAcadYearId", objInvCumChal.AcadYearId);
+                    cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3012,23 +3136,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "Sp_UpdateInChallan";
-                cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Sp_UpdateInChallan";
+                    cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3042,25 +3168,27 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objInvCumChal.InvoiceCumChallanCollection.RemoveAll(r => removeList.Any(a => a == r.QtyShipped));
 
-                SqlCommand cmd = new SqlCommand("Sp_InsertInChallanNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.AddWithValue("@Barcodes", barcodes);
-                cmd.Parameters.AddWithValue("@duplicatebarcodes", duplicatebarcodes);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInChallanNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.AddWithValue("@Barcodes", barcodes);
+                    cmd.Parameters.AddWithValue("@duplicatebarcodes", duplicatebarcodes);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3070,35 +3198,37 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "Sp_UpdateInChallanAsDraft";
-                if (isDraft)
+                using (SqlCommand cmd = new SqlCommand())
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Sp_UpdateInChallanAsDraft";
+                    if (isDraft)
+                    {
 
-                    cmd.Parameters.AddWithValue("@Status", 1);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@Status", 2);
-                }
+                        cmd.Parameters.AddWithValue("@Status", 1);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@Status", 2);
+                    }
 
-                cmd.Parameters.AddWithValue("@Barcodes", barcodes);
-                cmd.Parameters.AddWithValue("@duplicatebarcodes", duplicatebarcodes);
-                cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
+                    cmd.Parameters.AddWithValue("@Barcodes", barcodes);
+                    cmd.Parameters.AddWithValue("@duplicatebarcodes", duplicatebarcodes);
+                    cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_InvoiceCumChallanNo", objInvCumChal.InvoiceCumChallanNo);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3109,16 +3239,19 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateFinalChallanHeaderNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@InID", objInvCumChal.ChallanId);
-                cmd.Parameters.AddWithValue("@InVehicleNo", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@InConsigneeNo", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@InTransporterId", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@InUserId", objInvCumChal.UserId);
-                cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);//String.IsNullOrEmpty(objInvCumChal.ManualChallanNo) ? DBNull.Value : objInvCumChal.ManualChallanNo);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateFinalChallanHeaderNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InID", objInvCumChal.ChallanId);
+                    cmd.Parameters.AddWithValue("@InVehicleNo", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@InConsigneeNo", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@InTransporterId", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@InUserId", objInvCumChal.UserId);
+                    cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);//String.IsNullOrEmpty(objInvCumChal.ManualChallanNo) ? DBNull.Value : objInvCumChal.ManualChallanNo);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3128,20 +3261,23 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInProvisionalChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
-                cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
-                cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
-                cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
-                cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
-                cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
-                cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
-                cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
-                cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
-                cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInProvisionalChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ChallanId", objInvCumChal.ChallanId);
+                    cmd.Parameters.AddWithValue("@in_CircleId", objInvCumChal.CircleId);
+                    cmd.Parameters.AddWithValue("@in_CHALLAN_DATE", Convert.ToDateTime(objInvCumChal.InvoiceCumChallanDate));
+                    cmd.Parameters.AddWithValue("@in_CATEGORY_ID", objInvCumChal.CategoryId);
+                    cmd.Parameters.AddWithValue("@in_LANGUAGE_ID", objInvCumChal.LanguageId);
+                    cmd.Parameters.AddWithValue("@in_TRANSPORTER_ID", objInvCumChal.TransporterID);
+                    cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
+                    cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
+                    cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3189,13 +3325,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_ProvisionalChallanConfirm");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
-                cmd.Parameters.AddWithValue("@InStaus", objInvoiceCumChallan.Status);
-                cmd.Parameters.AddWithValue("@InUserId", objInvoiceCumChallan.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_ProvisionalChallanConfirm"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
+                    cmd.Parameters.AddWithValue("@InStaus", objInvoiceCumChallan.Status);
+                    cmd.Parameters.AddWithValue("@InUserId", objInvoiceCumChallan.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3205,13 +3344,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
-                cmd.Parameters.AddWithValue("@userId", userId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3221,13 +3363,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanBarcode");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
-                cmd.Parameters.AddWithValue("@userId", userId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanBarcode"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3237,13 +3382,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndo");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@fullstr", fullstr);
-                cmd.Parameters.AddWithValue("@userId", userId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndo"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@fullstr", fullstr);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3253,13 +3401,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndoSingle");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@barcodeDtlID", Convert.ToInt32(fullstr));
-                cmd.Parameters.AddWithValue("@userId", userId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndoSingle"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@barcodeDtlID", Convert.ToInt32(fullstr));
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3269,13 +3420,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndoSingleNew");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@challanId", challanId);
-                cmd.Parameters.AddWithValue("@barcode", fullstr);
-                cmd.Parameters.AddWithValue("@userId", userId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateBinderDtlOnScanUndoSingleNew"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@challanId", challanId);
+                    cmd.Parameters.AddWithValue("@barcode", fullstr);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3290,17 +3444,20 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     try
                     {
-                        SqlCommand cmd = new SqlCommand("usp_FullChallanCancel");
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@userId", userId);
-                        cmd.Parameters.AddWithValue("@ChallanID", Convert.ToInt32(invoiceId));
-                        objDbUlility.ExNonQuery(cmd);
+                        using (SqlCommand cmd = new SqlCommand("usp_FullChallanCancel"))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@userId", userId);
+                            cmd.Parameters.AddWithValue("@ChallanID", Convert.ToInt32(invoiceId));
+                            objDbUlility.ExNonQuery(cmd);
+                        }
                     }
                     catch (Exception)
                     {
                         continue;
                     }
                 }
+
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3316,16 +3473,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     foreach (var item in lst)
                     {
-                        SqlCommand cmd = new SqlCommand("usp_PartialChallanRevertUpdate");
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@challanId", challanId);
-                        cmd.Parameters.AddWithValue("@book_code", item.Book_Code);
-                        cmd.Parameters.AddWithValue("@revised_qty", item.RevisedQty);
-                        cmd.Parameters.AddWithValue("@cancelled_qty", item.CancelledQty);
-                        cmd.Parameters.AddWithValue("@userId", userId);
-                        objDbUlility.ExNonQuery(cmd);
+                        using (SqlCommand cmd = new SqlCommand("usp_PartialChallanRevertUpdate"))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@challanId", challanId);
+                            cmd.Parameters.AddWithValue("@book_code", item.Book_Code);
+                            cmd.Parameters.AddWithValue("@revised_qty", item.RevisedQty);
+                            cmd.Parameters.AddWithValue("@cancelled_qty", item.CancelledQty);
+                            cmd.Parameters.AddWithValue("@userId", userId);
+                            objDbUlility.ExNonQuery(cmd);
+                        }
+                        result = true;
                     }
-                    result = true;
                 }
                 return result;
             }
@@ -3341,11 +3500,13 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 foreach (var invoiceId in invoiceIDsToUpdate)
                 {
 
-                    SqlCommand cmd = new SqlCommand("Sp_UpdateChallanConfirmById");
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@fullstr", Convert.ToInt16(invoiceId));
-                    cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    using (SqlCommand cmd = new SqlCommand("Sp_UpdateChallanConfirmById"))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@fullstr", Convert.ToInt16(invoiceId));
+                        cmd.Parameters.AddWithValue("@userId", userId);
+                        objDbUlility.ExNonQuery(cmd);
+                    }
                 }
 
                 return true;
@@ -3416,18 +3577,20 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objSchoolChallan.trxSchoolChallanBookReqDtl.RemoveAll(r => removeList.Any(a => a == r.QuantityForShipping));
 
-                SqlCommand cmd = new SqlCommand("Sp_InsertInSchoolChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ReqId", objSchoolChallan.RequisitionId);
-                cmd.Parameters.AddWithValue("@in_ChallanNo", objSchoolChallan.SchoolChallanCode);
-                cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
-                cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchoolChallanBookReqDtl>(objSchoolChallan.trxSchoolChallanBookReqDtl)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInSchoolChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ReqId", objSchoolChallan.RequisitionId);
+                    cmd.Parameters.AddWithValue("@in_ChallanNo", objSchoolChallan.SchoolChallanCode);
+                    cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
+                    cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchoolChallanBookReqDtl>(objSchoolChallan.trxSchoolChallanBookReqDtl)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3441,16 +3604,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 var removeList = new List<int>() { 0 };
                 objSchoolChallan.trxSchoolChallanBookReqDtl.RemoveAll(r => removeList.Any(a => a == r.QuantityForShipping));
 
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInSchoolChallan");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ReqId", objSchoolChallan.RequisitionId);
-                cmd.Parameters.AddWithValue("@in_ChallanId", objSchoolChallan.SchoolChallanUniqueId);
-                cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
-                cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
-                cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
-                //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);
-                cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchoolChallanBookReqDtl>(objSchoolChallan.trxSchoolChallanBookReqDtl)).InnerXml;
-                objDbUlility.ExNonQuery(cmd);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInSchoolChallan"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ReqId", objSchoolChallan.RequisitionId);
+                    cmd.Parameters.AddWithValue("@in_ChallanId", objSchoolChallan.SchoolChallanUniqueId);
+                    cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
+                    cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
+                    cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
+                    //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);
+                    cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchoolChallanBookReqDtl>(objSchoolChallan.trxSchoolChallanBookReqDtl)).InnerXml;
+                    objDbUlility.ExNonQuery(cmd);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -3567,22 +3732,23 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-
-                SqlCommand cmd = new SqlCommand("Sp_InsertInInvoice");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_InvoiceNo", objInvoice.InvoiceNo);
-                cmd.Parameters.AddWithValue("@in_ManualInvoiceNo", objInvoice.ManualInvoiceNo);
-                cmd.Parameters.AddWithValue("@in_InvoiceDate", Convert.ToDateTime(objInvoice.InvoiceDate));
-                cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
-                cmd.Parameters.AddWithValue("@in_CategoryId", objInvoice.CategoryId);
-                cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
-                cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@retInvoiceId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                objDbUlility.ExNonQuery(cmd);
-                reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
-                retInvoiceId = cmd.Parameters["@retInvoiceId"].Value.ToString();
-
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_InsertInInvoice"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_InvoiceNo", objInvoice.InvoiceNo);
+                    cmd.Parameters.AddWithValue("@in_ManualInvoiceNo", objInvoice.ManualInvoiceNo);
+                    cmd.Parameters.AddWithValue("@in_InvoiceDate", Convert.ToDateTime(objInvoice.InvoiceDate));
+                    cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
+                    cmd.Parameters.AddWithValue("@in_CategoryId", objInvoice.CategoryId);
+                    cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
+                    cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@retInvoiceId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
+                    objDbUlility.ExNonQuery(cmd);
+                    reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
+                    retInvoiceId = cmd.Parameters["@retInvoiceId"].Value.ToString();
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3591,13 +3757,16 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_AddChallanInInvoice");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
-                cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
-                cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_AddChallanInInvoice"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
+                    cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
+                    cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3693,11 +3862,14 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_DeleteChallanFromInvoice");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_InvoiceDtlId", in_InvoiceDtlId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_DeleteChallanFromInvoice"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_InvoiceDtlId", in_InvoiceDtlId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3706,15 +3878,18 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("Sp_UpdateInvoiceDtl");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@in_ManualInvoiceNo", objInvoice.ManualInvoiceNo);
-                cmd.Parameters.AddWithValue("@in_InvoiceDate", Convert.ToDateTime(objInvoice.InvoiceDate));
-                cmd.Parameters.AddWithValue("@in_Save_Status", objInvoice.SaveStatus);
-                cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
-                cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
-                objDbUlility.ExNonQuery(cmd);
-                return true;
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("Sp_UpdateInvoiceDtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@in_ManualInvoiceNo", objInvoice.ManualInvoiceNo);
+                    cmd.Parameters.AddWithValue("@in_InvoiceDate", Convert.ToDateTime(objInvoice.InvoiceDate));
+                    cmd.Parameters.AddWithValue("@in_Save_Status", objInvoice.SaveStatus);
+                    cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
+                    cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3985,14 +4160,20 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         }
 
         public bool CancelChallan(int challanId)
+
         {
             try
             {
+                bool x = default(bool);
                 SqlCommand cmd = new SqlCommand("Sp_CancelChallan");
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@challanId", challanId);
                 var result = objDbUlility.ExNonQuery(cmd);
                 return result > 0;
+                {
+                    x = true;
+                }
+                return x;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
