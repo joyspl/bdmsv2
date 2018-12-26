@@ -191,7 +191,7 @@
     <Compile Include="Controllers\MisReportByCircleController.cs" />
     <Compile Include="Controllers\InterCircleTrnfController.cs" />
     <Compile Include="Controllers\MobileReceiptController.cs" />
-    <Compile Include="Controllers\MstFinYearController.cs" />
+    <Compile Include="Controllers\MstAcademicYearController.cs" />
     <Compile Include="Controllers\SchRequisitionApprovalController.cs" />
     <Compile Include="Controllers\SummaryReportController.cs" />
     <Compile Include="Controllers\TrxProvisionalChallanViewController.cs" />
@@ -1383,7 +1383,7 @@
     <Content Include="Views\AdminSummaryReport\Index.cshtml" />
     <Content Include="Views\DirectorateHelp\Index.cshtml" />
     <Content Include="Views\DistrictHelp\Index.cshtml" />
-    <Content Include="Views\MstFinYear\Index.cshtml" />
+    <Content Include="Views\MstAcademicYear\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

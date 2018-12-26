@@ -71,6 +71,7 @@ namespace SARASWATIPRESSNEW.Models
         public string Language { get; set; }
         public string Transporter { get; set; }
         public string UserId { get; set; }
+        public int AY_ID { get; set; }
         public List<InvoiceCumChallan> InvoiceCumChallanReqCollection { get; set; }
         public List<InvoiceCumChallanList> InvoiceCumChallanCollection { get; set; }
         public List<ChallanRemarks> ChallanRemarksCollection { get; set; }

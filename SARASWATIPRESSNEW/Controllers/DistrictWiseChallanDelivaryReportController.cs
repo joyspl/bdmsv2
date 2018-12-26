@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class DistrictWiseChallanDelivaryReportController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -34,7 +35,7 @@ namespace SARASWATIPRESSNEW.Controllers
 
             try
             {
-                usertype = (((UserSec)Session["UserSec"])).UserType;
+                usertype = (GlobalSettings.oUserData).UserType;
             }
             catch { }
 

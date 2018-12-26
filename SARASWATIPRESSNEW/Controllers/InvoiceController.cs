@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class InvoiceController : Controller
     {
         //
@@ -109,6 +110,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         objInvoice.InvoiceDate = Convert.ToDateTime(InvoiceDate).ToString("dd-MMM-yyyy");
                         objInvoice.CategoryId = Convert.ToInt16(CategoryId);
                         objInvoice.UserId = Convert.ToString(Session["sp_user_name"]);
+                        objInvoice.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                         if (InvoiceId == "0")
                         {
                             

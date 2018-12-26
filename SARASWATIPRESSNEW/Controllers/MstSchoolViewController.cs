@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class MstSchoolViewController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx(); 
@@ -23,7 +24,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<MstSchool> objMstSchoolList = new List<MstSchool>();
             try
             {
-                Int16 CircleId =Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID);
+                Int16 CircleId =Convert.ToInt16(GlobalSettings.oUserData.CircleID);
                 DataTable dtSchool = objDbTrx.GetSchoolMasterDetailsByCircleId(CircleId);
                 if (dtSchool.Rows.Count > 0)
                 {
@@ -106,7 +107,7 @@ namespace SARASWATIPRESSNEW.Controllers
 
                 StringBuilder strTableReport = new StringBuilder();
                 StringBuilder strReport = new StringBuilder();
-                Int16 CircleId =Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID);
+                Int16 CircleId =Convert.ToInt16(GlobalSettings.oUserData.CircleID);
                 DataTable SchoolMasterDetails = objDbTrx.GetSchoolMasterDetailsByCircleId(CircleId);
                 if (SchoolMasterDetails.Rows.Count > 0)
                 {

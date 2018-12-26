@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class SchRequisionViewController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -45,8 +46,8 @@ namespace SARASWATIPRESSNEW.Controllers
                     StatusMessage = "Init"
                 };
                 string str = Server.MapPath("~/Report/Requisition/");
-                string text2 = str + ((UserSec)Session["UserSec"]).UserUniqueId + "\\";
-                //Int16 CircleId = Convert.ToInt16(!string.IsNullOrWhiteSpace(((UserSec)Session["UserSec"]).CircleID) ? ((UserSec)Session["UserSec"]).CircleID : "0");
+                string text2 = str + GlobalSettings.oUserData.UserUniqueId + "\\";
+                //Int16 CircleId = Convert.ToInt16(!string.IsNullOrWhiteSpace(GlobalSettings.oUserData.CircleID) ? GlobalSettings.oUserData.CircleID : "0");
                 Int16 CircleId = default(short);
                 if (!string.IsNullOrWhiteSpace(circleId) && circleId != "-1")
                 {
@@ -54,9 +55,9 @@ namespace SARASWATIPRESSNEW.Controllers
                 }
                 else
                 {
-                    CircleId = Convert.ToInt16(!string.IsNullOrWhiteSpace(((UserSec)Session["UserSec"]).CircleID) ? ((UserSec)Session["UserSec"]).CircleID : "0");
+                    CircleId = Convert.ToInt16(!string.IsNullOrWhiteSpace(GlobalSettings.oUserData.CircleID) ? GlobalSettings.oUserData.CircleID : "0");
                 }
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dt = objDbTrx.GetRequisitionViewNew(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), CircleId, AccadYear);
                 if (dt != null && dt.Rows.Count > default(int))
                 {
@@ -177,7 +178,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 file = file + ".xlsx";
-                string fullPath = Path.Combine(Server.MapPath(string.Format("~/Report/Requisition/{0}", ((UserSec)Session["UserSec"]).UserUniqueId)), file);
+                string fullPath = Path.Combine(Server.MapPath(string.Format("~/Report/Requisition/{0}", GlobalSettings.oUserData.UserUniqueId)), file);
                 return File(Utility.FileAsByte(fullPath), System.Net.Mime.MediaTypeNames.Application.Octet, file);
             }
             catch (Exception)
@@ -198,9 +199,9 @@ namespace SARASWATIPRESSNEW.Controllers
                 }
                 else
                 {
-                    CircleId = Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID);
+                    CircleId = Convert.ToInt16(GlobalSettings.oUserData.CircleID);
                 }
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 //DataTable dt = objDbTrx.GetSchRequisitionViewDataByCercleId(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), CircleId, AccadYear);
                 DataTable dt = objDbTrx.GetRequisitionViewNew(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), CircleId, AccadYear);
                 if (dt.Rows.Count > 0)
@@ -266,7 +267,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 Requisition objRequisition = new Requisition();
-                objRequisition.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objRequisition.UserId = GlobalSettings.oUserData.UserId;
                 objRequisition.SaveStatus = "1";
                 objDbTrx.RequisitionConfirm(objRequisition, griddata.TrimEnd(','));
                 ErrorMessage = ChallanIds.Count() + " Requisition confirmed successfully.";

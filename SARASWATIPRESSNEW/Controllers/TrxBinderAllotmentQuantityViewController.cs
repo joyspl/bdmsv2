@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxBinderAllotmentQuantityViewController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -25,7 +26,7 @@ namespace SARASWATIPRESSNEW.Controllers
             #region [Pagination Initialization]
             try
             {
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 string allotmentcode = "";
                 DataTable GetBinderAllotQtyDtl = objDbTrx.GetBinderAllotmentQtyViewNew(dtNow.AddDays(-(Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["BinderStartDayInitial"]))), dtNow, AccadYear, default(int), default(int), allotmentcode);
                 if (GetBinderAllotQtyDtl != null && GetBinderAllotQtyDtl.Rows.Count > default(int))
@@ -51,7 +52,7 @@ namespace SARASWATIPRESSNEW.Controllers
             {
                 
 
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dtCount = objDbTrx.GetBinderAllotmentQtyViewNew(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), AccadYear, default(int), default(int), allotmentcode);
                 if (dtCount != null && dtCount.Rows.Count > default(int))
                     totalRecords = Convert.ToInt32(dtCount.Rows[0]["TotalRecords"].ToString());
@@ -70,7 +71,7 @@ namespace SARASWATIPRESSNEW.Controllers
             int totalRecords = default(int);
             try
             {
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dtCount = objDbTrx.GetBinderAllotmentQtyViewNew(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), AccadYear, default(int), default(int), allotmentcode);
                 if (dtCount != null && dtCount.Rows.Count > default(int))
                     totalRecords = Convert.ToInt32(dtCount.Rows[0]["TotalRecords"].ToString());
@@ -194,7 +195,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<BinderAllotQuantityDtl> lstDtl = new List<BinderAllotQuantityDtl>();
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");
@@ -601,14 +602,14 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 BinderAllotQuantity objBinderAllotQuantity = new BinderAllotQuantity();
-                objBinderAllotQuantity.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objBinderAllotQuantity.UserId = GlobalSettings.oUserData.UserId;
                 objBinderAllotQuantity.SaveStatus = 1;
                 objDbTrx.BinderAllotmentConfirm(objBinderAllotQuantity, griddata.TrimEnd(','));
 
                 if (ChallanIds != null && ChallanIds.Count() > default(int))
                 {
                     distinctChallanIds = ChallanIds.Distinct().ToArray();
-                    var userId = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]).UserId : string.Empty;
+                    var userId = Session["UserSec"] != null ? GlobalSettings.oUserData.UserId : string.Empty;
                     System.Threading.ThreadPool.QueueUserWorkItem(s =>
                     {
                         PrepareAndInsertDataForBinderAllotQtyDtl(distinctChallanIds, "", userId);
@@ -634,7 +635,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 StringBuilder strTableReport = new StringBuilder();
                 StringBuilder strReport = new StringBuilder();
                 strReport = new StringBuilder();
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dtbinderallot = objDbTrx.GetBinderAllotmentQtyView(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), AccadYear);
                 if (dtbinderallot.Rows.Count > 0)
                 {

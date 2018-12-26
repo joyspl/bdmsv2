@@ -20,6 +20,7 @@ namespace SARASWATIPRESSNEW.Models
 
 
         public string UserId { get; set; }
+        public int AY_ID { get; set; }
 
         public string ReqSessionCode { get; set; }
         public Int64 RequisitionID { get; set; }

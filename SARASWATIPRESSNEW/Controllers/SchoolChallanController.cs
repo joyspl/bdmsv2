@@ -80,9 +80,9 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string ChallanNo = "";
-                //objSchoolChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                //objSchoolChallan.UserId = GlobalSettings.oUserData.UserId;
                 objSchoolChallan.UserId = GlobalSettings.oUserData.UserId;
-
+                objSchoolChallan.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                 if (objSchoolChallan.SchoolChallanUniqueId == 0)
                 {
                     objDbTrx.InsertInSchoolChallan(objSchoolChallan, out ChallanNo);

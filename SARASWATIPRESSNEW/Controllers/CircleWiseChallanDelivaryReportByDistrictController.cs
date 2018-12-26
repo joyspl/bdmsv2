@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class CircleWiseChallanDelivaryReportByDistrictController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -29,13 +30,13 @@ namespace SARASWATIPRESSNEW.Controllers
             StringBuilder strReport2 = new StringBuilder();
             StringBuilder strReportSchoolNameHead = new StringBuilder();
             StringBuilder strTotReport = new StringBuilder();
-            try { DistrictId = ((UserSec)Session["UserSec"]).DistrictID; }
+            try { DistrictId = GlobalSettings.oUserData.DistrictID; }
             catch { DistrictId = ""; }
             string usertype = string.Empty;
 
             try
             {
-                usertype = (((UserSec)Session["UserSec"])).UserType;
+                usertype = (GlobalSettings.oUserData).UserType;
             }
             catch { }
             try

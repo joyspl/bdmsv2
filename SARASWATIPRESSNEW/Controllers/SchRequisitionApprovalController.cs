@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class SchRequisitionApprovalController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -33,7 +34,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 string usertype = string.Empty;
                 try
                 {
-                    usertype = (((UserSec)Session["UserSec"])).UserType;
+                    usertype = (GlobalSettings.oUserData).UserType;
                 }
                 catch { }
                 if (!string.IsNullOrWhiteSpace(circleId))
@@ -43,7 +44,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 else
                 {
                     if (usertype != "2")
-                        CircleId = Convert.ToInt32(!string.IsNullOrWhiteSpace(((UserSec)Session["UserSec"]).CircleID) ? ((UserSec)Session["UserSec"]).CircleID : "-1");
+                        CircleId = Convert.ToInt32(!string.IsNullOrWhiteSpace(GlobalSettings.oUserData.CircleID) ? GlobalSettings.oUserData.CircleID : "-1");
                     else
                         CircleId = -1;
                 }
@@ -53,7 +54,7 @@ namespace SARASWATIPRESSNEW.Controllers
 
                 
 
-                int AccadYear = Convert.ToInt32(((UserSec)Session["UserSec"]).AcademicYearId);
+                int AccadYear = Convert.ToInt32(GlobalSettings.oUserData.AcademicYearId);
                // DataTable dt = objDbTrx.GetRequisitionViewNewForApproval(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), DistrictId, CircleId, (usertype == "5" ? isapproved : 0), AccadYear, IsForDistApproval: (usertype == "5" ? 0 : (usertype == "2" ? 1 : 0)), DistApprovalstatus: (usertype == "2" ? isapproved : 0));
                 DataTable dt = objDbTrx.GetRequisitionViewNewForApproval(Convert.ToDateTime(startDate + " 00:00:00.000")
                     , Convert.ToDateTime(endDate + " 23:59:59.999"), DistrictId, CircleId
@@ -139,14 +140,14 @@ namespace SARASWATIPRESSNEW.Controllers
                     StatusMessage = "Init"
                 };
                 string str = Server.MapPath("~/Report/Requisition/");
-                string text2 = str + ((UserSec)Session["UserSec"]).UserUniqueId + "\\";
+                string text2 = str + GlobalSettings.oUserData.UserUniqueId + "\\";
                 int CircleId = default(int);
                 int DistrictId = default(int);
                 int.TryParse(districtId, out DistrictId);
                 string usertype = string.Empty;
                 try
                 {
-                    usertype = (((UserSec)Session["UserSec"])).UserType;
+                    usertype = (GlobalSettings.oUserData).UserType;
                 }
                 catch { }
                 if (!string.IsNullOrWhiteSpace(circleId))
@@ -155,9 +156,9 @@ namespace SARASWATIPRESSNEW.Controllers
                 }
                 else
                 {
-                    CircleId = Convert.ToInt32(!string.IsNullOrWhiteSpace(((UserSec)Session["UserSec"]).CircleID) ? ((UserSec)Session["UserSec"]).CircleID : "-1");
+                    CircleId = Convert.ToInt32(!string.IsNullOrWhiteSpace(GlobalSettings.oUserData.CircleID) ? GlobalSettings.oUserData.CircleID : "-1");
                 }
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 //DataTable dt = objDbTrx.GetRequisitionViewNewForApproval(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"), DistrictId, CircleId, isapproved, AccadYear);
                 DataTable dt = objDbTrx.GetRequisitionViewNewForApproval(Convert.ToDateTime(startDate + " 00:00:00.000")
                     , Convert.ToDateTime(endDate + " 23:59:59.999"), DistrictId, CircleId
@@ -276,7 +277,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 file = file + ".xlsx";
-                string fullPath = Path.Combine(Server.MapPath(string.Format("~/Report/Requisition/{0}", ((UserSec)Session["UserSec"]).UserUniqueId)), file);
+                string fullPath = Path.Combine(Server.MapPath(string.Format("~/Report/Requisition/{0}", GlobalSettings.oUserData.UserUniqueId)), file);
                 return File(Utility.FileAsByte(fullPath), System.Net.Mime.MediaTypeNames.Application.Octet, file);
             }
             catch (Exception)
@@ -294,9 +295,9 @@ namespace SARASWATIPRESSNEW.Controllers
             int isfordistrictApproval = default(int);
             try
             {
-                usertype = (((UserSec)Session["UserSec"])).UserType;
+                usertype = (GlobalSettings.oUserData).UserType;
                 Requisition objRequisition = new Requisition();
-                objRequisition.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objRequisition.UserId = GlobalSettings.oUserData.UserId;
                 objRequisition.ISAPPROVED_DIST = (usertype == "2" ? 1 : default(int));
                 objRequisition.ISAPPROVED = (usertype == "5" ? 1 : default(int));
                 isfordistrictApproval = (usertype == "2" ? 1 : default(int));

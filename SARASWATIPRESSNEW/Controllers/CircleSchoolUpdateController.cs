@@ -12,12 +12,13 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class CircleSchoolUpdateController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index(string e)
         {
-            if (Convert.ToString(((UserSec)Session["UserSec"]).CircleID) != "")
+            if (Convert.ToString(GlobalSettings.oUserData.CircleID) != "")
             {
                 return View(get_dropdown(e));
             }
@@ -30,7 +31,7 @@ namespace SARASWATIPRESSNEW.Controllers
         [HttpPost]
         public ActionResult Index(School objcust)
         {   string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
             if (CircleId != "")
             {
@@ -49,8 +50,8 @@ namespace SARASWATIPRESSNEW.Controllers
                             }
                             else
                             {
-                                objcust.CircleId = Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
-                                objcust.UserId = (((UserSec)Session["UserSec"]).UserId).ToString();
+                                objcust.CircleId = Convert.ToInt32(GlobalSettings.oUserData.CircleID);
+                                objcust.UserId = (GlobalSettings.oUserData.UserId).ToString();
                                // objDbTrx.UpdateInSchool(objcust);
                                 TempData["Message"] =  "School information Successfully Updated";
                             }
@@ -84,7 +85,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 List<School> lst_school = new List<School>();
                 try
                 {
-                   DataTable dtMastData = objDbTrx.GetSchoolMasterDetailsByCircleId(Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID));
+                   DataTable dtMastData = objDbTrx.GetSchoolMasterDetailsByCircleId(Convert.ToInt16(GlobalSettings.oUserData.CircleID));
                     if (dtMastData.Rows.Count > 0)
                     {
                         for (int iCnt = 0; iCnt < dtMastData.Rows.Count; iCnt++)

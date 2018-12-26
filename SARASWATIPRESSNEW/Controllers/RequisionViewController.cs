@@ -11,6 +11,7 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
    
     public class RequisionViewController : Controller
     {
@@ -49,7 +50,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 string CircleId = "", CircleLock = "",ReqLockStartDate="", ReqLockDate="",defaultLock="0";
 
                 try{
-                    CircleId = ((UserSec)Session["UserSec"]).CircleID;
+                    CircleId = GlobalSettings.oUserData.CircleID;
                     //ReqLockStartDate = "07-Feb-"+ DateTime.Now.Year +" 00:00:00.000";
                     string[] formats = { "dd/MM/yyyy", "dd/M/yyyy", "d/M/yyyy", "d/MM/yyyy", "dd/MM/yy", "dd/M/yy", "d/M/yy", "d/MM/yy" };
                     DateTime dtF = DateTime.Now;

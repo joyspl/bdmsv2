@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxSchProvisionalChallanViewController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -25,8 +26,8 @@ namespace SARASWATIPRESSNEW.Controllers
             List<SchProvisionalChallan> objSchProvisionalChallanList = new List<SchProvisionalChallan>();
             try
             {
-               // Int16 CircleId = Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID);
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+               // Int16 CircleId = Convert.ToInt16(GlobalSettings.oUserData.CircleID);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dt = objDbTrx.GetSchProvisionalChallanView(Convert.ToDateTime(startDate + " 00:00:00.000"), Convert.ToDateTime(endDate + " 23:59:59.999"),  AccadYear);
                 if (dt.Rows.Count > 0)
                 {
@@ -84,7 +85,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 SchProvisionalChallan objSchProvisionalChallan = new SchProvisionalChallan();
-                objSchProvisionalChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objSchProvisionalChallan.UserId = GlobalSettings.oUserData.UserId;
                 objSchProvisionalChallan.SaveStatus = 1;
                 objDbTrx.SchRequisitionProbChallanConfirm(objSchProvisionalChallan, griddata.TrimEnd(','));
                 ErrorMessage = ChallanIds.Count() + " Challan confirmed successfully.";

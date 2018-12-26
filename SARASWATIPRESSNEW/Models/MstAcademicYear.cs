@@ -9,5 +9,6 @@ namespace SARASWATIPRESSNEW.Models
     {
         public int AcademicYearID { get; set; }
         public string AcademicYear { get; set; }
+        public int ISACTIVE { get; set; }
     }
 }

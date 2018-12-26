@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxSchProvisionalChallanController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -54,8 +55,8 @@ namespace SARASWATIPRESSNEW.Controllers
             {               
                 
                 string reqGenCode = "";
-                objSchProvisionalChallan.AcademicYearID = ((UserSec)Session["UserSec"]).AcademicYearId;
-                objSchProvisionalChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objSchProvisionalChallan.AcademicYearID = GlobalSettings.oUserData.AcademicYearId;
+                objSchProvisionalChallan.UserId = GlobalSettings.oUserData.UserId;
                 if (objSchProvisionalChallan.ChallanId <= 0)
                 {
                     objSchProvisionalChallan.SaveStatus = 0;
@@ -199,7 +200,7 @@ namespace SARASWATIPRESSNEW.Controllers
             {
                 Int16 CircleId = InCircleID;
                 Int16 LanguageId = InLanguageId;
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dt = objDbTrx.Sp_SchRequisitionForProbChallan(CircleId, AccadYear, InLanguageId, BookCode);
                 if (dt.Rows.Count > 0)
                 {

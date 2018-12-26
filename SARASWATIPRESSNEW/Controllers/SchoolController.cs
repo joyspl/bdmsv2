@@ -12,6 +12,7 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class SchoolController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -37,9 +38,9 @@ namespace SARASWATIPRESSNEW.Controllers
                         }
                         else
                         {                           
-                            objcust.DistrictId  = Convert.ToInt32(((UserSec)Session["UserSec"]).DistrictID);
-                            objcust.CircleId = Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
-                            objcust.UserId = (((UserSec)Session["UserSec"]).UserId).ToString();
+                            objcust.DistrictId  = Convert.ToInt32(GlobalSettings.oUserData.DistrictID);
+                            objcust.CircleId = Convert.ToInt32(GlobalSettings.oUserData.CircleID);
+                            objcust.UserId = (GlobalSettings.oUserData.UserId).ToString();
                             string SchoolId = "";
                            // objDbTrx.InsertInSchool(objcust, out  SchoolId);
                             Session["SchooldCode"] = SchoolId;                           

@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxSchRequisitionController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -154,12 +155,12 @@ namespace SARASWATIPRESSNEW.Controllers
                     objRequisition.SchoolID = Convert.ToInt32(objSchRequisition.SchoolID <= default(int) ? objSchRequisition.MstSchool.SchoolID : objSchRequisition.SchoolID);
                     objRequisition.LanguageID = objSchRequisition.MstLanguage.LanguageID;
                     objRequisition.CategoryID = objSchRequisition.MstCategory.CategoryID;
-                    objRequisition.CircleID = objSchRequisition.CircleID > default(int) ? objSchRequisition.CircleID : Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
+                    objRequisition.CircleID = objSchRequisition.CircleID > default(int) ? objSchRequisition.CircleID : Convert.ToInt32(GlobalSettings.oUserData.CircleID);
                     objRequisition.BookID = objSchRequisition.BookID;
                     objRequisition.RequisitionID = objSchRequisition.RequisitionID;
                     objRequisition.RequisitionDate = string.IsNullOrWhiteSpace(objSchRequisition.RequisitionDate) ? DateTime.Now.ToString() : objSchRequisition.RequisitionDate;
                     objRequisition.ReqSessionCode = objSchRequisition.RequisitionCode;
-                    objRequisition.UserId = ((UserSec)Session["UserSec"]).UserId;
+                    objRequisition.UserId = GlobalSettings.oUserData.UserId;
                     objRequisition.SaveStatus = objSchRequisition.SaveStatus.ToString();
                     objRequisition.reqTrxCollection = new List<RequisitionTrxDtl>();
 
@@ -187,8 +188,8 @@ namespace SARASWATIPRESSNEW.Controllers
                 }
 
                 string reqGenCode = "";
-                objSchRequisition.AcademicYearID = ((UserSec)Session["UserSec"]).AcademicYearId;
-                //objSchRequisition.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objRequisition.AY_ID = objSchRequisition.AcademicYearID = GlobalSettings.oUserData.AcademicYearId;
+                //objSchRequisition.UserId = GlobalSettings.oUserData.UserId;
                 if (objRequisition.RequisitionID <= 0)
                 {
                     objRequisition.SaveStatus = "1";
@@ -232,7 +233,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<MstSchool> lstMstSchool = new List<MstSchool>();
             try
             {
-                DataTable dt = objDbTrx.GetSchoolMasterDetailsByCircleId(!string.IsNullOrWhiteSpace(circleid) && circleid != "-1" ? Convert.ToInt16(circleid) : Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID));
+                DataTable dt = objDbTrx.GetSchoolMasterDetailsByCircleId(!string.IsNullOrWhiteSpace(circleid) && circleid != "-1" ? Convert.ToInt16(circleid) : Convert.ToInt16(GlobalSettings.oUserData.CircleID));
                 if (dt.Rows.Count > 0)
                 {
                     for (int iCnt = 0; iCnt < dt.Rows.Count; iCnt++)

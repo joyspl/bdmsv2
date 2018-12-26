@@ -14,6 +14,7 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class InvoiceCumChallanController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -71,10 +72,10 @@ namespace SARASWATIPRESSNEW.Controllers
             string ChallanNo = string.Empty;
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = GlobalSettings.oUserData != null ? GlobalSettings.oUserData : new UserSec();
                 objInvoiceCumChallan.UserId = userSessionObject.UserId;
                 objInvoiceCumChallan.InvoiceCumChallanDate = DateTime.Now.ToString();
-
+                objInvoiceCumChallan.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                 if (objInvoiceCumChallan.InvoiceCumChallanCollection != null && objInvoiceCumChallan.InvoiceCumChallanCollection.Count() > default(int))
                 {
                     foreach (var ic in objInvoiceCumChallan.InvoiceCumChallanCollection)
@@ -138,6 +139,7 @@ namespace SARASWATIPRESSNEW.Controllers
             {
                 try
                 {
+                    objInvCumChal.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                     string ChallanNo = "";
                     if (Convert.ToString(Session["sp_user_name"]) != "")
                     {
@@ -368,7 +370,7 @@ namespace SARASWATIPRESSNEW.Controllers
             int intChallanID = default(int);
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");
@@ -403,7 +405,7 @@ namespace SARASWATIPRESSNEW.Controllers
         //    bool result = default(bool);
         //    try
         //    {
-        //        var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+        //        var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
         //        if (string.IsNullOrEmpty(userSessionObject.UserId))
         //        {
         //            throw new Exception("Session timed out. Please login again.");
@@ -430,7 +432,7 @@ namespace SARASWATIPRESSNEW.Controllers
             bool result = default(bool);
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");
@@ -460,7 +462,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<string> lstDtl = new List<string>();
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");
@@ -532,7 +534,7 @@ namespace SARASWATIPRESSNEW.Controllers
             InvoiceCumChallan objInv = new InvoiceCumChallan();
             try
             {
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 int.TryParse(categoryId, out catId);
                 DataTable dt = objDbTrx.GetLiveBinderBookStatusOnScan(binderAllotCode, catId, AccadYear);
                 if (dt.Rows.Count > default(int))
@@ -575,7 +577,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
 
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dtReqDtl = new DataTable();
                 if (Convert.ToInt64(ChallanId) != 0)
                 {
@@ -711,7 +713,7 @@ namespace SARASWATIPRESSNEW.Controllers
             string msg = string.Empty;
             try
             {
-                pData.UserId = ((UserSec)Session["UserSec"]).UserId;
+                pData.UserId = GlobalSettings.oUserData.UserId;
                 result = objDbTrx.UpdateFinalChallanHeaderNew(pData);
                 msg = result ? "Challan updated successfully" : "Update error detected";
             }
@@ -730,7 +732,7 @@ namespace SARASWATIPRESSNEW.Controllers
             string msg = string.Empty;
             try
             {
-                //pData.UserId = ((UserSec)Session["UserSec"]).UserId;
+                //pData.UserId = GlobalSettings.oUserData.UserId;
                 result = objDbTrx.CancelChallan(challanId);
                 msg = result ? "Challan Cancel successfully" : "Error detected";
             }

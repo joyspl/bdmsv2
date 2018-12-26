@@ -15,6 +15,7 @@ namespace SARASWATIPRESSNEW.Models
         public string ManualInvoiceNo { get; set; }
         public string InvoiceDate { get; set; }
         public string UserId { get; set; }
+        public int AY_ID { get; set; }
         public string UpdateCode { get; set; }
         public string UpdateMsg { get; set; }
         public string SaveStatus { get; set; }

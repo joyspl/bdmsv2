@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class MisReportController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -28,7 +29,7 @@ namespace SARASWATIPRESSNEW.Controllers
             StringBuilder strReportSchoolCodeHead = new StringBuilder();
             StringBuilder strReportSchoolNameHead = new StringBuilder();
             StringBuilder strTotReport = new StringBuilder();
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
             try
             {
@@ -213,7 +214,7 @@ namespace SARASWATIPRESSNEW.Controllers
         //    StringBuilder strReportSchoolCodeHead = new StringBuilder();
         //    StringBuilder strReportSchoolNameHead = new StringBuilder();
         //    StringBuilder strTotReport = new StringBuilder();
-        //    try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+        //    try { CircleId = GlobalSettings.oUserData.CircleID; }
         //    catch { CircleId = ""; }
         //    try
         //    {

@@ -28,7 +28,7 @@ namespace SARASWATIPRESSNEW.Controllers
 
             // modified 25.12.18
             DataTable dtAccademicYear = new DataTable();
-            dtAccademicYear = objDbTrx.GetAllAcademicYear();
+            dtAccademicYear = objDbTrx.GetAllActiveAcademicYear();
             List<SelectListItem> liAccademicYear = new List<SelectListItem>();
            
             for (int rows = 0; rows <= dtAccademicYear.Rows.Count - 1; rows++)

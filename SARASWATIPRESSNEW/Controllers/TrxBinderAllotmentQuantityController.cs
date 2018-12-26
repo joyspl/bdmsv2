@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxBinderAllotmentQuantityController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -65,8 +66,8 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string reqGenCode = "";
-                objBinderAllotQuantity.AcademicYearID = ((UserSec)Session["UserSec"]).AcademicYearId;
-                objBinderAllotQuantity.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objBinderAllotQuantity.AcademicYearID = GlobalSettings.oUserData.AcademicYearId;
+                objBinderAllotQuantity.UserId = GlobalSettings.oUserData.UserId;
                 if (objBinderAllotQuantity.ID <= 0)
                 {
                     objBinderAllotQuantity.ReqQty = objBinderAllotQuantity.TotQty / objBinderAllotQuantity.Lot;

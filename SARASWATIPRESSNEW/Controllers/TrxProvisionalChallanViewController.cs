@@ -98,7 +98,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<InvoiceCumChallan> objChallanList = new List<InvoiceCumChallan>();
             try
             {
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dt = objDbTrx.GetProvisionalChallanViewModified(startDate, endDate, CircleID, DistrictID, AccadYear);
                 if (dt.Rows.Count > 0)
                 {
@@ -139,7 +139,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             { 
                 InvoiceCumChallan objInvoiceCumChallan = new InvoiceCumChallan();
-                objInvoiceCumChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objInvoiceCumChallan.UserId = GlobalSettings.oUserData.UserId;
                 objInvoiceCumChallan.Status = 1;
                 objDbTrx.ConfirmProvisionalChallan(objInvoiceCumChallan, griddata.TrimEnd(','));
                 ErrorMessage = ChallanIds.Count() + " Challan confirmed successfully.";

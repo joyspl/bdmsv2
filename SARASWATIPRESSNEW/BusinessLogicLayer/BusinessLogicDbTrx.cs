@@ -1635,6 +1635,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@categoryID", objcust.CategoryID);
                     cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
                     cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
+                    cmd.Parameters.AddWithValue("@AY_ID", objcust.AY_ID);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
@@ -3091,6 +3092,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_CONSIGNEE_NO", objInvCumChal.CONSIGNEE_NO);
                     cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
                     cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
+                    cmd.Parameters.AddWithValue("@AY_ID", objInvCumChal.AY_ID);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
@@ -3584,6 +3586,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_ChallanNo", objSchoolChallan.SchoolChallanCode);
                     cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
                     cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
+                    cmd.Parameters.AddWithValue("@AY_ID", objSchoolChallan.AY_ID);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);
@@ -3742,6 +3745,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
                     cmd.Parameters.AddWithValue("@in_CategoryId", objInvoice.CategoryId);
                     cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
+                    cmd.Parameters.AddWithValue("@AY_ID", objInvoice.AY_ID);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@retInvoiceId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     objDbUlility.ExNonQuery(cmd);
@@ -4299,6 +4303,23 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Opmode", default(int));
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
+
+        public DataTable GetAllActiveAcademicYear()
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_AcademicYear"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Opmode", 4);
                     ObjDataTable = objDbUlility.GetDataTable(cmd);
                 }
                 return ObjDataTable;

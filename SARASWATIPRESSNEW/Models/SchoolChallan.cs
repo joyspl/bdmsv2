@@ -30,6 +30,7 @@ namespace SARASWATIPRESSNEW.Models
         public string ChallanYear { get; set; }
 
         public string UserId { get; set; }
+        public int AY_ID { get; set; }
         public int BookRwCnt { get; set; }
         public List<SchoolChallanBookReqDtl> trxSchoolChallanBookReqDtl { get; set; }
 

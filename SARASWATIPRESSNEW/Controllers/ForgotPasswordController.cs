@@ -11,12 +11,13 @@ using System.Collections;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class ForgotPasswordController : Controller
     {
         
         public ActionResult Index()
         {
-            if (Convert.ToString(((UserSec)Session["UserSec"]).UserUniqueId) == "")
+            if (Convert.ToString(GlobalSettings.oUserData.UserUniqueId) == "")
             {
                 return RedirectToAction("Index", "CircleLogin");
             }
@@ -35,7 +36,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 string result = "";
                 try
                 {
-                    if (Convert.ToString(((UserSec)Session["UserSec"]).UserUniqueId) != "")
+                    if (Convert.ToString(GlobalSettings.oUserData.UserUniqueId) != "")
                     {
                         if (objcust.new_password != objcust.confirm_password)
                         {
@@ -43,8 +44,8 @@ namespace SARASWATIPRESSNEW.Controllers
                         }
                         else
                         {
-                            int userId = Convert.ToInt32(((UserSec)Session["UserSec"]).UserUniqueId);
-                            objcust.CircleuserId = ((UserSec)Session["UserSec"]).CircleID;
+                            int userId = Convert.ToInt32(GlobalSettings.oUserData.UserUniqueId);
+                            objcust.CircleuserId = GlobalSettings.oUserData.CircleID;
                             con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
                             //SqlCommand cmd = new SqlCommand("update circle_user_master set PASSWORD=@PASSWORD where ID=@ID", con);
                             SqlCommand cmd = new SqlCommand("update user_master set PASSWORD=@PASSWORD where REF_ID=@REF_ID AND ID=@ID", con);

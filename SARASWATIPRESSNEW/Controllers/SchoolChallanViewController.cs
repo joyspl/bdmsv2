@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class SchoolChallanViewController : Controller
     {
         //
@@ -26,7 +27,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string CircleId = "-1";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; }
                 catch { CircleId = "-1"; }
                 DataTable dtReqView = objDbTrx.GetSchoolChallanViewBySchooldId(Convert.ToInt64(SchoolId), Convert.ToInt64(CircleId), startDate, endDate);
                 if (dtReqView.Rows.Count > 0)
@@ -65,7 +66,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 StringBuilder strReport = new StringBuilder();
                 strReport = new StringBuilder();
                 string CircleId = "-1";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; }
                 catch { CircleId = "-1"; }
                 DataTable dt = objDbTrx.GetSchoolChallanViewBySchooldId(Convert.ToInt64(SchoolId), Convert.ToInt64(CircleId), startDate, endDate);
                 if (dt.Rows.Count > 0)

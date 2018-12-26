@@ -17,6 +17,7 @@ using CrystalDecisions.CrystalReports.Engine;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class InvoiceCumChallanReqListController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -27,7 +28,7 @@ namespace SARASWATIPRESSNEW.Controllers
             DateTime now = DateTime.Now;
             try
             {
-                objUser = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                objUser = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
             }
             catch (Exception)
             {
@@ -194,7 +195,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
 
-                Int16 AccadYear = Convert.ToInt16(((UserSec)Session["UserSec"]).AcademicYearId);
+                Int16 AccadYear = Convert.ToInt16(GlobalSettings.oUserData.AcademicYearId);
                 DataTable dtReqDtl = new DataTable();
                 if (Convert.ToInt64(ChallanId) != 0)
                 {
@@ -646,7 +647,7 @@ namespace SARASWATIPRESSNEW.Controllers
             bool result = default(bool);
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");
@@ -681,7 +682,7 @@ namespace SARASWATIPRESSNEW.Controllers
             bool result = default(bool);
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]) : new UserSec();
+                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");

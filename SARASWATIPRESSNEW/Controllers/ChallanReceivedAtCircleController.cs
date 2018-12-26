@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class ChallanReceivedAtCircleController : Controller
     {
         //
@@ -17,7 +18,7 @@ namespace SARASWATIPRESSNEW.Controllers
         public ActionResult Index()
         {
             string CircleId = "-1";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = "-1"; }
             InvoiceCumChallan objChallan = new InvoiceCumChallan();
             objChallan.IsPendingRequire = true;
@@ -31,7 +32,7 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string CircleId = "-1";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; }
                 catch { CircleId = "-1"; }
 
                 DataTable dt = objDbTrx.GetChallanDtlByCircleId(startDate, endDate, CircleId, (PendingOnly.ToUpper() == "TRUE" ? "1" : "0"));
@@ -100,7 +101,7 @@ namespace SARASWATIPRESSNEW.Controllers
                     try
                     {
                         challanId = Convert.ToInt32(ChallanIds[i]).ToString();
-                        objDbTrx.UpdateCircleChallanReceived(challanId, ((UserSec)Session["UserSec"]).UserId, ReceiveDate);
+                        objDbTrx.UpdateCircleChallanReceived(challanId, GlobalSettings.oUserData.UserId, ReceiveDate);
                     }
                     catch (Exception ex) { ErrorMsg += ErrorMsg + " " + ex; }
                 }
@@ -124,9 +125,9 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 int.TryParse(postdata.ChallanID, out cId);
-                //objDbTrx.UpdateCircleChallanCommentById_SeparateTable(cId, postdata.Comment, ((UserSec)Session["UserSec"]).UserId);
+                //objDbTrx.UpdateCircleChallanCommentById_SeparateTable(cId, postdata.Comment, GlobalSettings.oUserData.UserId);
 
-                objDbTrx.UpdateCircleChallanCommentById(cId, postdata.Comment, ((UserSec)Session["UserSec"]).UserId);
+                objDbTrx.UpdateCircleChallanCommentById(cId, postdata.Comment, GlobalSettings.oUserData.UserId);
                 if (ErrorMsg == "")
                 {
                     ErrorMsg = "Comment has been saved successfully";

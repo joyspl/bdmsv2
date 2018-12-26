@@ -13,13 +13,14 @@ using System.IO;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class StockUpdateController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index(string a, string b)
         {
             string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
 
             if (CircleId == "")
@@ -254,7 +255,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         string circleId = "";
                         try
                         {
-                            circleId = ((UserSec)Session["UserSec"]).CircleID;
+                            circleId = GlobalSettings.oUserData.CircleID;
                         }
                         catch { }
                         if (circleId != "")

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class MstSchoolController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -57,9 +58,9 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 string reqGenCode = "";
-                objMstSchool.UserId = ((UserSec)Session["UserSec"]).UserId;
-                objMstSchool.CircleId = Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
-                objMstSchool.DistrictID = Convert.ToInt32(((UserSec)Session["UserSec"]).DistrictID);
+                objMstSchool.UserId = GlobalSettings.oUserData.UserId;
+                objMstSchool.CircleId = Convert.ToInt32(GlobalSettings.oUserData.CircleID);
+                objMstSchool.DistrictID = Convert.ToInt32(GlobalSettings.oUserData.DistrictID);
                 if (objMstSchool.SchoolID <= 0)
                 {
                     objDbTrx.InsertInSchool(objMstSchool, out  reqGenCode);

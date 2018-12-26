@@ -11,13 +11,14 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class HomeController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Requisition(string CategoryId, string LanguageId, string SchoolId, string isConfirmed)
         {
             string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
             if (CircleId != "")
             {
@@ -45,7 +46,7 @@ namespace SARASWATIPRESSNEW.Controllers
             if (ModelState.IsValid)
             {
                 string CircleId = "", UserId="";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; UserId = ((UserSec)Session["UserSec"]).UserId; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; UserId = GlobalSettings.oUserData.UserId; }
                 catch { CircleId = "";UserId=""; }
             
                 string ReqSessionCode = objcust.ReqSessionCode;
@@ -57,7 +58,8 @@ namespace SARASWATIPRESSNEW.Controllers
                         {                          
                             objcust.CircleID = Convert.ToInt32(CircleId);
                             objcust.UserId = UserId;
-                            string reqGenCode="";
+                            string reqGenCode = "";
+                            objcust.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                             objDbTrx.InsertInRequisition(objcust, out  reqGenCode);
                             return RedirectToAction("Index", "RequisionView");                                
                         }
@@ -135,7 +137,7 @@ namespace SARASWATIPRESSNEW.Controllers
             {
                 try
                 {
-                    dtMastData = objDbTrx.GetSchoolMasterDetailsById(Convert.ToInt64(SchoolId), Convert.ToInt64(((UserSec)Session["UserSec"]).CircleID));
+                    dtMastData = objDbTrx.GetSchoolMasterDetailsById(Convert.ToInt64(SchoolId), Convert.ToInt64(GlobalSettings.oUserData.CircleID));
                     if (dtMastData.Rows.Count > 0)
                     {
                         lst_req.school_contact_no = Convert.ToString(dtMastData.Rows[0]["SCHOOL_PHONE_NO"].ToString());
@@ -182,7 +184,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 List<School> lst_school = new List<School>();
                 try
                 {
-                    dtMastData = objDbTrx.GetSchoolMasterDetailsByCircleId(Convert.ToInt16(((UserSec)Session["UserSec"]).CircleID));
+                    dtMastData = objDbTrx.GetSchoolMasterDetailsByCircleId(Convert.ToInt16(GlobalSettings.oUserData.CircleID));
                     if (dtMastData.Rows.Count > 0)
                     {
                         for (int iCnt = 0; iCnt < dtMastData.Rows.Count; iCnt++)
@@ -196,7 +198,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         dtMastData.Dispose();
                     }
                     lst_req.schoolCollection = lst_school;
-                    lst_req.CircleID = Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
+                    lst_req.CircleID = Convert.ToInt32(GlobalSettings.oUserData.CircleID);
 
                     lst_req.RequisitionDate = DateTime.Now.ToString("dd-MMM-yyyy HH:MM tt").ToUpper();
                     if (Convert.ToString(categoryId) != null && Convert.ToString(LanguageId) != null)

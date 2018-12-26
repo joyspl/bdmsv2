@@ -11,13 +11,14 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class CircleUserEditController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index()
         {
             string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
             if (CircleId != "")
             {
@@ -36,14 +37,14 @@ namespace SARASWATIPRESSNEW.Controllers
             if (ModelState.IsValid)
             {
                 string CircleId = "";
-                try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+                try { CircleId = GlobalSettings.oUserData.CircleID; }
                 catch { CircleId = ""; }
 
                 if (CircleId != "")
                 {
                     try          
                     {
-                        objcust.Userid = Convert.ToString(((UserSec)Session["UserSec"]).UserId);
+                        objcust.Userid = Convert.ToString(GlobalSettings.oUserData.UserId);
                         objDbTrx.UpdateInCericleUser(objcust);
                         TempData["Message"] = "Profile Successfully Updated";                        
                     }
@@ -73,8 +74,8 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 
-                //DataTable dtCircleUserDtl = objDbTrx.GetCircleUserMasterDetailsById(Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID));
-                DataTable dtCircleUserDtl = objDbTrx.GetCircleMasterDetailsByCircleIdNew(Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID));
+                //DataTable dtCircleUserDtl = objDbTrx.GetCircleUserMasterDetailsById(Convert.ToInt32(GlobalSettings.oUserData.CircleID));
+                DataTable dtCircleUserDtl = objDbTrx.GetCircleMasterDetailsByCircleIdNew(Convert.ToInt32(GlobalSettings.oUserData.CircleID));
                 if (dtCircleUserDtl.Rows.Count > 0)
                 {
                     CircleMaster rq = new CircleMaster();

@@ -14,6 +14,7 @@ using SARASWATIPRESSNEW.BusinessLogicLayer;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxProvisionalChallanController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -88,19 +89,19 @@ namespace SARASWATIPRESSNEW.Controllers
                 try
                 {
                     string ChallanNo = "";
-                    var userId = Session["UserSec"] != null ? ((UserSec)Session["UserSec"]).UserId : string.Empty;
+                    var userId = Session["UserSec"] != null ? GlobalSettings.oUserData.UserId : string.Empty;
                     if (userId != "")
                     {
                         if (Convert.ToInt64(objInvCumChal.ChallanId) != 0)
                         {
-                            objInvCumChal.UserId = ((UserSec)Session["UserSec"]).UserId;                           
+                            objInvCumChal.UserId = GlobalSettings.oUserData.UserId;                           
                             objDbTrx.UpdateInProvisionalChallan(objInvCumChal);
                             TempData["AppMessage"] = "Challan updated successfully and the Challan code is " + objInvCumChal.InvoiceCumChallanNo;
                         }
                         else
                         {
-                            objInvCumChal.AcadYearId = ((UserSec)Session["UserSec"]).AcademicYearId;
-                            objInvCumChal.UserId = ((UserSec)Session["UserSec"]).UserId;
+                            objInvCumChal.AcadYearId = GlobalSettings.oUserData.AcademicYearId;
+                            objInvCumChal.UserId = GlobalSettings.oUserData.UserId;
                             objDbTrx.InsertInProvisionalChallan(objInvCumChal, out ChallanNo);
                             TempData["AppMessage"] = "Challan created successfully and the Challan code is " + ChallanNo;
                         }

@@ -18,7 +18,7 @@ namespace SARASWATIPRESSNEW.Controllers
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index()
         {
-            //if (Convert.ToString(((UserSec)Session["UserSec"]).CircleID) != "")
+            //if (Convert.ToString(GlobalSettings.oUserData.CircleID) != "")
             if (Convert.ToString(GlobalSettings.oUserData.CircleID) != "")
             {
                 return View(get_report());
@@ -36,7 +36,7 @@ namespace SARASWATIPRESSNEW.Controllers
             List<BookWiseStockreportCircle> lst_req1 = new List<BookWiseStockreportCircle>();
             try
             {
-                //DataTable dtMastData = objDbTrx.GetBookWiseReqStokDetails(Convert.ToInt64(((UserSec)Session["UserSec"]).CircleID));
+                //DataTable dtMastData = objDbTrx.GetBookWiseReqStokDetails(Convert.ToInt64(GlobalSettings.oUserData.CircleID));
                 DataTable dtMastData = objDbTrx.GetBookWiseReqStokDetails(Convert.ToInt64(GlobalSettings.oUserData.CircleID));
                 //dtMastData = dtMastData.AsEnumerable()
                 if (dtMastData.Rows.Count > 0)

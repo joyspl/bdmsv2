@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class TrxSchChallanController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -62,7 +63,7 @@ namespace SARASWATIPRESSNEW.Controllers
             SchProvisionalChallan objSchProvisionalChallan = new SchProvisionalChallan();
             try
             {
-                objSchProvisionalChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                objSchProvisionalChallan.UserId = GlobalSettings.oUserData.UserId;
                 objSchProvisionalChallan.TransporterID = TransporterID;
                 objSchProvisionalChallan.ConsigneeNo = ConsigneeNo;
                 objSchProvisionalChallan.VehicleNo = VehicleNo;
@@ -134,8 +135,8 @@ namespace SARASWATIPRESSNEW.Controllers
                     {
                         objSchProvisionalChallan.ChallanId = ChallanId;
                         objSchProvisionalChallan.BinderAllotMentCode = BinderAllotMentCode;
-                        objSchProvisionalChallan.AcademicYearID = ((UserSec)Session["UserSec"]).AcademicYearId;
-                        objSchProvisionalChallan.UserId = ((UserSec)Session["UserSec"]).UserId;
+                        objSchProvisionalChallan.AcademicYearID = GlobalSettings.oUserData.AcademicYearId;
+                        objSchProvisionalChallan.UserId = GlobalSettings.oUserData.UserId;
                         objSchProvisionalChallan.BinderAllotMentId = Convert.ToInt32(dtBinderinfo.Tables[0].Rows[0]["ID"].ToString());
                         objSchProvisionalChallan.ChallanQty = 1;
 

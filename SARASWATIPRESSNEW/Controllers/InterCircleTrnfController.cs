@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
+    [SessionAuthorize]
     public class InterCircleTrnfController : Controller
     {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
@@ -16,7 +17,7 @@ namespace SARASWATIPRESSNEW.Controllers
         public ActionResult Index()
         {
             string CircleId = "";
-            try { CircleId = ((UserSec)Session["UserSec"]).CircleID; }
+            try { CircleId = GlobalSettings.oUserData.CircleID; }
             catch { CircleId = ""; }
 
             if (CircleId == "")
@@ -41,7 +42,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 {
                     pData.ToList().ForEach(item =>
                     {
-                        item.TMP_ORGN_CIRCLE = Convert.ToInt32(((UserSec)Session["UserSec"]).CircleID);
+                        item.TMP_ORGN_CIRCLE = Convert.ToInt32(GlobalSettings.oUserData.CircleID);
                     });
 
                     string xml = Utility.CreateXmlTraditional(Utility.ToDataTable<CircleStockUpdate>(pData.ToList())).InnerXml;
