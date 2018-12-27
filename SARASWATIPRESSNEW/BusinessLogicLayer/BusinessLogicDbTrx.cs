@@ -85,7 +85,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
                     cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
                     cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -107,7 +109,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@InspectorName", InspectorName);
                     cmd.Parameters.AddWithValue("@InspectorPhoneNo", InspectorPhoneNo);
                     cmd.Parameters.AddWithValue("@InspectorEmailId", InspectorEmailId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -150,7 +154,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@CirclePincode", objcust.CirclePinCode);
                     cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
                     cmd.Parameters.AddWithValue("@Active", objcust.Active);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -174,7 +180,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@AlternateMobileno", objcust.AlternateMobileNo);
                     cmd.Parameters.AddWithValue("@Active", objcust.active);
                     cmd.Parameters.AddWithValue("@UserUniqueid", objcust.CircleUserID);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -211,9 +219,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@lockdate", lockDate);
                     cmd.Parameters.AddWithValue("@reqlock", reqLock);
                     cmd.Parameters.AddWithValue("@stocklock", stockLock);
-
-
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -239,9 +247,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_flag", objCircle.flag);
                     cmd.Parameters.AddWithValue("@in_circlepincode", objCircle.CirclePinCode);
                     cmd.Parameters.AddWithValue("@in_AlternateMobileno", objCircle.AlternateMobileNo);
-
-
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -269,7 +277,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@IsConfirmed", isConfirmed);
                     cmd.Parameters.Add("xData", SqlDbType.NVarChar);
                     cmd.Parameters["xData"].Value = xData;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -287,7 +297,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("xData", SqlDbType.NVarChar);
                     cmd.Parameters["xData"].Value = xData;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -306,7 +318,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_DistrictId", objCircle.DistrictId);
                     cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
                     cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -324,7 +338,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_CircleId", objCircle.CircleId);
                     cmd.Parameters.AddWithValue("@in_CircleCode", objCircle.CircleCode);
                     cmd.Parameters.AddWithValue("@in_CircleName", objCircle.CircleName);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -342,7 +358,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -551,7 +569,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_Transport_Name", objTransport.Transporter_name);
                     cmd.Parameters.AddWithValue("@in_Transport_address", objTransport.Transporter_address);
                     cmd.Parameters.AddWithValue("@in_Transport_Phone_no", objTransport.Transporter_phone_no);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -675,7 +695,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@bookId", bookId);
                     cmd.Parameters.AddWithValue("@val", val);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -696,7 +718,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -714,7 +738,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
                     cmd.Parameters.AddWithValue("@InStaus", objBinderAllotQuantity.SaveStatus);
                     cmd.Parameters.AddWithValue("@InUserId", objBinderAllotQuantity.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -740,7 +766,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters.AddWithValue("@xData", xData);
                     cmd.Parameters.Add("xData", SqlDbType.NVarChar);
                     cmd.Parameters["xData"].Value = xData;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -855,7 +883,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_ACAD_YEAR_ID", objBookAllotQty.AcademicYearID);
                     cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return x;
@@ -879,7 +909,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_LOT", objBookAllotQty.Lot);
                     cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
                     cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -967,7 +999,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objSchProvisionalChallan.VehicleNo);
                     cmd.Parameters.AddWithValue("@InChallanId", objSchProvisionalChallan.ChallanId);
                     cmd.Parameters.AddWithValue("@InUserId", objSchProvisionalChallan.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1003,7 +1037,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@In_DataUniqueId", DataUniqueId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1153,7 +1189,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
                     cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
                     cmd.Parameters.Add("@SchoolId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                     SchoolId = cmd.Parameters["@SchoolId"].Value.ToString();
                 }
                 return x;
@@ -1187,7 +1225,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@DeleivaryAddress", objcust.DeleivaryAddress);
                     cmd.Parameters.AddWithValue("@PoliceStation", objcust.PoliceStation);
                     cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1223,7 +1263,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@in_Language_Name", objLanguage.language_name);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1258,7 +1300,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@in_Category_Name", objCategory.Category_name);
 
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1293,7 +1337,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@in_Book_Category_Name", objCategory.Category_name);
 
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1341,6 +1387,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
                     cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                    
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return true;
@@ -1449,7 +1496,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1467,7 +1516,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1578,6 +1629,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = GenerateToXml(objSchRequisition.reqTrxCollection);
                     cmd.Parameters["InTrx_Sch_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<SchRequisitionDtl>(objSchRequisition.reqTrxCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                    
+                      
                 }
                 return true;
             }
@@ -1595,7 +1648,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
                     cmd.Parameters.AddWithValue("@InStaus", objSchRequisition.SaveStatus);
                     cmd.Parameters.AddWithValue("@InUserId", objSchRequisition.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1613,7 +1668,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
                     cmd.Parameters.AddWithValue("@InStaus", Convert.ToInt32(!string.IsNullOrEmpty(objRequisition.SaveStatus) ? objRequisition.SaveStatus : default(int).ToString()));
                     cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1640,6 +1697,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                   
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return true;
@@ -1669,6 +1727,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
 
                     objDbUlility.ExNonQuery(cmd);
+                    
                 }
                 return true;
             }
@@ -1685,7 +1744,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1702,7 +1763,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ReqId", ReqId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1795,7 +1858,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@InStaus", IsForDistApproval <= 0 ? (objRequisition.ISAPPROVED > default(int) ? objRequisition.ISAPPROVED : default(int)) : (objRequisition.ISAPPROVED_DIST > default(int) ? objRequisition.ISAPPROVED_DIST : default(int)));
                     cmd.Parameters.AddWithValue("@InUserId", objRequisition.UserId);
                     cmd.Parameters.AddWithValue("@Opmode", IsForDistApproval <= 0 ? 1 : 3);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -1833,6 +1898,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                             cmd.Parameters.AddWithValue("@ReqID", Convert.ToInt32(s.Trim()));
 
                             objDbUlility.ExNonQuery(cmd);
+                           
                         }
                     }
                 }
@@ -1950,6 +2016,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 cmd.Parameters.Add("InTrx_Sch_requisition_dtl_xml", SqlDbType.NVarChar);
                 cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                 objDbUlility.ExNonQuery(cmd);
+               
                 reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 return true;
             }
@@ -2000,6 +2067,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 cmd.Parameters.AddWithValue("@InStaus", objSchProvisionalChallan.SaveStatus);
                 cmd.Parameters.AddWithValue("@InUserId", objSchProvisionalChallan.UserId);
                 objDbUlility.ExNonQuery(cmd);
+              
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2036,6 +2104,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 cmd.Parameters.AddWithValue("@InChallanQty", objSchProvisionalChallan.ChallanQty);
                 cmd.Parameters.AddWithValue("@InUserId", objSchProvisionalChallan.UserId);
                 objDbUlility.ExNonQuery(cmd);
+               
                 return true;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
@@ -2382,7 +2451,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objcust.reqStockCollection);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<StockTrxDtl>(objcust.reqStockCollection)).InnerXml;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -2417,7 +2488,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("xData", SqlDbType.NVarChar);
                     cmd.Parameters["xData"].Value = xData;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -2909,7 +2982,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@ChannalID", ChannalID);
                     cmd.Parameters.AddWithValue("@Comment", comment);
                     cmd.Parameters.AddWithValue("@CREATED_By", createdby);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -2931,7 +3006,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@ChallanComment", comment);
                     cmd.Parameters.AddWithValue("@CREATED_By", createdby);
                     cmd.Parameters.AddWithValue("@Opmode", 1);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -2977,7 +3054,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@UserID", mobileReceipt.UserID);
                     cmd.Parameters.AddWithValue("@DeviceUUID", mobileReceipt.DeviceUUID);
                     cmd.Parameters.AddWithValue("@Opmode", 1);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3098,6 +3177,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                  
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return true;
@@ -3125,7 +3205,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@InAcadYearId", objInvCumChal.AcadYearId);
                     cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return x;
@@ -3156,6 +3238,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                   
                 }
                 return true;
             }
@@ -3189,6 +3272,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
                 return true;
@@ -3230,6 +3314,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<InvoiceCumChallanList>(objInvCumChal.InvoiceCumChallanCollection)).InnerXml;
                     objDbUlility.ExNonQuery(cmd);
+                   
                 }
                 return true;
             }
@@ -3251,7 +3336,10 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@InTransporterId", objInvCumChal.TransporterID);
                     cmd.Parameters.AddWithValue("@InUserId", objInvCumChal.UserId);
                     cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);//String.IsNullOrEmpty(objInvCumChal.ManualChallanNo) ? DBNull.Value : objInvCumChal.ManualChallanNo);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
+
                 }
                 return x;
             }
@@ -3277,7 +3365,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
                     cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
                     cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3334,7 +3424,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@RequisitionIds", RequisitionIdsInCommaSeparated);
                     cmd.Parameters.AddWithValue("@InStaus", objInvoiceCumChallan.Status);
                     cmd.Parameters.AddWithValue("@InUserId", objInvoiceCumChallan.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3353,7 +3445,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@challanId", challanId);
                     cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3372,7 +3466,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@challanId", challanId);
                     cmd.Parameters.AddWithValue("@binderAllotCode", binderAllotCode);
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3391,7 +3487,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@challanId", challanId);
                     cmd.Parameters.AddWithValue("@fullstr", fullstr);
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3410,7 +3508,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@challanId", challanId);
                     cmd.Parameters.AddWithValue("@barcodeDtlID", Convert.ToInt32(fullstr));
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3429,7 +3529,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@challanId", challanId);
                     cmd.Parameters.AddWithValue("@barcode", fullstr);
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3748,7 +3850,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@AY_ID", objInvoice.AY_ID);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@retInvoiceId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                     retInvoiceId = cmd.Parameters["@retInvoiceId"].Value.ToString();
                 }
@@ -3768,7 +3872,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
                     cmd.Parameters.AddWithValue("@in_ChallanId", objInvoice.ChallanId);
                     cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3871,7 +3977,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@in_InvoiceDtlId", in_InvoiceDtlId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -3891,7 +3999,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_Save_Status", objInvoice.SaveStatus);
                     cmd.Parameters.AddWithValue("@in_InvoiceId", objInvoice.InvoiceId);
                     cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
@@ -4357,7 +4467,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@ID", acyearid);
                     cmd.Parameters.AddWithValue("@ISACTIVE", val);
                     cmd.Parameters.AddWithValue("@Opmode", 5);
-                    objDbUlility.ExNonQuery(cmd);
+                    var m = objDbUlility.ExNonQuery(cmd);
+                    if (m > default(int))
+                        x = true;
                 }
                 return x;
             }
