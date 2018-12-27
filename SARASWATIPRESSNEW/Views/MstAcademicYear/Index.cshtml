@@ -21,6 +21,12 @@
         <table border="0" style="width: 400px;border: 1px solid black;" class="table">
             <tr>
                 <th style="text-align: left; width: 50%;">Academic Year</th>
+                
+                <th style="text-align: left; width: 50%;">PFX_REQ</th>
+                <th style="text-align: left; width: 50%;">PFX_CHALLAN</th>
+                <th style="text-align: left; width: 50%;">PFX_SCHCHALLAN</th>
+                <th style="text-align: left; width: 50%;">PFX_INVOICE</th>
+
                 <th style="text-align: left; width: 50%;">Active</th>
             </tr>
             @try
@@ -30,6 +36,22 @@
                     <tr>
                         <td style="text-align: left">
                             @objModel.AcademicYear
+
+                        </td>
+                        <td style="text-align: left">
+                            @objModel.PFX_REQ
+
+                        </td>
+                        <td style="text-align: left">
+                            @objModel.PFX_CHALLAN
+
+                        </td>
+                        <td style="text-align: left">
+                            @objModel.PFX_SCHCHALLAN
+
+                        </td>
+                        <td style="text-align: left">
+                            @objModel.PFX_INVOICE
 
                         </td>
                         <td style="text-align: left">
