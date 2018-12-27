@@ -12,8 +12,7 @@ namespace SARASWATIPRESSNEW.Controllers
 {
     public class MstAcademicYearController : Controller
     {
-        //
-        // GET: /MstFinYear/
+        
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index()
         {
@@ -44,6 +43,24 @@ namespace SARASWATIPRESSNEW.Controllers
             }
             return View(lstAcademicYear);
             //return View();
+        }
+
+         [HttpPost]
+        public bool UpdateStatus(int acyearid, int val)
+        {
+            try
+            {
+                var flag = objDbTrx.UpdateAcademicYear(acyearid, val);
+
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+                //objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress);
+            }
+            return true;
+
         }
 
     }

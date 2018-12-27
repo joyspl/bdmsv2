@@ -10,6 +10,12 @@
 </div>
 
 <div class="panel-body">
+    <table id="tblBtn" cellpadding="0" class="table" cellspacing="0" border="0" style="width: 100%;">
+        <tr>
+            <td><a href="#" style="width: 120px;" class="btn btn-info btn-block">Add New</a></td>
+            
+        </tr>
+    </table>
 
     <div style="width: 100%; height: 450px; overflow: scroll;">
         <table border="0" style="width: 400px;border: 1px solid black;" class="table">
@@ -28,7 +34,8 @@
                         </td>
                         <td style="text-align: left">
 
-                            @(objModel.ISACTIVE == 1 ? "Yes" : "No")
+                            @*@(objModel.ISACTIVE == 1 ? "Yes" : "No")*@
+                            <input data-acyearid="@objModel.AcademicYearID" class="activeacyear" type="checkbox" @(objModel.ISACTIVE == 1 ? "Checked" : "") />
 
                         </td>
                     </tr>
@@ -46,3 +53,31 @@
 
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('.activeacyear').on('click', function () {
+            //debugger;
+            var ischecked = $(this).prop('checked');
+              //alert(ischecked);
+            var acyearid = $(this).data('acyearid');
+            // alert(acyearid);
+
+            if (ischecked == true)
+            {
+                var activeval = 1;
+            }
+            else {
+                var activeval = 0;
+            }
+            $.ajax({
+                url: '@(Url.Action("UpdateStatus", "MstAcademicYear", new { area = "" }))',
+                type: 'POST',
+                data: { acyearid: acyearid, val: activeval }
+            }).done(function (data) {
+                window.location.href = "@Url.Action("Index", "MstAcademicYear", new { area = "" })";
+            });
+        });
+    });
+
+</script>

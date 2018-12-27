@@ -4345,6 +4345,25 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
+
+        public bool UpdateAcademicYear(int acyearid, int val)
+        {
+            try
+            {
+                bool x = default(bool);
+                using (SqlCommand cmd = new SqlCommand("usp_AcademicYear"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID", acyearid);
+                    cmd.Parameters.AddWithValue("@ISACTIVE", val);
+                    cmd.Parameters.AddWithValue("@Opmode", 5);
+                    objDbUlility.ExNonQuery(cmd);
+                }
+                return x;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
         #endregion [Academic Year]
     }
 }
