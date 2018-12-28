@@ -32,10 +32,6 @@ namespace SARASWATIPRESSNEW.Controllers
                         objAcademicYear.AcademicYearID = Convert.ToInt16(dtAcademicyear.Rows[iCnt]["ID"].ToString());
                         objAcademicYear.AcademicYear = dtAcademicyear.Rows[iCnt]["ACAD_YEAR"].ToString();
                         objAcademicYear.ISACTIVE = Convert.ToInt16(dtAcademicyear.Rows[iCnt]["ISACTIVE"].ToString());
-                        objAcademicYear.PFX_REQ = dtAcademicyear.Rows[iCnt]["PFX_REQ"].ToString();
-                        objAcademicYear.PFX_CHALLAN = dtAcademicyear.Rows[iCnt]["PFX_CHALLAN"].ToString();
-                        objAcademicYear.PFX_SCHCHALLAN = dtAcademicyear.Rows[iCnt]["PFX_SCHCHALLAN"].ToString();
-                        objAcademicYear.PFX_INVOICE = dtAcademicyear.Rows[iCnt]["PFX_INVOICE"].ToString();
                         lstAcademicYear.Add(objAcademicYear);
                     }
                 }
