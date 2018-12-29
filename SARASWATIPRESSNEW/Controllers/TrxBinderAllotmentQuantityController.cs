@@ -21,7 +21,8 @@ namespace SARASWATIPRESSNEW.Controllers
             {
 
                 objBinderAllotQuantity.AllotmentDate = DateTime.Now.ToString("dd-MMM-yyyy").ToUpper();
-                objBinderAllotQuantity.AllotmentCode = "BLR" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "XXXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) +  DateTime.Now.Year.ToString().Substring(2) + "XXXXXXXX").ToString();
+                //objBinderAllotQuantity.AllotmentCode = "BLR" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "XXXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) +  DateTime.Now.Year.ToString().Substring(2) + "XXXXXXXX").ToString();
+                objBinderAllotQuantity.AllotmentCode = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_BINDER, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
                 objBinderAllotQuantity.ID = -1;
             }
             else if (BinderAllotmentId > 0)
@@ -72,7 +73,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 {
                     objBinderAllotQuantity.ReqQty = objBinderAllotQuantity.TotQty / objBinderAllotQuantity.Lot;
                     objBinderAllotQuantity.SaveStatus = 0;
-                    objDbTrx.InsertInBookAllotQty(objBinderAllotQuantity, out  reqGenCode);
+                    objDbTrx.InsertInBookAllotQty(objBinderAllotQuantity, GlobalSettings.oAcademicYear.PFX_BINDER, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out  reqGenCode);
                     TempData["AppMessage"] = "Binder Allotment created successfully and the Allotment code is " + reqGenCode;
                 }
                 else if (objBinderAllotQuantity.ID > 0)

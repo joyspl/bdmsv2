@@ -32,7 +32,8 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {                
                 lst_invCumChal.InvoiceCumChallanDate = DateTime.Now.ToString("dd-MMM-yyyy");
-                lst_invCumChal.InvoiceCumChallanNo = "TBC" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                //lst_invCumChal.InvoiceCumChallanNo = "TBC" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                lst_invCumChal.InvoiceCumChallanNo = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_CHALLAN, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
                 lst_invCumChal.ChallanId = 0;
                 if (Convert.ToString(Session["ChallanId"]) != "")
                 {
@@ -102,7 +103,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         {
                             objInvCumChal.AcadYearId = GlobalSettings.oUserData.AcademicYearId;
                             objInvCumChal.UserId = GlobalSettings.oUserData.UserId;
-                            objDbTrx.InsertInProvisionalChallan(objInvCumChal, out ChallanNo);
+                            objDbTrx.InsertInProvisionalChallan(objInvCumChal, GlobalSettings.oAcademicYear.PFX_CHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
                             TempData["AppMessage"] = "Challan created successfully and the Challan code is " + ChallanNo;
                         }
                         return RedirectToAction("Index", "TrxProvisionalChallanView");

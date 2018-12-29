@@ -141,6 +141,23 @@ namespace SARASWATIPRESSNEW.Controllers
                         }
                         Session["UserSec"] = objUser;
                         GlobalSettings.oUserData = objUser;
+
+                        DataTable dto = objDbTrx.GetAcademicYearByID(objUser.AcademicYearId);
+                        if (dto != null && dto.Rows.Count > default(int))
+                        {
+                            AcademicYear oAcY = new AcademicYear();
+                            oAcY.ACAD_YEAR = dto.Rows[0]["ACAD_YEAR"].ToString();
+                            oAcY.ACAD_YEAR_SHORT = dto.Rows[0]["ACAD_YEAR_SHORT"].ToString();
+                            oAcY.ID = Convert.ToInt32(dto.Rows[0]["ID"].ToString());
+                            oAcY.ISACTIVE = Convert.ToInt32(dto.Rows[0]["ISACTIVE"].ToString());
+                            oAcY.PFX_BINDER = dto.Rows[0]["PFX_BINDER"].ToString();
+                            oAcY.PFX_CHALLAN = dto.Rows[0]["PFX_CHALLAN"].ToString();
+                            oAcY.PFX_INVOICE = dto.Rows[0]["PFX_INVOICE"].ToString();
+                            oAcY.PFX_REQ = dto.Rows[0]["PFX_REQ"].ToString();
+                            oAcY.PFX_SCHCHALLAN = dto.Rows[0]["PFX_SCHCHALLAN"].ToString();
+                            GlobalSettings.oAcademicYear = oAcY;
+                        }
+
                         if (objUser.UserType == "1")//Circle User
                         {
                             Session["BDMSLoginType"] = "CIRCLE";

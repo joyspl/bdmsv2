@@ -30,7 +30,8 @@ namespace SARASWATIPRESSNEW.Controllers
                 if (dtReqView.Rows.Count > 0)
                 {
                     ObjReq.SchoolChallanDate = DateTime.Now.ToString("dd-MMM-yyyy");
-                    ObjReq.SchoolChallanCode = "SCH" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                    //ObjReq.SchoolChallanCode = "SCH" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                    ObjReq.SchoolChallanCode = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_SCHCHALLAN, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
 
                     ObjReq.RequisitionId = Convert.ToInt64(dtReqView.Rows[0]["REQUISITION_ID"].ToString());
                     ObjReq.RequisitionDate = Convert.ToDateTime(dtReqView.Rows[0]["REQUISITION_DATE"].ToString()).ToString("dd-MMM-yyyy hh:mm tt").ToUpper();
@@ -85,7 +86,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 objSchoolChallan.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                 if (objSchoolChallan.SchoolChallanUniqueId == 0)
                 {
-                    objDbTrx.InsertInSchoolChallan(objSchoolChallan, out ChallanNo);
+                    objDbTrx.InsertInSchoolChallan(objSchoolChallan, GlobalSettings.oAcademicYear.PFX_SCHCHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
                 }
                 else if (objSchoolChallan.SchoolChallanUniqueId > 0)
                 {

@@ -864,7 +864,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-        public bool InsertInBookAllotQty(BinderAllotQuantity objBookAllotQty, out string reqGenCode)
+        public bool InsertInBookAllotQty(BinderAllotQuantity objBookAllotQty, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -882,6 +882,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_REQ_QTY", objBookAllotQty.ReqQty);
                     cmd.Parameters.AddWithValue("@in_ACAD_YEAR_ID", objBookAllotQty.AcademicYearID);
                     cmd.Parameters.AddWithValue("@InUserId", objBookAllotQty.UserId);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     var m = objDbUlility.ExNonQuery(cmd);
                     if (m > default(int))
@@ -1677,7 +1679,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-        public bool InsertInRequisition(Requisition objcust, out string reqGenCode)
+        public bool InsertInRequisition(Requisition objcust, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -1693,6 +1695,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@languageID", objcust.LanguageID);
                     cmd.Parameters.AddWithValue("@UserId", objcust.UserId);
                     cmd.Parameters.AddWithValue("@AY_ID", objcust.AY_ID);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
@@ -3185,7 +3189,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-        public bool InsertInProvisionalChallan(InvoiceCumChallan objInvCumChal, out string reqGenCode)
+        public bool InsertInProvisionalChallan(InvoiceCumChallan objInvCumChal, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -3204,6 +3208,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
                     cmd.Parameters.AddWithValue("@InAcadYearId", objInvCumChal.AcadYearId);
                     cmd.Parameters.AddWithValue("@ManualChallanNo", objInvCumChal.ManualChallanNo);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     var m = objDbUlility.ExNonQuery(cmd);
                     if (m > default(int))
@@ -3674,7 +3680,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         #endregion
 
         #region School Challan
-        public bool InsertInSchoolChallan(SchoolChallan objSchoolChallan, out string reqGenCode)
+        public bool InsertInSchoolChallan(SchoolChallan objSchoolChallan, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -3689,6 +3695,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_ChallanDate", Convert.ToDateTime(objSchoolChallan.SchoolChallanDate));
                     cmd.Parameters.AddWithValue("@UserId", objSchoolChallan.UserId);
                     cmd.Parameters.AddWithValue("@AY_ID", objSchoolChallan.AY_ID);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objSchoolChallan.trxSchoolChallanBookReqDtl);

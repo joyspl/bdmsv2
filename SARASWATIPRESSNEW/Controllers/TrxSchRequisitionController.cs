@@ -194,7 +194,7 @@ namespace SARASWATIPRESSNEW.Controllers
                 {
                     objRequisition.SaveStatus = "1";
                     //objDbTrx.InsertInSchRequisition(objSchRequisition, out  reqGenCode);
-                    objDbTrx.InsertInRequisition(objRequisition, out reqGenCode);
+                    objDbTrx.InsertInRequisition(objRequisition, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out reqGenCode);
                     TempData["AppMessage"] = "Requisition created successfully and the requisition code is " + reqGenCode;
                 }
                 else if (objRequisition.RequisitionID > 0)
@@ -527,7 +527,8 @@ namespace SARASWATIPRESSNEW.Controllers
             if (ReqisitionId == null || ReqisitionId <= 0)
             {
                 objSchRequisition.RequisitionDate = DateTime.Now.ToString("dd-MMM-yyyy").ToUpper();
-                objSchRequisition.RequisitionCode = "REQ/XX/XXXXXXX";
+                //objSchRequisition.RequisitionCode = "REQ/XX/XXXXXXX";
+                objSchRequisition.RequisitionCode = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_REQ, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
                 objSchRequisition.RequisitionID = -1;
             }
             else if (ReqisitionId > 0)

@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace SARASWATIPRESSNEW.Controllers
 {
-    [SessionAuthorize]
+    //[SessionAuthorize]
     public class ForgotPasswordController : Controller
     {
         

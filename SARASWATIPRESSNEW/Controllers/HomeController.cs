@@ -60,7 +60,7 @@ namespace SARASWATIPRESSNEW.Controllers
                             objcust.UserId = UserId;
                             string reqGenCode = "";
                             objcust.AY_ID = GlobalSettings.oUserData.AcademicYearId;
-                            objDbTrx.InsertInRequisition(objcust, out  reqGenCode);
+                            objDbTrx.InsertInRequisition(objcust, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out  reqGenCode);
                             return RedirectToAction("Index", "RequisionView");                                
                         }
                         catch (Exception ex) { objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress); }
