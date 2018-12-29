@@ -31,7 +31,8 @@ namespace SARASWATIPRESSNEW.Controllers
             try
             {
                 lst_invCumChal.InvoiceCumChallanDate = DateTime.Now.ToString("dd-MMM-yyyy");
-                lst_invCumChal.InvoiceCumChallanNo = "TBC" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                //lst_invCumChal.InvoiceCumChallanNo = "TBC" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+                lst_invCumChal.InvoiceCumChallanNo = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_CHALLAN, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
                 lst_invCumChal.ChallanId = 0;
                 if (Convert.ToString(Session["ChallanId"]) != "")
                 {
@@ -118,7 +119,7 @@ namespace SARASWATIPRESSNEW.Controllers
 
                 else
                 {
-                    objDbTrx.InsertInChallan(objInvoiceCumChallan, out ChallanNo);
+                    objDbTrx.InsertInChallan(objInvoiceCumChallan, GlobalSettings.oAcademicYear.PFX_CHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
                     //objDbTrx.InsertInChallanNew(objInvoiceCumChallan, barcodeList, duplicatebarcodeList, out ChallanNo);
                 }
 
@@ -153,7 +154,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         else
                         {
                             objInvCumChal.UserId = Convert.ToString(Session["sp_user_name"]);
-                            objDbTrx.InsertInChallan(objInvCumChal, out ChallanNo);
+                            objDbTrx.InsertInChallan(objInvCumChal, GlobalSettings.oAcademicYear.PFX_CHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
 
                         }
 
@@ -370,7 +371,8 @@ namespace SARASWATIPRESSNEW.Controllers
             int intChallanID = default(int);
             try
             {
-                var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
+                //var userSessionObject = Session["UserSec"] != null ? GlobalSettings.oUserData : new UserSec();
+                var userSessionObject =GlobalSettings.oUserData;
                 if (string.IsNullOrEmpty(userSessionObject.UserId))
                 {
                     throw new Exception("Session timed out. Please login again.");

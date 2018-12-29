@@ -3156,7 +3156,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
-        public bool InsertInChallan(InvoiceCumChallan objInvCumChal, out string reqGenCode)
+        public bool InsertInChallan(InvoiceCumChallan objInvCumChal, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -3176,6 +3176,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_VEHICLE_NO", objInvCumChal.VEHICLE_NO);
                     cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
                     cmd.Parameters.AddWithValue("@AY_ID", objInvCumChal.AY_ID);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);
@@ -3252,7 +3254,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             finally { }
         }
 
-        public bool InsertInChallanNew(InvoiceCumChallan objInvCumChal, string barcodes, string duplicatebarcodes, out string reqGenCode)
+        public bool InsertInChallanNew(InvoiceCumChallan objInvCumChal, string barcodes, string duplicatebarcodes, string format, int formatcount, out string reqGenCode)
         {
             try
             {
@@ -3273,6 +3275,9 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@UserId", objInvCumChal.UserId);
                     cmd.Parameters.AddWithValue("@Barcodes", barcodes);
                     cmd.Parameters.AddWithValue("@duplicatebarcodes", duplicatebarcodes);
+                    cmd.Parameters.AddWithValue("@AY_ID", objInvCumChal.AY_ID);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     //cmd.Parameters["trx_requisition_dtl_xml"].Value = GenerateToXml(objInvCumChal.InvoiceCumChallanCollection);

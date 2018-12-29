@@ -118,7 +118,7 @@ namespace SARASWATIPRESSNEW.Controllers
         }
 
         [NonAction]
-        private void PrepareAndInsertDataForBinderAllotQtyDtl(string[] ChallanIds, string ChallanNo, string userId)
+        private void PrepareAndInsertDataForBinderAllotQtyDtl(string[] ChallanIds, string ChallanNo, string userId, int padcount)
         {
             foreach (var chr in ChallanIds)
             {
@@ -152,13 +152,13 @@ namespace SARASWATIPRESSNEW.Controllers
                         int EndNo = objBinderAllotQuantity.ReqQty;
                         for (int iCnt = StartNo; iCnt <= EndNo; iCnt++)
                         {
-                            var code = string.Format("{0}{1}", objBinderAllotQuantity.AllotmentCode, Convert.ToInt64(iCnt.ToString().PadLeft(8, '0')).ToString().PadLeft(3, '0'));
+                            var code = string.Format("{0}{1}", objBinderAllotQuantity.AllotmentCode, Convert.ToInt64(iCnt.ToString().PadLeft((padcount + 1), '0')).ToString().PadLeft(3, '0'));
                             lstDtl.Add(new BinderAllotQuantityDtlMinimal()
                             {
                                 //BINDER_ALLOT_ID = objBinderAllotQuantity.ID,
                                 BINDER_ALLOT_CODE = code,
                                 //BINDER_SHORT_CODE = objBinderAllotQuantity.BinderShortCode,
-                                STICKER_CODE = iCnt.ToString().PadLeft(8, '0'),
+                                STICKER_CODE = iCnt.ToString().PadLeft((padcount + 1), '0'),
                                 //CHALLAN_ID = default(int),
                                 //BOOK_CODE = objBinderAllotQuantity.BookCode,
                                 //SCANNED_STATUS = default(int),
@@ -609,10 +609,11 @@ namespace SARASWATIPRESSNEW.Controllers
                 if (ChallanIds != null && ChallanIds.Count() > default(int))
                 {
                     distinctChallanIds = ChallanIds.Distinct().ToArray();
-                    var userId = Session["UserSec"] != null ? GlobalSettings.oUserData.UserId : string.Empty;
+                    var userId = GlobalSettings.oUserData.UserId;
+                    var padcount = GlobalSettings.oAcademicYear.FormatNumberPaddingCount;
                     System.Threading.ThreadPool.QueueUserWorkItem(s =>
                     {
-                        PrepareAndInsertDataForBinderAllotQtyDtl(distinctChallanIds, "", userId);
+                        PrepareAndInsertDataForBinderAllotQtyDtl(distinctChallanIds, "", userId, padcount);
                     });
                 }
 
