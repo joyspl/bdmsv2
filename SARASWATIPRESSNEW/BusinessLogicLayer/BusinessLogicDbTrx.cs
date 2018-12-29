@@ -3833,7 +3833,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         #endregion
 
         #region Invoice
-        public bool InsertInInvoice(Invoice objInvoice, out string reqGenCode, out string retInvoiceId)
+        public bool InsertInInvoice(Invoice objInvoice, string format, int formatcount, out string reqGenCode, out string retInvoiceId)
         {
             try
             {
@@ -3848,6 +3848,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@in_CategoryId", objInvoice.CategoryId);
                     cmd.Parameters.AddWithValue("@UserId", objInvoice.UserId);
                     cmd.Parameters.AddWithValue("@AY_ID", objInvoice.AY_ID);
+                    cmd.Parameters.AddWithValue("@Format", format);
+                    cmd.Parameters.AddWithValue("@FormatCount", formatcount);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@retInvoiceId", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     var m = objDbUlility.ExNonQuery(cmd);

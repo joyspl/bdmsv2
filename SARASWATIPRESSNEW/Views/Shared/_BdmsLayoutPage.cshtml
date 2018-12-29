@@ -38,7 +38,7 @@
     {
         Response.Redirect(Url.Action("Index", "CircleUserEdit"));
     }
-    if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "LOGISTIC" && !Request.Url.AbsolutePath.Contains("InvoiceCumChallanReqList"))
+    if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.LOGISTIC && !Request.Url.AbsolutePath.Contains("InvoiceCumChallanReqList"))
     {
         Response.Redirect(Url.Action("Index", "InvoiceCumChallanReqList"));
     }
@@ -98,7 +98,7 @@
                     <a href='javascript:void(0);'>WB Text Book</a>
                     <a href='#' class='x-navigation-control'></a>
                 </li>
-                @if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "ADMIN")
+                @if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.ADMIN)
                 {
                     <li class='xn-profile'>
                         <div class='profile'>
@@ -126,7 +126,7 @@
         <li class="@(ViewBag.Active == "AdminSummaryReport" ? "active" : "")"><a href='/AdminSummaryReport/Index'><span class='fa fa-image'></span>Summary Report</a></li>
         <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Log out</a></li>
     }
-    else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
+    else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.CIRCLE)
     {
         <li class='xn-profile'>
             <div class='profile'>
@@ -150,7 +150,7 @@
                     <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li> 
                     <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
                 }
-                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CHALLAN")
+                else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.CHALLAN)
                 {
                     <li class='xn-profile'>
                         <div class='profile'>
@@ -181,7 +181,7 @@
                     <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
                     <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
                 }
-                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "DIRECORATE")
+                else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.DIRECTORATE)
                 {
                     <li class='xn-profile'>
                         <div class='profile'>
@@ -198,7 +198,7 @@
                     <li><a href='/DirectorateHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
                     <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
                 }
-                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "DISTRICT")
+                else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.DISTRICT)
                 {
                     <li class='xn-profile'>
                         <div class='profile'>
@@ -214,7 +214,7 @@
                     <li><a href='/DistrictHelp/Index'><span class='fa fa-image'></span>Help</a></li>                
                     <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
                 }
-                else if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "LOGISTIC")
+                else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.LOGISTIC)
                 {
                     <li class='xn-profile'>
                         <div class='profile'>
@@ -262,24 +262,24 @@
                                 <table width="100%" border="0">
                                     @try
                                     {
-                                        if (System.Web.HttpContext.Current.Session["BDMSLoginType"] == "CIRCLE")
+                                        if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.CIRCLE)
                                         {
                                         <tr>
                                             <td style="width: 15%;">District Name</td>
-                                            <td style="width: 20%;">@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DistrictNname)</td>
+                                            <td style="width: 20%;">@Html.Label(GlobalSettings.oUserData.DistrictNname)</td>
                                             <td style="width: 15%;">Circle Name</td>
-                                            <td style="width: 20%;">@Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).CircleName)</td>
-                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DisplayName)</td>*@
+                                            <td style="width: 20%;">@Html.Label(GlobalSettings.oUserData.CircleName)</td>
+                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(GlobalSettings.oUserData.DisplayName)</td>*@
                                         </tr>
                                         }
                                         else
                                         {
                                         <tr>
-                                            <td style="width: 15%;"><span class='fa fa-user'></span>&nbsp; User Id :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).UserId)</td>
+                                            <td style="width: 15%;"><span class='fa fa-user'></span>&nbsp; User Id :&nbsp; @Html.Label(GlobalSettings.oUserData.UserId)</td>
                                             <td style="width: 20%;">&nbsp;</td>
                                             <td style="width: 15%;">&nbsp;</td>
                                             <td style="width: 20%;">&nbsp;</td>
-                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(((SARASWATIPRESSNEW.UserSec)System.Web.HttpContext.Current.Session["UserSec"]).DisplayName)</td>*@
+                                            @*<td style="width: 20%;"><span class='fa fa-user'></span>&nbsp; Welcome :&nbsp; @Html.Label(GlobalSettings.oUserData.DisplayName)</td>*@
                                         </tr>
                                         }
                                     }

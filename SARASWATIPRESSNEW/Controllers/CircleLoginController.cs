@@ -144,38 +144,45 @@ namespace SARASWATIPRESSNEW.Controllers
                         if (objUser.UserType == "1")//Circle User
                         {
                             Session["BDMSLoginType"] = "CIRCLE";
+                            GlobalSettings.oUserData.vUserRole = UserRole.CIRCLE;
                         }
                         else if (objUser.UserType == "2")//District
                         {
                             Session["BDMSLoginType"] = "DISTRICT";
+                            GlobalSettings.oUserData.vUserRole = UserRole.DISTRICT;
                             return RedirectToAction("Index", "SchRequisitionApproval");
                         }
                         else if (objUser.UserType == "3") //ADMIN
                         {
                             Session["BDMSLoginType"] = "ADMIN";
+                            GlobalSettings.oUserData.vUserRole = UserRole.ADMIN;
                         }
                         else if (objUser.UserType == "4") //TB Login
                         {
                             Session["BDMSLoginType"] = "TBLOGIN";
+                            GlobalSettings.oUserData.vUserRole = UserRole.TBLOGIN;
                         }
                         else if (objUser.UserType == "5") //DIRECORATE
                         {
                             Session["BDMSLoginType"] = "DIRECORATE";
+                            GlobalSettings.oUserData.vUserRole = UserRole.DIRECTORATE;
                             return RedirectToAction("Index", "SchRequisitionApproval");
                         }
                         else if (objUser.UserType == "6") //TRANSPORTER
                         {
                             Session["BDMSLoginType"] = "TRANSPORTER";
+                            GlobalSettings.oUserData.vUserRole = UserRole.TRANSPORTER;
                         }
                         else if (objUser.UserType == "7") //TRANSPORTER
                         {
                             Session["BDMSLoginType"] = "CHALLAN";
+                            GlobalSettings.oUserData.vUserRole = UserRole.CHALLAN;
                             return RedirectToAction("Index", "LandingPage");
                         }
                         else if (objUser.UserType == "11") //Logistic User For Challan
                         {
                             Session["BDMSLoginType"] = "LOGISTIC";
-
+                            GlobalSettings.oUserData.vUserRole = UserRole.LOGISTIC;
                         }
 
                         /*if (isNavigateToUpdateProfile)

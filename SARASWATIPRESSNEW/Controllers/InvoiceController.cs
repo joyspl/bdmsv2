@@ -20,7 +20,8 @@ namespace SARASWATIPRESSNEW.Controllers
         {
             Invoice objInvoice = new Invoice();
             objInvoice.InvoiceId = 0;
-            objInvoice.InvoiceNo = "INV" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+            //objInvoice.InvoiceNo = "INV" + (DateTime.Now.Month >= 4 ? DateTime.Now.Year.ToString().Substring(2) + "-" + (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) + 1) + "-XXXXXXX" : (Convert.ToInt32(DateTime.Now.Year.ToString().Substring(2)) - 1) + "-" + DateTime.Now.Year.ToString().Substring(2) + "-XXXXXXX").ToString();
+            objInvoice.InvoiceNo = string.Format("{0}{1}", GlobalSettings.oAcademicYear.PFX_INVOICE, new String('X', GlobalSettings.oAcademicYear.FormatNumberPaddingCount));
             objInvoice.InvoiceDate = DateTime.Now.ToString("dd-MMM-yyyy");
             try
             {
@@ -114,7 +115,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         if (InvoiceId == "0")
                         {
                             
-                            objDbTrx.InsertInInvoice(objInvoice, out GenInvoiceNo, out retInvoiceId);
+                            objDbTrx.InsertInInvoice(objInvoice, GlobalSettings.oAcademicYear.PFX_INVOICE, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out GenInvoiceNo, out retInvoiceId);
                             objInvoice.InvoiceNo = GenInvoiceNo;
                             objInvoice.InvoiceId = Convert.ToInt64(retInvoiceId);
                             objInvoice.UpdateCode = "NEW";

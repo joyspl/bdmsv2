@@ -20,4 +20,18 @@ public static class GlobalSettings
             HttpContext.Current.Session["oUserData"] = value;
         }
     }
+    public static AcademicYear oAcademicYear
+    {
+        get
+        {
+            if (HttpContext.Current.Session["oAcademicYear"] != null)
+                return HttpContext.Current.Session["oAcademicYear"] as AcademicYear;
+            else
+                return new AcademicYear();
+        }
+        set
+        {
+            HttpContext.Current.Session["oAcademicYear"] = value;
+        }
+    }
 }

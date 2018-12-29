@@ -10,5 +10,11 @@ namespace SARASWATIPRESSNEW.Models
         public int AcademicYearID { get; set; }
         public string AcademicYear { get; set; }
         public int ISACTIVE { get; set; }
+        public string PFX_REQ { get; set; }
+        public string PFX_CHALLAN { get; set; }
+        public string PFX_SCHCHALLAN { get; set; }
+        public string PFX_INVOICE { get; set; }
+        public string ACAD_YEAR_SHORT { get; set; }
+        public string PFX_BINDER { get; set; }
     }
 }
