@@ -86,13 +86,14 @@ namespace SARASWATIPRESSNEW.Controllers
                 objSchoolChallan.AY_ID = GlobalSettings.oUserData.AcademicYearId;
                 if (objSchoolChallan.SchoolChallanUniqueId == 0)
                 {
-                    objDbTrx.InsertInSchoolChallan(objSchoolChallan, GlobalSettings.oAcademicYear.PFX_SCHCHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
+                    var inresult = objDbTrx.InsertInSchoolChallan(objSchoolChallan, GlobalSettings.oAcademicYear.PFX_SCHCHALLAN, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out ChallanNo);
+                    if (inresult)
+                        objDbTrx.AutoMapBookCodeForSchReq();
                 }
                 else if (objSchoolChallan.SchoolChallanUniqueId > 0)
                 {
                     objDbTrx.UpdateInSchoolChallan(objSchoolChallan);                
                 }               
-
             }
             catch (Exception ex) { objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress); }
             return RedirectToAction("Index", "SchoolChallanView");   

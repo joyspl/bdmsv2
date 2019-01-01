@@ -3684,6 +3684,26 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 
         #endregion
 
+        #region [Auto SP Execution Logic]
+        public bool AutoMapBookCodeForSchReq()
+        {
+            var finres = default(bool);
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_AutoMapBookCodeForSchReq"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var result = objDbUlility.ExNonQuery(cmd);
+                    if (result > default(int))
+                        finres = true;
+                }
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+            return finres;
+        }
+        #endregion [Auto SP Execution Logic]
+
         #region School Challan
         public bool InsertInSchoolChallan(SchoolChallan objSchoolChallan, string format, int formatcount, out string reqGenCode)
         {
