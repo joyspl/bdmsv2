@@ -11,7 +11,7 @@ namespace SARASWATIPRESSNEW.Controllers
 {
     [SessionAuthorize]
     public class SchoolChallanController : Controller
-    {       
+    {
         BusinessLogicDbTrx objDbTrx = new BusinessLogicDbTrx();
         public ActionResult Index()
         {
@@ -43,13 +43,13 @@ namespace SARASWATIPRESSNEW.Controllers
                     ObjReq.Language = Convert.ToString(dtReqView.Rows[0]["LANGUAGE"].ToString());
                     ObjReq.Category = Convert.ToString(dtReqView.Rows[0]["BOOK_CATEGORY"].ToString());
 
-                     if (dtReqView.Rows[0]["SCH_CHALLAN_CODE"].ToString() != "")
-                     {
-                         ObjReq.SchoolChallanCode = Convert.ToString(dtReqView.Rows[0]["SCH_CHALLAN_CODE"].ToString());
-                         ObjReq.SchoolChallanDate = Convert.ToDateTime(dtReqView.Rows[0]["SCH_CHALLAN_DATE"].ToString()).ToString("dd-MMM-yyyy");
-                     }
-                    
-                     
+                    if (dtReqView.Rows[0]["SCH_CHALLAN_CODE"].ToString() != "")
+                    {
+                        ObjReq.SchoolChallanCode = Convert.ToString(dtReqView.Rows[0]["SCH_CHALLAN_CODE"].ToString());
+                        ObjReq.SchoolChallanDate = Convert.ToDateTime(dtReqView.Rows[0]["SCH_CHALLAN_DATE"].ToString()).ToString("dd-MMM-yyyy");
+                    }
+
+
                     List<SchoolChallanBookReqDtl> ObjlstChallan = new List<SchoolChallanBookReqDtl>();
                     for (int iCnt = 0; iCnt < dtReqView.Rows.Count; iCnt++)
                     {
@@ -63,6 +63,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         objChDtl.RequisitionQuantity = Convert.ToInt64(dtReqView.Rows[iCnt]["REQ_QTY"].ToString());
                         //06-12-2018 -- Changeed by Anik Sen
                         objChDtl.AvailableStockQuantity = (Convert.ToInt64(dtReqView.Rows[iCnt]["QTY_RECEIVED"].ToString()) + Convert.ToInt64(dtReqView.Rows[iCnt]["STOCK_QTY"].ToString())) - Convert.ToInt64(dtReqView.Rows[iCnt]["ALREADY_SHIPPED"].ToString());
+                        objChDtl.AvailableStockQuantity = objChDtl.AvailableStockQuantity > default(long) ? objChDtl.AvailableStockQuantity : default(long);
                         objChDtl.AlreadyShippedQuantity = Convert.ToInt64(dtReqView.Rows[iCnt]["ALREADY_SHIPPED"].ToString());
                         objChDtl.QuantityForShipping = Convert.ToInt64(dtReqView.Rows[iCnt]["QTY_FOR_SHIPPING"].ToString());
                         objChDtl.QtyReceived = Convert.ToInt64(dtReqView.Rows[iCnt]["QTY_RECEIVED"].ToString());
@@ -75,11 +76,29 @@ namespace SARASWATIPRESSNEW.Controllers
             catch (Exception ex) { objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress); }
             return View(ObjReq);
         }
-         [HttpPost]
+
+        [HttpPost]
         public ActionResult CreateChallan(SchoolChallan objSchoolChallan)
-        {            
+        {
+            bool cc = default(bool);
             try
             {
+                if (objSchoolChallan != null && objSchoolChallan.trxSchoolChallanBookReqDtl != null && objSchoolChallan.trxSchoolChallanBookReqDtl.Count() > default(int))
+                {
+                    foreach (var tx in objSchoolChallan.trxSchoolChallanBookReqDtl)
+                    {
+                        var minresult = (tx.AvailableStockQuantity - tx.AlreadyShippedQuantity);
+                        if (tx.QuantityForShipping > minresult)
+                        {
+                            cc = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (cc)
+                    throw new Exception("Quantity for shipping is greater than available stock. Please check your entries before submit.");
+
                 string ChallanNo = "";
                 //objSchoolChallan.UserId = GlobalSettings.oUserData.UserId;
                 objSchoolChallan.UserId = GlobalSettings.oUserData.UserId;
@@ -92,22 +111,31 @@ namespace SARASWATIPRESSNEW.Controllers
                 }
                 else if (objSchoolChallan.SchoolChallanUniqueId > 0)
                 {
-                    objDbTrx.UpdateInSchoolChallan(objSchoolChallan);                
-                }               
+                    objDbTrx.UpdateInSchoolChallan(objSchoolChallan);
+                }
             }
             catch (Exception ex) { objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress); }
-            return RedirectToAction("Index", "SchoolChallanView");   
+
+            if (cc)
+            {
+                TempData["strStockErrorMessage"] = "Quantity for shipping is greater than available stock. Please check your entries before submit.";
+                return RedirectToAction("Index", "SchoolChallan");
+            }
+            else
+            {
+                return RedirectToAction("Index", "SchoolChallanView");
+            }
         }
-        public ActionResult CreateSchoolChallan(string ReqId,string SchChallanId)
+        public ActionResult CreateSchoolChallan(string ReqId, string SchChallanId)
         {
             TempData["ID"] = ReqId;
-            TempData["SchChallanId"] = SchChallanId;     
-            return RedirectToAction("CreateChallan", "SchoolChallan");            
+            TempData["SchChallanId"] = SchChallanId;
+            return RedirectToAction("CreateChallan", "SchoolChallan");
         }
         [HttpPost]
         public JsonResult GetReqViewData(string SchoolId, string startDate, string endDate)
         {
-            List<SchoolChallan> objReq = new List<SchoolChallan>(); 
+            List<SchoolChallan> objReq = new List<SchoolChallan>();
             try
             {
                 string CircleId = "-1";
@@ -125,7 +153,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         rq.SchoolName = Convert.ToString(dtReqView.Rows[iCnt]["SCHOOL_NAME"].ToString());
                         rq.SchoolCode = Convert.ToString(dtReqView.Rows[iCnt]["SCHOOL_CODE"].ToString());
                         rq.Language = Convert.ToString(dtReqView.Rows[iCnt]["LANGUAGE"].ToString());
-                        rq.Category = Convert.ToString(dtReqView.Rows[iCnt]["BOOK_CATEGORY"].ToString());                       
+                        rq.Category = Convert.ToString(dtReqView.Rows[iCnt]["BOOK_CATEGORY"].ToString());
                         objReq.Add(rq);
                     }
                 }
@@ -154,7 +182,7 @@ namespace SARASWATIPRESSNEW.Controllers
                     {
                         School objSchool = new School();
                         objSchool.SchoolID = Convert.ToInt64(dt.Rows[iCnt]["ID"].ToString());
-                        objSchool.School_name = dt.Rows[iCnt]["SCHOOL_NAME"].ToString() +" - "+dt.Rows[iCnt]["SCHOOL_CODE"].ToString();
+                        objSchool.School_name = dt.Rows[iCnt]["SCHOOL_NAME"].ToString() + " - " + dt.Rows[iCnt]["SCHOOL_CODE"].ToString();
                         //objSchool.School_Code = Convert.ToString(dt.Rows[iCnt]["SCHOOL_CODE"].ToString());
                         ObjLstSchool.Add(objSchool);
                     }

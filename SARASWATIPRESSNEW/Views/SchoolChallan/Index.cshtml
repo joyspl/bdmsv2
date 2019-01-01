@@ -2,6 +2,13 @@
 @{
     ViewBag.Title = "School Challan";
     Layout = "~/Views/Shared/_BdmsLayoutPage.cshtml";
+    
+    string msgMaster = "";
+    try
+    {
+        msgMaster = TempData["strStockErrorMessage"].ToString();
+    }
+    catch { }
 }
 <head>
     <!-- META SECTION -->
@@ -17,7 +24,13 @@
     <script src="~/Scripts/AppJs/MainAppJs.js"></script>
     <script src="~/Scripts/AppJs/SchoolChallan.js"></script>
     <script type="text/javascript">
+        var msgM = "@(msgMaster)";
+
         $(document).ready(function () {
+            if (msgM != "") {
+                alert(msgM);
+            }
+
             $("#txtStartDate").datepicker({
                 dateFormat: 'dd-M-yy'
             }).datepicker('setDate', new Date(new Date().setDate(new Date().getDate() - 365))); // previous 60 days.modified on 16-11-18
