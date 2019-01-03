@@ -194,7 +194,11 @@ namespace SARASWATIPRESSNEW.Controllers
                 {
                     objRequisition.SaveStatus = "1";
                     //objDbTrx.InsertInSchRequisition(objSchRequisition, out  reqGenCode);
-                    objDbTrx.InsertInRequisition(objRequisition, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out reqGenCode);
+                    var result = objDbTrx.InsertInRequisition(objRequisition, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out reqGenCode);
+                    if (result)
+                    {
+                        objDbTrx.AutoMapBookCode();
+                    }
                     TempData["AppMessage"] = "Requisition created successfully and the requisition code is " + reqGenCode;
                 }
                 else if (objRequisition.RequisitionID > 0)
@@ -202,7 +206,11 @@ namespace SARASWATIPRESSNEW.Controllers
                     reqGenCode = objRequisition.ReqSessionCode;
                     objRequisition.SaveStatus = objSchRequisition.CircleID > default(int) ? objRequisition.SaveStatus : "0";
                     //objDbTrx.UpdateInSchRequisition(objSchRequisition);
-                    objDbTrx.UpdateInRequisition(objRequisition);
+                    var result = objDbTrx.UpdateInRequisition(objRequisition);
+                    if (result)
+                    {
+                        objDbTrx.AutoMapBookCode();
+                    }
                     TempData["AppMessage"] = "Requisition updated successfully for the requisition code is " + reqGenCode;
                 }
 

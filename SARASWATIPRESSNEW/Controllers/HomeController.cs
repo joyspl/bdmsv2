@@ -60,7 +60,11 @@ namespace SARASWATIPRESSNEW.Controllers
                             objcust.UserId = UserId;
                             string reqGenCode = "";
                             objcust.AY_ID = GlobalSettings.oUserData.AcademicYearId;
-                            objDbTrx.InsertInRequisition(objcust, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out  reqGenCode);
+                            var result = objDbTrx.InsertInRequisition(objcust, GlobalSettings.oAcademicYear.PFX_REQ, GlobalSettings.oAcademicYear.FormatNumberPaddingCount, out  reqGenCode);
+                            if (result)
+                            {
+                                objDbTrx.AutoMapBookCode();
+                            }
                             return RedirectToAction("Index", "RequisionView");                                
                         }
                         catch (Exception ex) { objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress); }
@@ -71,7 +75,11 @@ namespace SARASWATIPRESSNEW.Controllers
                         objcust.RequisitionID = Convert.ToInt64(ReqSessionCode);
                         objcust.CircleID = Convert.ToInt32(CircleId);
                         objcust.UserId = UserId;
-                        objDbTrx.UpdateInRequisition(objcust);
+                        var result = objDbTrx.UpdateInRequisition(objcust);
+                        if (result)
+                        {
+                            objDbTrx.AutoMapBookCode();
+                        }
                     }
                     else
                     {

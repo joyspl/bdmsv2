@@ -1681,6 +1681,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         }
         public bool InsertInRequisition(Requisition objcust, string format, int formatcount, out string reqGenCode)
         {
+            int rescount = default(int);
+            bool result = default(bool);
             try
             {
                 var removeList = new List<int>() { 0 };
@@ -1700,11 +1702,12 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@reqGenCode", SqlDbType.NVarChar, 20).Direction = ParameterDirection.Output;
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
-                    objDbUlility.ExNonQuery(cmd);
-                   
+                    rescount = objDbUlility.ExNonQuery(cmd);
+                    if (rescount > default(int))
+                        result = true;
                     reqGenCode = cmd.Parameters["@reqGenCode"].Value.ToString();
                 }
-                return true;
+                return result;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -1712,6 +1715,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 
         public bool UpdateInRequisition(Requisition objcust)
         {
+            int rescount = default(int);
+            bool result = default(bool);
             try
             {
                 var removeList = new List<int>() { 0 };
@@ -1729,11 +1734,11 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                     cmd.Parameters.AddWithValue("@SavedStatus", Convert.ToInt32(!string.IsNullOrEmpty(objcust.SaveStatus) ? objcust.SaveStatus : default(int).ToString()));
                     cmd.Parameters.Add("trx_requisition_dtl_xml", SqlDbType.NVarChar);
                     cmd.Parameters["trx_requisition_dtl_xml"].Value = Utility.CreateXmlTraditional(Utility.ToDataTable<RequisitionTrxDtl>(objcust.reqTrxCollection)).InnerXml;
-
-                    objDbUlility.ExNonQuery(cmd);
-                    
+                    rescount = objDbUlility.ExNonQuery(cmd);
+                    if (rescount > default(int))
+                        result = true;
                 }
-                return true;
+                return result;
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
@@ -3691,6 +3696,24 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             try
             {
                 using (SqlCommand cmd = new SqlCommand("usp_AutoMapBookCodeForSchReq"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var result = objDbUlility.ExNonQuery(cmd);
+                    if (result > default(int))
+                        finres = true;
+                }
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+            return finres;
+        }
+
+        public bool AutoMapBookCode()
+        {
+            var finres = default(bool);
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_AutoMapBookCode"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     var result = objDbUlility.ExNonQuery(cmd);

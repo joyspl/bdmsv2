@@ -1233,6 +1233,7 @@
     <Content Include="Help\DistrictHelp\DistrictHelp.PDF" />
     <Content Include="Help\DirectorateHelp\BOOKPDF.zip" />
     <None Include="Properties\PublishProfiles\bd.pubxml" />
+    <None Include="Properties\PublishProfiles\bd2.pubxml" />
     <None Include="Properties\PublishProfiles\BDMS_V2.pubxml" />
     <None Include="Properties\PublishProfiles\WB_Pub.pubxml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
