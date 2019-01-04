@@ -1232,6 +1232,7 @@
     <Content Include="Help\DirectorateHelp\DirectorateHelp.pdf" />
     <Content Include="Help\DistrictHelp\DistrictHelp.PDF" />
     <Content Include="Help\DirectorateHelp\BOOKPDF.zip" />
+    <Content Include="Help\CircleHelp\Shoe.PDF" />
     <None Include="Properties\PublishProfiles\bd.pubxml" />
     <None Include="Properties\PublishProfiles\bd2.pubxml" />
     <None Include="Properties\PublishProfiles\BDMS_V2.pubxml" />

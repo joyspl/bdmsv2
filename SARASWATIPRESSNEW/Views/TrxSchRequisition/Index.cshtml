@@ -111,10 +111,14 @@
                     }
                     else {
                         HtmlItems = "<option value='-1'><<----Select Medium----->></option>";
+                        // ADD FOR SHOE REQUISITION
+                        HtmlItems += "<option value='12'>All Medium</option>";
                     }
-                    $.each(data, function (i, item) {
-                        HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
-                    });
+                    // COMMENT FOR SHOE REQUISITION 
+
+                    //$.each(data, function (i, item) {
+                    //    HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                    //});
                     $('#ddlLanguageName').html(HtmlItems);
                     var LanguageID = $("#hdLanguageID").val()
                     if (LanguageID > 0) {
@@ -510,7 +514,9 @@ catch
                         @Html.HiddenFor(a => a.MstLanguage.LanguageID, new { @id = "hdnLanguage" })
                     }
                     @Html.DropDownListFor(a => a.MstLanguage.LanguageID, new SelectList(Enumerable.Empty<SelectListItem>(), "LanguageID", "LanguageName"), "<<--Select Medium-->>", new { @id = "ddlLanguageName", @style = "width:60%", @class = "form-control select2" })
+                    <br><p> <font color="red"><strong>SELECT "ALL MEDIUM" FOR SHOE REQUISITION</strong></font></p>
                 </td>
+               
             </tr>
         </table>
 
