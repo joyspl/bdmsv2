@@ -135,20 +135,20 @@
                 </div>
             </div>
         </li>
-        <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
-        <li class="@(ViewBag.Active == "MstSchoolView" ? "active" : "")"><a href='/MstSchoolView/Index'><span class='fa fa-edit'></span>School Master</a></li>
-        <li class="@(ViewBag.Active == "TrxSchRequisition" ? "active" : "")"><a href='/TrxSchRequisition/Index'><span class='fa fa-edit'></span>New Requisition</a></li>
-        <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
-        @*<li><a href='/StockUpdate/Index'><span class='fa fa-image'></span>Stock Update</a></li>*@
-                    <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requisition Report - After Directorate Approval</a></li>
-                    <li><a href='/MisReport/Index'><span class='fa fa-image'></span>Requisition Report - After Circle Confirmation</a></li>
-                    @*<li><a href='/InterCircleTrnf/Index'><span class='fa fa-image'></span>Inter Circle Transfer</a></li>*@
-                    <li><a href='/ChallanReceivedAtCircle/index'><span class='fa fa-image'></span>Receive Challan</a></li>
-                    <li><a href='/SchoolChallan/index'><span class='fa fa-image'></span>School Challan</a></li>
-                    <li><a href='/SchoolChallanView/index'><span class='fa fa-image'></span>School Challan View</a></li>
-                    <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
-                    <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li> 
-                    <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
+                <li><a href='/CircleUserEdit/Index'><span class='fa fa-image'></span>Update Profile</a></li>
+                <li class="@(ViewBag.Active == "MstSchoolView" ? "active" : "")"><a href='/MstSchoolView/Index'><span class='fa fa-edit'></span>School Master</a></li>
+                <li class="@(ViewBag.Active == "TrxSchRequisition" ? "active" : "")"><a href='/TrxSchRequisition/Index'><span class='fa fa-edit'></span>New Requisition</a></li>
+                <li class="@(ViewBag.Active == "SchRequisionView" ? "active" : "")"><a href='/SchRequisionView/Index'><span class='fa fa-desktop'></span>Requisition List</a></li>
+                @*<li><a href='/StockUpdate/Index'><span class='fa fa-image'></span>Stock Update</a></li>*@
+                <li><a href='/MisReport/Index'><span class='fa fa-image'></span>Requisition Report - After Circle Confirmation</a></li>
+                <li><a href='/BookWiseStockReport/Index'><span class='fa fa-image'></span>Bookwise Requisition Report - After Directorate Approval</a></li>
+                @*<li><a href='/InterCircleTrnf/Index'><span class='fa fa-image'></span>Inter Circle Transfer</a></li>*@
+                <li><a href='/ChallanReceivedAtCircle/index'><span class='fa fa-image'></span>Receive Challan</a></li>
+                <li><a href='/SchoolChallan/index'><span class='fa fa-image'></span>School Challan</a></li>
+                <li><a href='/SchoolChallanView/index'><span class='fa fa-image'></span>School Challan View</a></li>
+                <li><a href='/ForgotPassword/Index'><span class='fa fa-image'></span>Change Password</a></li>
+                <li><a href='/CircleHelp/Index'><span class='fa fa-image'></span>Help</a></li> 
+                <li><a href='/CircleLogout/Index'><span class='fa fa-image'></span>Logout</a></li>
                 }
                 else if (GlobalSettings.oUserData.vUserRole == SARASWATIPRESSNEW.UserRole.CHALLAN)
                 {

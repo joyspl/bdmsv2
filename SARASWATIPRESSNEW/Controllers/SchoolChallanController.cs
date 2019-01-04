@@ -88,7 +88,9 @@ namespace SARASWATIPRESSNEW.Controllers
                     foreach (var tx in objSchoolChallan.trxSchoolChallanBookReqDtl)
                     {
                         var minresult = (tx.AvailableStockQuantity - tx.AlreadyShippedQuantity);
-                        if (tx.QuantityForShipping > minresult)
+                        //if (tx.QuantityForShipping > minresult) // modified on 04.01.19
+                        //{
+                        if (tx.QuantityForShipping > tx.AvailableStockQuantity)
                         {
                             cc = true;
                             break;

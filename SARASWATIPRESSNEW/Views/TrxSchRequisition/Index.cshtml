@@ -147,10 +147,15 @@
                     }
                     else {
                         HtmlItems = "<option value='-1'><<----Select School Category----->></option>";
+                        // ADD FOR SHOE REQUISITION
+                        HtmlItems += "<option value='1'>Primary (Primary,I-V)</option>";
+                        HtmlItems += "<option value='5'>Integrated (I-XII)</option>";
                     }
-                    $.each(data, function (i, item) {
-                        HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
-                    });
+                    // COMMENT FOR SHOE REQUISITION
+
+                    //$.each(data, function (i, item) {
+                    //    HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
+                    //});
                     $('#ddlCategory').html(HtmlItems);
                     var CategoryId = $("#hdCategoryID").val()
                     if (CategoryId > 0) {
