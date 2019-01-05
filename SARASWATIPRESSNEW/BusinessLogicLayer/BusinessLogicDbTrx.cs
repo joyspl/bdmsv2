@@ -4459,6 +4459,26 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             catch (Exception ex) { throw new Exception(ex.Message); }
             finally { }
         }
+
+        //dola
+        public DataTable LanguageRpt()
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("Sp_GetLanguageMasterDetails"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@ChallanDatefrom", startDate);
+                    //cmd.Parameters.AddWithValue("@ChallanDateto", endDate);
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
+        //dola
         #endregion
 
         #region [Academic Year]

@@ -137,5 +137,60 @@ namespace SARASWATIPRESSNEW.Controllers
             return null;
         }
         #endregion [For MVC Report Export to Excel using Crystal Report]
+
+        //dola
+        #region [For MVC Report Export to Excel using Crystal Report]
+        [HttpGet]
+        [ActionName("LanguageExportToExcel")]
+        public FileResult LanguageExportToExcel()
+        {
+            List<Language> objLanguage = new List<Language>();
+            string report_name = string.Empty;
+            try
+            {
+                DataTable dt = objDbTrx.LanguageRpt();
+                if (dt.Rows.Count > 0)
+                {
+                    for (int iCnt = 0; iCnt < dt.Rows.Count; iCnt++)
+                    {
+                        try
+                        {
+                            Language l = new Language();
+                            l.LanguageID = Convert.ToInt32(dt.Rows[iCnt]["ID"].ToString());
+                            l.language_name = Convert.ToString(dt.Rows[iCnt]["LANGUAGE"].ToString());
+
+                            objLanguage.Add(l);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                if (objLanguage != null && objLanguage.Count() > default(int))
+                {
+                    report_name = DateTime.Now.ToString("ReportName") + ".xls";
+
+                    ReportDocument rd = new ReportDocument();
+                    rd.Load(Path.Combine(Server.MapPath("~/Reports"), "rptLanguageReport.rpt"));
+                    rd.SetDataSource(objLanguage);
+
+                    Response.Buffer = false;
+                    Response.ClearContent();
+                    Response.ClearHeaders();
+                    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    return File(stream, "application/octet", report_name);
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress);
+            }
+            return null;
+        }
+        #endregion [For MVC Report Export to Excel using Crystal Report]
+        //dola
     }
 }

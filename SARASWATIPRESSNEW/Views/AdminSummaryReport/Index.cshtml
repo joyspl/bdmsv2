@@ -43,6 +43,13 @@
                 <input type="button" id="btnEmail" value="Khata Summary" onclick="ExportHdrToExcelkh();" style="width: 120px" class="btn btn-info btn-block" />
             </td>
         </tr>
+        @*dola*@
+        <tr>
+            <td style="width: 15%;">
+                <input type="button" id="btn" value="Lang" onclick="langg();" style="width: 120px" class="btn btn-info btn-block" />
+            </td>
+        </tr>
+        @*dola*@
     </table>
 </div>
 <script>
@@ -68,7 +75,7 @@
 
         try
         {
-            window.open("@(Url.Action("BookSummaryReportExportToExcel", "SummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+            window.open("@(Url.Action("BookSummaryReportExportToExcel", "AdminSummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
         }
         catch (ex)
         {
@@ -83,7 +90,7 @@
 
         try
         {
-            window.open("@(Url.Action("KhataSummaryReportExportToExcel", "SummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+            window.open("@(Url.Action("KhataSummaryReportExportToExcel", "AdminSummaryReport", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
         }
         catch (ex)
         {
@@ -91,6 +98,18 @@
         }
     }
 
-
+    //dola
+    function langg()
+    {
+        try
+        {
+            window.open("@(Url.Action("LanguageExportToExcel", "AdminSummaryReport", new { area = "" }))");
+            }
+        catch (ex)
+        {
+            alert(ex.message);
+        }
+    }
+    //dola
 
 </script>
