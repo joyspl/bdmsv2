@@ -14,7 +14,8 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
 {
     public class BusinessLogicDbTrx
     {
-        DataBaseUtilityUpdated objDbUlility = new DataBaseUtilityUpdated();
+        DataBaseUtilityUpdated objDbUlility0 = new DataBaseUtilityUpdated();
+        DataBaseUtilityUpdated objDbUlility = new DataBaseUtilityUpdated("mycon");
 
         #region Academic Year Master
         public DataTable GetAcademicYearDtl()
@@ -25,7 +26,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
                 using (SqlCommand cmd = new SqlCommand("Sp_GetAcademicYearDtl"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                    ObjDataTable = objDbUlility0.GetDataTable(cmd);
                 }
                 return ObjDataTable;
             }

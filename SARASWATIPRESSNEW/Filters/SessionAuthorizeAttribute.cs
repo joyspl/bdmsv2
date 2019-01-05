@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,6 +14,6 @@ public class SessionAuthorizeAttribute : AuthorizeAttribute
 
     protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
     {
-        filterContext.Result = new RedirectResult("~/SessionExpire/Index", false);
+        filterContext.Result = new RedirectResult(ConfigurationManager.AppSettings["commonLoginUrl"], false);
     }
 }

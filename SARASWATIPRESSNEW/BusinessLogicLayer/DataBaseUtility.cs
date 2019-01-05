@@ -122,9 +122,17 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
     {
         //public SqlConnection Conn;
         //int flag = 0;
+        static string ConnStr;
         public DataBaseUtilityUpdated()
         {
+
         }
+
+        public DataBaseUtilityUpdated(string _connstr)
+        {
+            ConnStr = _connstr;
+        }
+
         /*public int SqlConnection()
         {
             // string ConString = "Data Source=DELL-PC;Initial Catalog=WSMS;Integrated Security=True";
@@ -154,7 +162,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             try
             {
                 DataTable Dt = new DataTable();
-                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString()))
+                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnStr].ToString()))
                 {
                     if (cn.State == ConnectionState.Open)
                     {
@@ -184,7 +192,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             try
             {
                 DataSet DataReturn = new DataSet();
-                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString()))
+                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnStr].ToString()))
                 {
                     if (cn.State == ConnectionState.Open)
                     {
@@ -213,7 +221,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             //SqlTransaction SqlCmdTransaction;
             try
             {
-                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString()))
+                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnStr].ToString()))
                 {
                     if (cn.State == ConnectionState.Open)
                     {
@@ -244,7 +252,7 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
         {
             try
             {
-                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString()))
+                using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnStr].ToString()))
                 {
                     if (cn.State == ConnectionState.Open)
                     {
@@ -265,6 +273,26 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             {
                 throw new Exception(e.Message);
             }
+        }
+    }
+
+    public enum ConnStringContainer
+    {
+        [System.ComponentModel.Description("mycon")]
+        mycon = 2,
+        [System.ComponentModel.Description("mycon17-18")]
+        mycon2018 = 1
+    }
+
+    public static class UtilityCustom
+    {
+        public static string GetCustomDescription(Enum en)
+        {
+            System.Reflection.FieldInfo fieldInfo = en.GetType().GetField(en.ToString());
+            System.ComponentModel.DescriptionAttribute[] descriptionAttribute =
+                  (System.ComponentModel.DescriptionAttribute[])fieldInfo.GetCustomAttributes(
+                  typeof(System.ComponentModel.DescriptionAttribute), false);
+            return (descriptionAttribute.Length > 0) ? descriptionAttribute[0].Description : null;
         }
     }
 }
