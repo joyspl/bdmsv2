@@ -112,13 +112,13 @@
                     else {
                         HtmlItems = "<option value='-1'><<----Select Medium----->></option>";
                         // ADD FOR SHOE REQUISITION
-                        HtmlItems += "<option value='12'>All Medium</option>";
+                        //HtmlItems += "<option value='12'>All Medium</option>";
                     }
                     // COMMENT FOR SHOE REQUISITION 
 
-                    //$.each(data, function (i, item) {
-                    //    HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
-                    //});
+                    $.each(data, function (i, item) {
+                        HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
+                    });
                     $('#ddlLanguageName').html(HtmlItems);
                     var LanguageID = $("#hdLanguageID").val()
                     if (LanguageID > 0) {
@@ -148,14 +148,14 @@
                     else {
                         HtmlItems = "<option value='-1'><<----Select School Category----->></option>";
                         // ADD FOR SHOE REQUISITION
-                        HtmlItems += "<option value='1'>Primary (Primary,I-V)</option>";
-                        HtmlItems += "<option value='5'>Integrated (I-XII)</option>";
+                       // HtmlItems += "<option value='1'>Primary (Primary,I-V)</option>";
+                       // HtmlItems += "<option value='5'>Integrated (I-XII)</option>";
                     }
                     // COMMENT FOR SHOE REQUISITION
 
-                    //$.each(data, function (i, item) {
-                    //    HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
-                    //});
+                    $.each(data, function (i, item) {
+                       HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
+                    });
                     $('#ddlCategory').html(HtmlItems);
                     var CategoryId = $("#hdCategoryID").val()
                     if (CategoryId > 0) {
