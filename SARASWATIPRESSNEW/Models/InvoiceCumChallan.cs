@@ -21,6 +21,9 @@ namespace SARASWATIPRESSNEW.Models
         [Required(ErrorMessage = "Enter Invoice Cum Challan Date")]
         public string InvoiceCumChallanDate { get; set; }
 
+        public string book_code { get; set; }
+        public string BOOK_NAME { get; set; }
+        
         [Required(ErrorMessage = "Select District")]
         public int DistrictId { get; set; }      
         public List<District> DistrictCollection { get; set; }

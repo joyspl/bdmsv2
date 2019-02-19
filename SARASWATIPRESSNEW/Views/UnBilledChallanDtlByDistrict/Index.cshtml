@@ -93,6 +93,9 @@
                                                         <td style="width: 15%;">
                                                             <input type="button" id="btnExcel" value=gdbnb onclick="GDBNB();" style="width: 120px" class="btn btn-info btn-block" />
                                                         </td>
+                                                        <td style="width: 15%;">
+                                                            <input type="button" id="btnExcel" value=gdbnbdtl onclick="GDBNBdtl();" style="width: 120px" class="btn btn-info btn-block" />
+                                                        </td>
                                                     </table>
                                                 </div>
                                             @*</div>
@@ -123,5 +126,19 @@
             alert(ex.message);
             }
         }
+</script>
+<script>
+
+    function GDBNBdtl() {
+        var fromDate = $("#txtStartDate").val();
+        var toDate = $("#txtEndDate").val();
+
+        try {
+            window.open("@(Url.Action("GDBNBdtlExportToExcel", "UnBilledChallanDtlByDistrict", new { area = "" }))?startDate=" + fromDate + "&endDate=" + toDate);
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
 </script>
 

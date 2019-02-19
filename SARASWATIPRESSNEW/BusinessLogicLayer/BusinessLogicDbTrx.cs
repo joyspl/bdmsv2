@@ -4461,6 +4461,22 @@ namespace SARASWATIPRESSNEW.BusinessLogicLayer
             finally { }
         }
 
+        public DataTable GetGDBNBdtl()
+        {
+            try
+            {
+                DataTable ObjDataTable;
+                using (SqlCommand cmd = new SqlCommand("usp_GDBNBdtl"))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    ObjDataTable = objDbUlility.GetDataTable(cmd);
+                }
+                return ObjDataTable;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            finally { }
+        }
+
         //dola
         public DataTable LanguageRpt()
         {

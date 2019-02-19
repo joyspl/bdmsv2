@@ -111,6 +111,70 @@ namespace SARASWATIPRESSNEW.Controllers
         }
         #endregion [For MVC Report Export to Excel using Crystal Report]
 
+        #region [For MVC Report Export to Excel using Crystal Report]
+        [HttpGet]
+        [ActionName("GDBNBdtlExportToExcel")]
+        public FileResult GDBNBdtlExportToExcel()
+        {
+            List<InvoiceCumChallan> objGDBNBdtl = new List<InvoiceCumChallan>();
+            string report_name = string.Empty;
+            try
+            {
+                DataTable dt = objDbTrx.GetGDBNBdtl();
+                if (dt.Rows.Count > 0)
+                {
+                    for (int iCnt = 0; iCnt < dt.Rows.Count; iCnt++)
+                    {
+                        try
+                        {
+                            InvoiceCumChallan gdbnbdtl = new InvoiceCumChallan();
+                            //gdbnb.DistrictId = Convert.ToInt32(dt.Rows[iCnt]["DISTRICT_ID"].ToString());
+                            //gdbnb.CircleId = Convert.ToInt32(dt.Rows[iCnt]["CircleId"].ToString());
+                            gdbnbdtl.InvoiceCumChallanNo = Convert.ToString(dt.Rows[iCnt]["CHALLAN_NUMBER"].ToString());
+                            gdbnbdtl.InvoiceCumChallanDate = Convert.ToString(dt.Rows[iCnt]["CHALLAN_DATE"].ToString());
+                            gdbnbdtl.book_code = Convert.ToString(dt.Rows[iCnt]["book_code"].ToString());
+                            gdbnbdtl.BOOK_NAME = Convert.ToString(dt.Rows[iCnt]["BOOK_NAME"].ToString());
+                            gdbnbdtl.TotalAmount = Convert.ToInt32(dt.Rows[iCnt]["QtyShippedQty"].ToString());
+                            gdbnbdtl.DistrictName = Convert.ToString(dt.Rows[iCnt]["DISTRICT"].ToString());
+                            gdbnbdtl.CircleName = Convert.ToString(dt.Rows[iCnt]["CIRCLE_NAME"].ToString());
+                            gdbnbdtl.Transporter = Convert.ToString(dt.Rows[iCnt]["Transport_Name"].ToString());
+                            gdbnbdtl.CONSIGNEE_NO = Convert.ToString(dt.Rows[iCnt]["CONSIGNEE_NO"].ToString());
+                            gdbnbdtl.VEHICLE_NO = Convert.ToString(dt.Rows[iCnt]["VEHICLE_NO"].ToString());
+
+
+                            objGDBNBdtl.Add(gdbnbdtl);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                if (objGDBNBdtl != null && objGDBNBdtl.Count() > default(int))
+                {
+                    report_name = DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".xls";
+
+                    ReportDocument rd = new ReportDocument();
+                    rd.Load(Path.Combine(Server.MapPath("~/Reports"), "rptGDBNBdtl.rpt"));
+                    rd.SetDataSource(objGDBNBdtl);
+
+                    Response.Buffer = false;
+                    Response.ClearContent();
+                    Response.ClearHeaders();
+                    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    return File(stream, "application/octet", report_name);
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress);
+            }
+            return null;
+        }
+        #endregion [For MVC Report Export to Excel using Crystal Report]
+        
         //public ActionResult ExportUnBilledData(string DistrictID, string startDate, string endDate)
         //{
 
