@@ -113,12 +113,14 @@
                         HtmlItems = "<option value='-1'><<----Select Medium----->></option>";
                         // ADD FOR SHOE REQUISITION
                         //HtmlItems += "<option value='12'>All Medium</option>";
+                        // COMMENT FOR SHOE REQUISITION 
                     }
-                    // COMMENT FOR SHOE REQUISITION 
-
+                    
+                    // for all medium view
                     $.each(data, function (i, item) {
                         HtmlItems += "<option value='" + item.LanguageID + "'>" + item.LanguageName + "</option>";
                     });
+                    // for all medium view
                     $('#ddlLanguageName').html(HtmlItems);
                     var LanguageID = $("#hdLanguageID").val()
                     if (LanguageID > 0) {
@@ -148,14 +150,16 @@
                     else {
                         HtmlItems = "<option value='-1'><<----Select School Category----->></option>";
                         // ADD FOR SHOE REQUISITION
-                       // HtmlItems += "<option value='1'>Primary (Primary,I-V)</option>";
-                       // HtmlItems += "<option value='5'>Integrated (I-XII)</option>";
+                        // HtmlItems += "<option value='1'>Primary (Primary,I-V)</option>";
+                        // HtmlItems += "<option value='5'>Integrated (I-XII)</option>";
+                        // COMMENT FOR SHOE REQUISITION
                     }
-                    // COMMENT FOR SHOE REQUISITION
-
+                    
+                    // for all category view
                     $.each(data, function (i, item) {
                        HtmlItems += "<option value='" + item.CategoryID + "'>" + item.Category + "</option>";
                     });
+                    // for all category view
                     $('#ddlCategory').html(HtmlItems);
                     var CategoryId = $("#hdCategoryID").val()
                     if (CategoryId > 0) {
@@ -242,7 +246,13 @@
                     for (var i = 0; i < data.length; i++) {
                         HtmlItems += "<tr>";
                         HtmlItems += "    <td style='text-align:left;width: 10%;'>" + data[i].ClassName + "</td>";
-                        HtmlItems += "    <td style='text-align:left;width: 20%;'>" + data[i].BookName + "</td>";
+                        if(data[i].ItemDescription!="")
+                        {
+                            HtmlItems += "    <td style='text-align:left;width: 20%;'>" + data[i].BookName +"<br><b>[ "+data[i].ItemDescription+" ]</b></td>";
+                        }
+                        else{
+                            HtmlItems += "    <td style='text-align:left;width: 20%;'>" + data[i].BookName+"</td>";
+                        }
                         HtmlItems += "    <td align='center' style='width: 10%;'>";
                         HtmlItems += "          <input class='form-control' id='txtPreviousYearRequirement_" + i + "' name='reqTrxCollection[" + i + "].PreviousYearRequirement'  style='width:90px;text-align: center;' disabled='disabled' type='text' value='" + data[i].PreviousYearRequirement + "' />";
                         HtmlItems += "    </td>";
@@ -426,6 +436,11 @@ catch
 }
 <div class="panel-heading">
     <h3 class="panel-title"><strong>Book Requisition Entry Form</strong>
+        <div class="panel-heading">
+            <h3>
+                <a class="btn btn-info btn-block" href="~/Help/CircleHelp/Books XI-XII.pdf" target="_blank">Click here to view <b>Books List for XI-XII</b></a>
+            </h3>
+        </div>
         <br />
         <small style="font-size:14px;color:red;">Select the school name, school category and medium, enter the quantity in total requirement column and save the requisition. Requisition for Academic Session @(GlobalSettings.oAcademicYear.ACAD_YEAR_SHORT) to be given in 'Requirement For Academic Year @(GlobalSettings.oAcademicYear.ACAD_YEAR_SHORT)' column. Black Coloured School Shoes for BOYS & GIRLS.</small>
     </h3>

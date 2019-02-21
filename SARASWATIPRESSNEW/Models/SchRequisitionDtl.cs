@@ -9,6 +9,8 @@ namespace SARASWATIPRESSNEW.Models
     public class SchRequisitionDtl
     {
         [XmlAttribute]
+        public string ItemDescription { get; set; }
+        [XmlAttribute]
         public Int64 BookID { get; set; }
         [XmlAttribute]
         public string BookCode { get; set; }

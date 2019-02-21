@@ -375,6 +375,7 @@ namespace SARASWATIPRESSNEW.Controllers
                         rq.ClassName = dtBook.Rows[iCnt]["CLASS"].ToString();
                         rq.CLASS_INT = Convert.ToInt32(dtBook.Rows[iCnt]["CLASS_INT"]);
                         rq.BookLock = Convert.ToBoolean(dtBook.Rows[iCnt]["Book_Lock"]);
+                        rq.ItemDescription = dtBook.Rows[iCnt]["ItemDescription"].ToString();
                         if (ReqDataId > 0)
                         {
                             if (dtReqDtl.Rows.Count > 0)
@@ -388,6 +389,7 @@ namespace SARASWATIPRESSNEW.Controllers
                                         rq.RequisitionQuantity = Convert.ToInt32(dtReqDtl.Rows[jCnt]["REQUISITION_QTY"].ToString());
                                         rq.StockQuantity = Convert.ToInt32(dtReqDtl.Rows[jCnt]["STOCK_QTY"].ToString());
                                         rq.PreviousYearRequirement = Convert.ToInt32(dtReqDtl.Rows[jCnt]["PreviousYearRequirement"].ToString());
+                                        rq.ItemDescription = dtBook.Rows[iCnt]["ItemDescription"].ToString();
                                         //break;
                                     }
                                 }
@@ -398,6 +400,7 @@ namespace SARASWATIPRESSNEW.Controllers
                                 rq.RequisitionQuantity = 0;
                                 rq.StockQuantity = 0;
                                 rq.PreviousYearRequirement = 0;
+                                rq.ItemDescription = "";
                             }
                         }
                         else
@@ -406,6 +409,7 @@ namespace SARASWATIPRESSNEW.Controllers
                             rq.RequisitionQuantity = (schoolId > default(int)) ? Convert.ToInt32(dtBook.Rows[iCnt]["RequisitionQuantity"].ToString()) : default(int);
                             rq.StockQuantity = 0;
                             rq.PreviousYearRequirement = (schoolId > default(int)) ? Convert.ToInt32(dtBook.Rows[iCnt]["PreviousYearRequirement"].ToString()) : default(int);
+                            rq.ItemDescription = (schoolId > default(int)) ? dtBook.Rows[iCnt]["ItemDescription"].ToString() : default(string);
                         }
                         lstBookDtl.Add(rq);
                     }
@@ -417,8 +421,6 @@ namespace SARASWATIPRESSNEW.Controllers
                 objDbTrx.SaveSystemErrorLog(ex, Request.UserHostAddress);
             }
             return lstBookDtl;
-
-
 
         }
         private List<SchRequisitionDtlforreport> HelperBookRequisitionDtl1(Int32 ReqDataId, Int32 categoryId, Int32 LanguageId, Int32 schoolId = 0)
