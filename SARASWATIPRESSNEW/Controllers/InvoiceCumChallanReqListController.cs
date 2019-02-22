@@ -743,11 +743,21 @@ namespace SARASWATIPRESSNEW.Controllers
                         //    Convert.ToString(dtbl.Rows[iCnt]["SMSCode"].ToString())
                         //    );
                         //Dear~challan no~to be delivered soon. Unique code is~Please share the code to transporter at the time of receiving of~
-                        smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
-                            Convert.ToString(dtbl.Rows[iCnt]["CHALLAN_NUMBER"].ToString()),
-                            Convert.ToString(dtbl.Rows[iCnt]["SMSCode"].ToString()),
-                            "Book"
-                            );
+                       
+                        //smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
+                        //    Convert.ToString(dtbl.Rows[iCnt]["CHALLAN_NUMBER"].ToString()),
+                        //    Convert.ToString(dtbl.Rows[iCnt]["SMSCode"].ToString()),
+                        //    "Book"
+                        //    );
+
+                        // MODIFY ON 22.02.19
+
+                         smsBody = string.Format("Dear Sir, Challan no {0} to be delivered soon for Circle Name: {1}, District Name: {2}. Unique code is {3}.",
+                                  Convert.ToString(dtbl.Rows[iCnt]["CHALLAN_NUMBER"].ToString()),
+                                  Convert.ToString(dtbl.Rows[iCnt]["CIRCLE_NAME"].ToString()),
+                                  Convert.ToString(dtbl.Rows[iCnt]["DISTRICT"].ToString()),
+                                  Convert.ToString(dtbl.Rows[iCnt]["SMSCode"].ToString()));
+
                         Utility.SendSMS(Convert.ToString(dtbl.Rows[iCnt]["MOBILE_NO"].ToString()), smsBody);
                         Utility.SendSMS(Convert.ToString(dtbl.Rows[iCnt]["ALTERNATE_MOBILE_NO"].ToString()), smsBody);
                         //Utility.SendSMS("9748084241", smsBody);
@@ -844,10 +854,19 @@ namespace SARASWATIPRESSNEW.Controllers
                                 #region [Changed Code]
                                 if (dtChallanDtl.Rows[0]["ConfirmStatus"].ToString() == "1")
                                 {
-                                    string smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
-                                    Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
-                                    Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()),
-                                    "Book");
+                                    //string smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
+                                    //Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
+                                    //Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()),
+                                    //"Book");
+
+                                    // modify on 22.02.19
+
+                                    string smsBody = string.Format("Dear Sir, Challan no {0} to be delivered soon for Circle Name: {1}, District Name: {2}. Unique code is {3}.",
+                                   Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["CIRCLE_NAME"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["DISTRICT"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()));
+
                                     Utility.SendSMS(Convert.ToString(dtChallanDtl.Rows[0]["MOBILE_NO"].ToString()), smsBody);
                                     Utility.SendSMS(Convert.ToString(dtChallanDtl.Rows[0]["ALTERNATE_MOBILE_NO"].ToString()), smsBody);
                                 }
@@ -1027,10 +1046,19 @@ namespace SARASWATIPRESSNEW.Controllers
                                 #region [Changed Code]
                                 if (dtChallanDtl.Rows[0]["ConfirmStatus"].ToString() == "1")
                                 {
-                                    string smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
-                                    Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
-                                    Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()),
-                                    "Book");
+                                    //string smsBody = string.Format("Dear Sir challan no {0} to be delivered soon. Unique code is {1} Please share the code to transporter at the time of receiving of {2}",
+                                    //Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
+                                    //Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()),
+                                    //"Book");
+
+                                    // modify on 22.02.19
+
+                                    string smsBody = string.Format("Dear Sir, Challan no {0} to be delivered soon for Circle Name: {1}, District Name: {2}. Unique code is {3}.",
+                                   Convert.ToString(dtChallanDtl.Rows[0]["CHALLAN_NUMBER"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["CIRCLE_NAME"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["DISTRICT"].ToString()),
+                                   Convert.ToString(dtChallanDtl.Rows[0]["SMSCode"].ToString()));
+
                                     Utility.SendSMS(Convert.ToString(dtChallanDtl.Rows[0]["MOBILE_NO"].ToString()), smsBody);
                                     Utility.SendSMS(Convert.ToString(dtChallanDtl.Rows[0]["ALTERNATE_MOBILE_NO"].ToString()), smsBody);
                                 }
